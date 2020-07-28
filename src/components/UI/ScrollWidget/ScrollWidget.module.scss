@@ -1,0 +1,86 @@
+$colorOutlineFade: var(--light-gray-color);
+$colorOutline: var(--tan-white-color);
+$posTrackball: 0.7rem;
+$shrinkTrackball: 0.4;
+$animationTiming: 2s;
+$posMouse: 0.8rem;
+
+@mixin bgGradient {
+  background: $colorOutlineFade
+    linear-gradient(transparent 0%, transparent 50%, $colorOutline 50%, $colorOutline 100%);
+}
+
+.Mouse {
+  @include bgGradient();
+  background-size: 100% 200%;
+  width: 2rem;
+  height: 2.7rem;
+  border-radius: 10rem;
+  position: relative;
+  animation: colorSlide $animationTiming linear infinite;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
+
+  &:before {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 10rem;
+    background-color: var(--light-gray-color);
+    z-index: 1;
+    animation: trackBallSlide $animationTiming linear infinite;
+  }
+  &:after {
+    width: 90%;
+    height: 90%;
+    background-color: var(--tan-white-color);
+    border-radius: 1rem;
+  }
+}
+
+.Scroll {
+  font-size: 0.75rem;
+  color: var(--light-gray-color);
+}
+
+@keyframes colorSlide {
+  0% {
+    background-position: 0% 100%;
+  }
+  75% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes trackBallSlide {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(-$posTrackball);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  75% {
+    opacity: 0;
+    transform: scale($shrinkTrackball) translateY($posTrackball * 2);
+  }
+  85% {
+    opacity: 0;
+    transform: scale(1) translateY(-$posTrackball);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) translateY(-$posTrackball);
+  }
+}

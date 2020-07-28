@@ -17,9 +17,10 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['node_modules'],
+  ignorePatterns: ['node_modules/**/*', '*.js'],
   rules: {
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
 }

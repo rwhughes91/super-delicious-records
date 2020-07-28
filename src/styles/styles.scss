@@ -1,0 +1,62 @@
+@mixin respond($breakpoint) {
+  @if $breakpoint == phone {
+    @media (max-width: 37.5em) {
+      @content;
+    }
+  }
+  @if $breakpoint == tab-port {
+    @media (max-width: 56.25em) {
+      @content;
+    }
+  }
+  @if $breakpoint == tab-land {
+    @media (max-width: 75em) {
+      @content;
+    }
+  }
+  @if $breakpoint == big-desktop {
+    @media (min-width: 112.5em) {
+      @content;
+    }
+  }
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+
+:root {
+  --dark-purple-color: rgb(31, 11, 59);
+  --light-purple-color: rgb(123, 105, 145);
+  --tan-white-color: rgb(248, 245, 235);
+  --bright-red-color: rgb(236, 25, 69);
+  --darker-red-color: rgb(203, 48, 69);
+  --bright-blue-color: rgb(44, 194, 221);
+  --light-gray-color: rgb(181, 179, 181);
+  --dark-gray-color: rgb(112, 112, 112);
+}
+
+html {
+  font-size: 62.5%;
+
+  @include respond(tab-land) {
+    font-size: 56.25%;
+  }
+  @include respond(tab-port) {
+    font-size: 50%;
+  }
+  @include respond(big-desktop) {
+    font-size: 75%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  background-color: var(--tan-white-color);
+}

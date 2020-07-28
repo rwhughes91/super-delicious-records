@@ -1,0 +1,56 @@
+.ButtonGroup {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  animation: expand 0.5s linear;
+}
+
+.Button {
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  margin: 0 1rem;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+  animation: fadeIn 1s linear;
+
+  &:hover {
+    margin: 0 1.5rem;
+    color: var(--bright-red-color);
+  }
+  &:active {
+    margin: 0 1rem;
+  }
+}
+
+.Purple {
+  color: var(--dark-purple-color);
+}
+
+.White {
+  color: var(--tan-white-color);
+}
+
+@keyframes expand {
+  from {
+    transform: scaleX(0.1);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

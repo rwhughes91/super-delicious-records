@@ -1,0 +1,60 @@
+.Navbar {
+  width: 50%;
+  margin: 3rem auto;
+  animation: slideDown 1.3s ease-out;
+}
+
+.Hero {
+  width: 100%;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.HeroImage {
+  margin-bottom: 5rem;
+  width: 75%;
+  max-width: 60rem;
+  animation: fadeIn 1s linear;
+}
+
+.Button {
+  display: block;
+}
+
+.MouseContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: translateY(-5rem);
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-8rem);
+  }
+  85% {
+    transform: translateY(-8rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

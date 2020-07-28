@@ -1,0 +1,19 @@
+@mixin arrow-rules($direction, $size) {
+  width: 0;
+  height: 0;
+  border-top: $size solid transparent;
+  border-bottom: $size * 0.866 solid transparent;
+
+  @if $direction == left {
+    border-right: $size solid var(--bright-red-color);
+  } @else {
+    border-left: $size solid var(--bright-red-color);
+  }
+}
+
+.ArrowLeft {
+  @include arrow-rules('left', 1rem);
+}
+.ArrowRight {
+  @include arrow-rules('right', 1rem);
+}

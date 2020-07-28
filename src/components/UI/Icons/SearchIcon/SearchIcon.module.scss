@@ -1,0 +1,18 @@
+.SearchIcon {
+  height: 100%;
+  color: var(--dark-purple-color);
+  text-align: center;
+  padding: 0.8rem;
+  position: relative;
+
+  &:hover {
+    color: var(--bright-red-color);
+  }
+}
+
+.Icon {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
