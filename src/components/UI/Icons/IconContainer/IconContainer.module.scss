@@ -1,0 +1,13 @@
+.IconContainer {
+  color: var(--dark-purple-color);
+  height: 1.7rem;
+  width: 1.7rem;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--bright-red-color);
+  }
+}
+
+.Icon {
+}

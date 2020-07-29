@@ -1,0 +1,54 @@
+$icon-size: 1.7rem;
+$input-container: 1.7rem * 2;
+$y-offset: $input-container / 4 * -1;
+$container-width: 21.5rem;
+$container-border-width: 25rem;
+
+.Button {
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.NavSearchBar {
+  position: relative;
+}
+
+.InputContainer {
+  position: absolute;
+  top: $y-offset;
+  left: 2rem;
+  height: $input-container;
+  width: $container-width;
+  padding-left: 0.5rem;
+  animation: slideIn 0.75s ease-in;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: $input-container * -1;
+    width: $container-border-width;
+    height: $input-container;
+    border-radius: 10rem;
+    border: 1px solid var(--light-gray-color);
+    z-index: -1;
+    pointer-events: none;
+    animation: slideIn 0.4s linear;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    width: 0;
+    border-color: var(--dark-purple-color);
+    color: var(--dark-purple-color);
+  }
+  100% {
+    width: $container-border-width;
+    border-color: var(--dark-purple-color);
+    color: var(--dark-purple-color);
+  }
+}

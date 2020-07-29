@@ -1,7 +1,7 @@
 import classes from './NavItems.module.scss'
 import NavItem from './NavItem/NavItem'
-import SearchIcon from '../../UI/Icons/SearchIcon/SearchIcon'
 import CartIcon from '../../UI/Icons/CartIcon/CartIcon'
+import NavSearchBar from '../NavSearchBar/NavSearchBar'
 
 interface Props {
   color: 'purple' | 'white'
@@ -29,12 +29,14 @@ const NavItems: React.FC<Props> = (props) => {
       <NavItem location="/error" color={props.color}>
         contact us
       </NavItem>
-      <NavItem location="/">
-        <CartIcon />
-      </NavItem>
-      <div>
-        <SearchIcon />
-      </div>
+      {props.icons && (
+        <>
+          <NavItem location="/iconTest">
+            <CartIcon />
+          </NavItem>
+          <NavSearchBar />
+        </>
+      )}
     </nav>
   )
 }

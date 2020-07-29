@@ -1,22 +1,18 @@
-.Navbar {
-  width: 50%;
-  margin: 3rem auto;
-  animation: slideDown 1.3s ease-out;
-}
-
 .Hero {
   width: 100%;
-  position: absolute;
-  top: 40%;
-  transform: translateY(-50%);
+  height: 70vh;
+  max-height: 50rem;
+  padding: 3rem;
+  padding-top: 10vh;
   text-align: center;
 }
 
 .HeroImage {
   margin-bottom: 5rem;
-  width: 75%;
+  width: 90%;
   max-width: 60rem;
   animation: fadeIn 1s linear;
+  user-select: none;
 }
 
 .Button {
@@ -34,6 +30,12 @@
   transform: translate(-50%, -100%);
 }
 
+@media screen and (max-height: 450px) {
+  .MouseContainer {
+    display: none;
+  }
+}
+
 @keyframes fadeIn {
   0% {
     transform: translateY(-5rem);
@@ -41,18 +43,6 @@
   }
   75% {
     opacity: 1;
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  0% {
-    transform: translateY(-8rem);
-  }
-  85% {
-    transform: translateY(-8rem);
   }
   100% {
     transform: translateY(0);

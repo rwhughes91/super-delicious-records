@@ -1,20 +1,19 @@
-$font-name: 'Open Sans';
-
-@mixin OpenSans-config($url, $font-weight) {
+@mixin OpenSans-config($font-name, $url, $font-weight) {
   font-family: $font-name;
   src: local($font-name), url($url);
   font-display: auto;
   font-weight: $font-weight;
 }
+
 @font-face {
-  @include OpenSans-config('/fonts/OpenSans-Bold.ttf', 700);
+  @include OpenSans-config('OpenSans Bold', '/fonts/OpenSans-Bold.ttf', 700);
 }
 @font-face {
-  @include OpenSans-config('/fonts/OpenSans-Light.ttf', 300);
+  @include OpenSans-config('OpenSans Light', '/fonts/OpenSans-Light.ttf', 300);
 }
 @font-face {
-  @include OpenSans-config('/fonts/OpenSans-Regular.ttf', 400);
+  @include OpenSans-config('Open Sans Regular', '/fonts/OpenSans-Regular.ttf', 400);
 }
 @font-face {
-  @include OpenSans-config('/fonts/OpenSans-SemiBold.ttf', 600);
+  @include OpenSans-config('Open Sans SemiBold', '/fonts/OpenSans-SemiBold.ttf', 600);
 }

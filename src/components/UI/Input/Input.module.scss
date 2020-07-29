@@ -1,13 +1,17 @@
 .Input {
-  background-color: var(--light-purple-color);
   outline: none;
   border: none;
   font-size: 1.2rem;
-  border-radius: 0.5rem;
-  color: var(--tan-white-color);
-  padding: 0.7rem 1.4rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  color: var(--dark-purple-color);
+  height: 100%;
+  width: 100%;
+  background: none;
+
+  &:placeholder-shown {
+    color: var(--dark-gray-color);
+    font-family: 'Open Sans Regular';
+    font-weight: 400;
+  }
 
   &:focus {
     outline: none;

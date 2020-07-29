@@ -1,0 +1,17 @@
+.Navbar {
+  width: 50%;
+  margin: 3rem auto;
+  animation: slideDown 1.3s ease-out;
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-8rem);
+  }
+  85% {
+    transform: translateY(-8rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

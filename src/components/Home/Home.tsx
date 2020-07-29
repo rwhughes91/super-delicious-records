@@ -2,19 +2,18 @@ import classes from './Home.module.scss'
 import Layout from '../Layout/Layout'
 import Button from '../UI/Button/Button'
 import ScrollWidget from '../UI/ScrollWidget/ScrollWidget'
-import NavItems from '../Navigation/NavItems/NavItems'
+import HomeNav from '../Navigation/HomeNav/HomeNav'
 
 const Home: React.FC = () => {
   return (
     <Layout>
-      <div className={classes.Navbar}>
-        <NavItems color="purple" icons={false} />
-      </div>
+      <HomeNav />
       <div className={classes.Hero}>
         <img
           className={classes.HeroImage}
           src="/images/sdr-logo-primary.png"
           alt="Super Delicious Records"
+          unselectable="on"
         />
         <div className={classes.Button}>
           <Button color="purple" href="/">
