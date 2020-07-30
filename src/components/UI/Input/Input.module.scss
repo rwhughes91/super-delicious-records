@@ -6,11 +6,11 @@
   height: 100%;
   width: 100%;
   background: none;
+  font-family: 'Open Sans Regular';
+  font-weight: 400;
 
   &:placeholder-shown {
     color: var(--dark-gray-color);
-    font-family: 'Open Sans Regular';
-    font-weight: 400;
   }
 
   &:focus {

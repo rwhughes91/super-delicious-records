@@ -1,0 +1,71 @@
+$button-size: 6rem;
+
+.NavButton {
+  display: inline-block;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  padding: $button-size / 2 0;
+
+  height: $button-size;
+  width: $button-size;
+
+  // &:hover {
+  //   & .NavIcon:before {
+  //     transform: translateY(-0.25rem);
+  //   }
+  //   & .NavIcon:after {
+  //     transform: translateY(0.25rem);
+  //   }
+  // }
+}
+
+.NavIcon {
+  display: inline-block;
+  width: $button-size / 2;
+  height: 3px;
+  background-color: var(--dark-purple-color);
+  position: relative;
+
+  &:before,
+  &:after {
+    content: '';
+    width: 100%;
+    height: 3px;
+    background-color: var(--dark-purple-color);
+    position: absolute;
+    left: 0;
+    transition: all 0.2s;
+  }
+
+  &:before {
+    top: $button-size / -6;
+  }
+
+  &:after {
+    top: $button-size / 6;
+  }
+}
+
+.NavInput {
+  display: none;
+
+  &:checked ~ .NavButton .NavIcon {
+    background-color: transparent;
+
+    &:before {
+      top: 0;
+      transform: rotate(135deg);
+      background-color: var(--bright-red-color);
+    }
+
+    &:after {
+      top: 0;
+      transform: rotate(-135deg);
+      background-color: var(--bright-red-color);
+    }
+  }
+}

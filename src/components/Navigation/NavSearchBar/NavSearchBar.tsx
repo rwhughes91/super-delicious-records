@@ -3,15 +3,25 @@ import classes from './NavSearchBar.module.scss'
 import SearchIcon from '../../UI/Icons/SearchIcon/SearchIcon'
 import Input from '../../UI/Input/Input'
 
-const NavSearchBar: React.FC = () => {
+interface Props {
+  slide?: true
+}
+
+const NavSearchBar: React.FC<Props> = (props) => {
   const [showInput, setShowInput] = useState(false)
 
   const onClickHandler = () => {
     setShowInput((prevState) => !prevState)
   }
 
+  const classNames = [classes.NavSearchBar]
+
+  if (props.slide && showInput) {
+    classNames.push(classes.Slide)
+  }
+
   return (
-    <div className={classes.NavSearchBar}>
+    <div className={classNames.join(' ')}>
       <span
         onClick={onClickHandler}
         onKeyPress={onClickHandler}

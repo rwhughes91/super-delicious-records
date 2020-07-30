@@ -13,9 +13,9 @@ $posMouse: 0.8rem;
 .Mouse {
   @include bgGradient();
   background-size: 100% 200%;
-  width: 2rem;
-  height: 2.7rem;
-  border-radius: 10rem;
+  width: 20px;
+  height: 27px;
+  border-radius: 100px;
   position: relative;
   animation: colorSlide $animationTiming linear infinite;
 
@@ -31,9 +31,9 @@ $posMouse: 0.8rem;
   }
 
   &:before {
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 10rem;
+    width: 4px;
+    height: 4px;
+    border-radius: 100px;
     background-color: var(--light-gray-color);
     z-index: 1;
     animation: trackBallSlide $animationTiming linear infinite;
@@ -42,7 +42,7 @@ $posMouse: 0.8rem;
     width: 90%;
     height: 90%;
     background-color: var(--tan-white-color);
-    border-radius: 1rem;
+    border-radius: 10px;
   }
 }
 

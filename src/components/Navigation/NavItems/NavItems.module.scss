@@ -5,3 +5,11 @@
   justify-content: space-around;
   height: 3rem;
 }
+
+@media (max-width: 56.25em) {
+  .NavigationItems {
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-start;
+  }
+}

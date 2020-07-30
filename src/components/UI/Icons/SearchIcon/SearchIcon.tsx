@@ -1,8 +1,16 @@
 import IconContainer from '../IconContainer/IconContainer'
 
-const SearchIcon: React.FC = () => {
+interface Props {
+  size?: number
+}
+
+const SearchIcon: React.FC<Props> = (props) => {
+  let styles = {}
+  if (props.size) {
+    styles = { size: props.size }
+  }
   return (
-    <IconContainer>
+    <IconContainer {...styles}>
       {(iconClass) => (
         <svg
           xmlns="http://www.w3.org/2000/svg"

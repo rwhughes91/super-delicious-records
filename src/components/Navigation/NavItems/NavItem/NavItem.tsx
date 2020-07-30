@@ -8,9 +8,15 @@ interface Props {
 }
 
 const NavItem: React.FC<Props> = (props) => {
+  const classNames = [classes.NavItem]
+  if (props.color && props.color === 'white') {
+    classNames.push(classes.White)
+  } else {
+    classNames.push(classes.Purple)
+  }
   return (
     <Link href={props.location}>
-      <button className={classes.NavItem}>{props.children}</button>
+      <button className={classNames.join(' ')}>{props.children}</button>
     </Link>
   )
 }

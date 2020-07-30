@@ -1,0 +1,31 @@
+.SideNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: none;
+}
+
+.SideNavBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.SecondaryNavBar {
+  margin-right: 1.5rem;
+}
+
+.SideNavModal {
+  height: 40rem;
+  margin: 0 auto;
+  background-color: var(--dark-purple-color);
+}
+
+@media (max-width: 56.25em) {
+  .SideNav {
+    display: block;
+  }
+}

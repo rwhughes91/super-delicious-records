@@ -1,0 +1,54 @@
+$row-padding: 1rem;
+
+.MainNav {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.SecondaryNavBarContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding: $row-padding / 2 2rem;
+  background-color: var(--tan-white-color);
+}
+
+.SecondaryNavBar {
+  width: 15%;
+  max-width: 109.266px;
+  min-width: 58px;
+}
+
+.MainNavBarContainer {
+  background-color: var(--dark-purple-color);
+  padding: $row-padding / 2 0;
+}
+
+.MainNavBar {
+  width: 60%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-8rem);
+  }
+  85% {
+    transform: translateY(-8rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

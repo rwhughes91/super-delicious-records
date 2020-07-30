@@ -1,8 +1,17 @@
 import IconContainer from '../IconContainer/IconContainer'
+import { StringDecoder } from 'string_decoder'
 
-const CartIcon: React.FC = () => {
+interface Props {
+  size?: number
+}
+
+const CartIcon: React.FC<Props> = (props) => {
+  let styles = {}
+  if (props.size) {
+    styles = { size: props.size }
+  }
   return (
-    <IconContainer>
+    <IconContainer {...styles}>
       {(iconClass) => (
         <svg
           xmlns="http://www.w3.org/2000/svg"

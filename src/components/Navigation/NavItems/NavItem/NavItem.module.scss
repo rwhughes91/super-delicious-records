@@ -5,8 +5,28 @@
   cursor: pointer;
   text-transform: uppercase;
   font-size: 1.2rem;
-  color: var(--dark-purple-color);
   &:hover {
     color: var(--bright-red-color);
+  }
+}
+
+.Purple {
+  color: var(--dark-purple-color);
+}
+
+.White {
+  color: var(--tan-white-color);
+}
+
+@media (max-width: 56.25em) {
+  .NavItem {
+    color: var(--tan-white-color);
+    width: 90%;
+    padding: 1rem 0;
+    flex: 1;
+
+    &:not(:first-child) {
+      border-top: 1px solid rgba(248, 245, 235, 0.2);
+    }
   }
 }

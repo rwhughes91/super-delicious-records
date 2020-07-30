@@ -14,6 +14,7 @@ $container-border-width: 25rem;
 
 .NavSearchBar {
   position: relative;
+  transition: all 0.25s ease-in;
 }
 
 .InputContainer {
@@ -23,7 +24,7 @@ $container-border-width: 25rem;
   height: $input-container;
   width: $container-width;
   padding-left: 0.5rem;
-  animation: slideIn 0.75s ease-in;
+  animation: slideIn 0.25s ease-in;
 
   &:before {
     content: '';
@@ -32,23 +33,22 @@ $container-border-width: 25rem;
     left: $input-container * -1;
     width: $container-border-width;
     height: $input-container;
-    border-radius: 10rem;
+    border-radius: 100px;
     border: 1px solid var(--light-gray-color);
-    z-index: -1;
     pointer-events: none;
-    animation: slideIn 0.4s linear;
+    animation: slideIn 0.25s linear;
   }
+}
+
+.Slide {
+  transform: translateX(-20rem);
 }
 
 @keyframes slideIn {
   0% {
     width: 0;
-    border-color: var(--dark-purple-color);
-    color: var(--dark-purple-color);
   }
   100% {
     width: $container-border-width;
-    border-color: var(--dark-purple-color);
-    color: var(--dark-purple-color);
   }
 }
