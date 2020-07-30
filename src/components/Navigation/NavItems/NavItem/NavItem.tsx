@@ -1,10 +1,14 @@
 import classes from './NavItem.module.scss'
 import Link from 'next/link'
 
+interface Styles {
+  width: string
+}
 interface Props {
   location: string
   children: JSX.Element | string
   color?: 'purple' | 'white'
+  styles?: Styles
 }
 
 const NavItem: React.FC<Props> = (props) => {
@@ -14,9 +18,15 @@ const NavItem: React.FC<Props> = (props) => {
   } else {
     classNames.push(classes.Purple)
   }
+  let styles = {}
+  if (props.styles) {
+    styles = { ...props.styles }
+  }
   return (
     <Link href={props.location}>
-      <button className={classNames.join(' ')}>{props.children}</button>
+      <button style={styles} className={classNames.join(' ')}>
+        {props.children}
+      </button>
     </Link>
   )
 }

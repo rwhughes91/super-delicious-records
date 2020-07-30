@@ -21,7 +21,7 @@ const NavItems: React.FC<Props> = (props) => {
     )
   } else if (props.icons === 'cart') {
     navItems = (
-      <NavItem location="/">
+      <NavItem location="/" styles={{ width: '105%' }}>
         <CartIcon size={3} />
       </NavItem>
     )

@@ -1,5 +1,4 @@
 import IconContainer from '../IconContainer/IconContainer'
-import { StringDecoder } from 'string_decoder'
 
 interface Props {
   size?: number

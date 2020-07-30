@@ -2,6 +2,7 @@ import { useState } from 'react'
 import classes from './SideNav.module.scss'
 import NavItems from '../NavItems/NavItems'
 import NavButton from '../NavButton/NavButton'
+import { CSSTransition } from 'react-transition-group'
 import Backdrop from '../../UI/Backdrop/Backdrop'
 
 const SideNav: React.FC = () => {
@@ -11,9 +12,15 @@ const SideNav: React.FC = () => {
     setShowModal((prevState) => !prevState)
   }
 
+  const classNames = {
+    enter: classes.Enter,
+    enterActive: classes.EnterActive,
+    exit: classes.Exit,
+    exitActive: classes.ExitActive,
+  }
+
   return (
     <>
-      {/* <Backdrop show={showModal} top="46.5rem" left="0" /> */}
       <div className={classes.SideNav}>
         <div className={classes.SideNavBar}>
           <NavButton onClick={onClickHandler} />
@@ -21,12 +28,19 @@ const SideNav: React.FC = () => {
             <NavItems color="purple" icons="cart" />
           </div>
         </div>
-        {showModal && (
+        <CSSTransition
+          in={showModal}
+          timeout={250}
+          classNames={classNames}
+          montOnEnter
+          unmountOnExit
+        >
           <div className={classes.SideNavModal}>
             <NavItems color="purple" icons={false} />
           </div>
-        )}
+        </CSSTransition>
       </div>
+      <Backdrop show={showModal} onClick={onClickHandler} top="46rem" left="0" />
     </>
   )
 }

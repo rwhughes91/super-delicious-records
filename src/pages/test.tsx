@@ -5,7 +5,7 @@ import MainNav from '../components/Navigation/MainNav/MainNav'
 const Test = () => {
   return (
     <Layout>
-      <SideNav />
+      <MainNav />
     </Layout>
   )
 }

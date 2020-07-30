@@ -7,20 +7,10 @@ $button-size: 6rem;
   background: none;
   cursor: pointer;
   text-align: center;
-  user-select: none;
   padding: $button-size / 2 0;
 
   height: $button-size;
   width: $button-size;
-
-  // &:hover {
-  //   & .NavIcon:before {
-  //     transform: translateY(-0.25rem);
-  //   }
-  //   & .NavIcon:after {
-  //     transform: translateY(0.25rem);
-  //   }
-  // }
 }
 
 .NavIcon {
@@ -38,7 +28,7 @@ $button-size: 6rem;
     background-color: var(--dark-purple-color);
     position: absolute;
     left: 0;
-    transition: all 0.2s;
+    transition: transform 0.2s;
   }
 
   &:before {

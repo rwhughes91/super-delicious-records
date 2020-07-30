@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  display: none;
+  visibility: hidden;
 }
 
 .SideNavBar {
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 0.75rem 0 1rem;
 }
 
 .SecondaryNavBar {
@@ -22,10 +22,25 @@
   height: 40rem;
   margin: 0 auto;
   background-color: var(--dark-purple-color);
+  overflow: hidden;
+}
+
+.Enter {
+  height: 0rem;
+}
+
+.EnterActive {
+  height: 40rem;
+  transition: height 0.25s linear;
+}
+
+.ExitActive {
+  height: 0;
+  transition: height 0.25s linear;
 }
 
 @media (max-width: 56.25em) {
   .SideNav {
-    display: block;
+    visibility: visible;
   }
 }
