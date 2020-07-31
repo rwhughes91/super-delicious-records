@@ -1,6 +1,16 @@
 import Head from 'next/head'
+import HomeNav from '../Navigation/HomeNav/HomeNav'
+import MainNav from '../Navigation/MainNav/MainNav'
 
-const Layout: React.FC = (props) => {
+interface Props {
+  pageType: 'home' | 'main'
+}
+
+const Layout: React.FC<Props> = (props) => {
+  let navigation = <MainNav />
+  if (props.pageType === 'home') {
+    navigation = <HomeNav />
+  }
   return (
     <>
       <Head>
@@ -8,6 +18,7 @@ const Layout: React.FC = (props) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <header>{navigation}</header>
       <main>{props.children}</main>
     </>
   )

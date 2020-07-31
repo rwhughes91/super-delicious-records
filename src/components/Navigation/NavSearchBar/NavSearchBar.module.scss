@@ -1,5 +1,5 @@
-$icon-size: 1.7rem;
-$input-container: 1.7rem * 2;
+$icon-size: 1.8rem;
+$input-container: $icon-size * 1.8;
 $y-offset: $input-container / -4;
 $container-width: 21.5rem;
 $container-border-width: 25rem;
@@ -30,7 +30,7 @@ $container-border-width: 25rem;
     content: '';
     position: absolute;
     top: 0;
-    left: $input-container * -1;
+    left: -$input-container;
     width: $container-border-width;
     height: $input-container;
     border-radius: 100px;

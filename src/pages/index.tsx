@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import Home from '../components/Home/Home'
+import Home from '../components/pages/Home/Home'
 
 const HomePage: React.FC = () => {
   return (

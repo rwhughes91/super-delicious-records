@@ -1,13 +1,11 @@
 import classes from './Home.module.scss'
-import Layout from '../Layout/Layout'
-import Button from '../UI/Button/Button'
-import ScrollWidget from '../UI/ScrollWidget/ScrollWidget'
-import HomeNav from '../Navigation/HomeNav/HomeNav'
+import Layout from '../../Layout/Layout'
+import Button from '../../UI/Button/Button'
+import ScrollWidget from '../../UI/ScrollWidget/ScrollWidget'
 
 const Home: React.FC = () => {
   return (
-    <Layout>
-      <HomeNav />
+    <Layout pageType="home">
       <div className={classes.Hero}>
         <img
           className={classes.HeroImage}
@@ -16,7 +14,7 @@ const Home: React.FC = () => {
           unselectable="on"
         />
         <div className={classes.Button}>
-          <Button color="purple" href="/">
+          <Button color="purple" href="/about-us">
             Learn More
           </Button>
         </div>

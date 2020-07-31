@@ -28,22 +28,22 @@ const NavItems: React.FC<Props> = (props) => {
   } else {
     navItems = (
       <>
-        <NavItem location="/" color={props.color}>
+        <NavItem location="/about-us" color={props.color}>
           about us
         </NavItem>
-        <NavItem location="/" color={props.color}>
+        <NavItem location="/news" color={props.color}>
           news
         </NavItem>
-        <NavItem location="/" color={props.color}>
+        <NavItem location="/artists" color={props.color}>
           artists
         </NavItem>
-        <NavItem location="/" color={props.color}>
+        <NavItem location="/events" color={props.color}>
           events
         </NavItem>
-        <NavItem location="/" color={props.color}>
+        <NavItem location="/shop" color={props.color}>
           shop
         </NavItem>
-        <NavItem location="/test" color={props.color}>
+        <NavItem location="/contact-us" color={props.color}>
           contact us
         </NavItem>
         {props.icons && (

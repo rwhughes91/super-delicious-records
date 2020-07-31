@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import classes from './NavItem.module.scss'
 import Link from 'next/link'
 
@@ -12,7 +13,12 @@ interface Props {
 }
 
 const NavItem: React.FC<Props> = (props) => {
+  const router = useRouter()
+
   const classNames = [classes.NavItem]
+  if (props.location === router.pathname) {
+    classNames.push(classes.Active)
+  }
   if (props.color && props.color === 'white') {
     classNames.push(classes.White)
   } else {
