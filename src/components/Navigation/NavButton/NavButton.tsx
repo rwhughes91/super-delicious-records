@@ -2,6 +2,7 @@ import classes from './NavButton.module.scss'
 
 interface Props {
   onClick: () => void
+  checked: boolean
 }
 
 const NavButton: React.FC<Props> = (props) => {
@@ -11,7 +12,8 @@ const NavButton: React.FC<Props> = (props) => {
         type="checkbox"
         id="navi-toggle"
         className={classes.NavInput}
-        onClick={props.onClick}
+        onChange={props.onClick}
+        checked={props.checked}
       />
       <label htmlFor="navi-toggle" className={classes.NavButton}>
         <span className={classes.NavIcon}>&nbsp;</span>

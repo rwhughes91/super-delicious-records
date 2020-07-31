@@ -5,7 +5,7 @@ const news: React.FC = () => {
   return (
     <>
       <Head>
-        <title>News | SDR</title>
+        <title>News | Super Delicious Records</title>
       </Head>
       <News />
     </>

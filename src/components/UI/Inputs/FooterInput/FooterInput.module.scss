@@ -1,0 +1,22 @@
+.FooterInput {
+  color: var(--tan-white-color);
+  background-color: var(--light-purple-color);
+  height: 2.75rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  border-radius: 3px;
+  margin: 0 0.5rem;
+  font-size: 1.2rem;
+
+  width: 25rem;
+
+  &::placeholder {
+    color: var(--tan-white-color);
+  }
+}
+
+@media (max-width: 56.25em) {
+  .FooterInput {
+    height: 3.5rem;
+  }
+}

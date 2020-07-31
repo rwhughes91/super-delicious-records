@@ -1,0 +1,103 @@
+.FooterContainer {
+  width: 100%;
+  margin-top: 15rem;
+  height: 24.5rem;
+}
+
+.Footer {
+  width: 100%;
+  background-color: var(--dark-purple-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 23rem;
+  position: relative;
+}
+
+.FooterFormTitle {
+  font-size: 1.4rem;
+  color: var(--tan-white-color);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.FooterForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 80rem;
+  height: 5rem;
+}
+
+.FooterNavigation {
+  width: 50rem;
+}
+
+.ButtonGroup {
+  position: absolute;
+  right: 1rem;
+  text-align: center;
+  width: 13rem;
+}
+
+.IconContainer {
+  position: absolute;
+  justify-content: space-around;
+}
+
+.IconContainerLarge {
+  width: 20rem;
+  display: none;
+}
+
+.IconContainerSmall {
+  right: 1rem;
+  top: 1rem;
+  display: flex;
+  justify-content: space-around;
+  width: 13rem;
+}
+
+@media (max-width: 56.25em) {
+  .Footer {
+    height: 35rem;
+    justify-content: center;
+  }
+  .FormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 65%;
+  }
+  .FooterForm {
+    flex-direction: column;
+    position: static;
+    justify-content: space-evenly;
+    height: 80%;
+  }
+  .ButtonGroup {
+    position: static;
+  }
+
+  .FooterFormTitle {
+    font-size: 1.6rem;
+  }
+
+  .IconContainerLarge {
+    display: flex;
+    right: 50%;
+    top: 88%;
+    transform: translateX(50%);
+  }
+
+  .IconContainerSmall {
+    display: none;
+  }
+
+  .FooterNavigation {
+    display: none;
+  }
+}

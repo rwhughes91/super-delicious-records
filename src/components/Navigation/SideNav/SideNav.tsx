@@ -23,7 +23,7 @@ const SideNav: React.FC = () => {
     <>
       <div className={classes.SideNav}>
         <div className={classes.SideNavBar}>
-          <NavButton onClick={onClickHandler} />
+          <NavButton checked={showModal} onClick={onClickHandler} />
           <div className={classes.SecondaryNavBar}>
             <NavItems color="purple" icons="cart" />
           </div>
@@ -32,11 +32,11 @@ const SideNav: React.FC = () => {
           in={showModal}
           timeout={250}
           classNames={classNames}
-          montOnEnter
+          mountOnEnter
           unmountOnExit
         >
           <div className={classes.SideNavModal}>
-            <NavItems color="purple" icons={false} />
+            <NavItems home={true} color="purple" icons={false} ripple />
           </div>
         </CSSTransition>
       </div>

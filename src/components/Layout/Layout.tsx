@@ -2,6 +2,8 @@ import Head from 'next/head'
 import HomeNav from '../Navigation/HomeNav/HomeNav'
 import MainNav from '../Navigation/MainNav/MainNav'
 
+import Footer from '../Footer/Footer'
+
 interface Props {
   pageType: 'home' | 'main'
 }
@@ -20,6 +22,7 @@ const Layout: React.FC<Props> = (props) => {
       </Head>
       <header>{navigation}</header>
       <main>{props.children}</main>
+      <footer></footer>
     </>
   )
 }

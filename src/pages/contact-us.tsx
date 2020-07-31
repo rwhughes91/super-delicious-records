@@ -5,7 +5,7 @@ const contactUs: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Contact Us | SDR</title>
+        <title>Contact Us | Super Delicious Records</title>
       </Head>
       <ContactUs />
     </>

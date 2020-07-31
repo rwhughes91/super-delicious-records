@@ -5,7 +5,7 @@ const artists: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Artists | SDR</title>
+        <title>Artists | Super Delicious Records</title>
       </Head>
       <Artists />
     </>

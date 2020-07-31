@@ -5,7 +5,7 @@ const events: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Events | SDR</title>
+        <title>Events | Super Delicious Records</title>
       </Head>
       <Events />
     </>

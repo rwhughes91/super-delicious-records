@@ -18,6 +18,11 @@
   color: var(--tan-white-color);
 }
 
+.Gray {
+  color: var(--light-gray-color);
+  font-size: 1.2rem;
+}
+
 .Active {
   color: var(--bright-red-color) !important;
 }
@@ -29,6 +34,12 @@
     padding: 1rem 0;
     flex: 1;
     font-size: 1.6rem;
+    &:not(:first-child) {
+      border-top: 1px solid var(--transparent-tan-white-color);
+    }
+  }
+
+  .Ripple {
     background-position: center;
     transition: background 0.8s;
 
@@ -40,10 +51,6 @@
       background-color: var(--transparent-tan-white-color);
       background-size: 100%;
       transition: background 0s;
-    }
-
-    &:not(:first-child) {
-      border-top: 1px solid var(--transparent-tan-white-color);
     }
   }
 }

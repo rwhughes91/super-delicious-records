@@ -5,11 +5,10 @@ const aboutUs: React.FC = () => {
   return (
     <>
       <Head>
-        <title>About Us | SDR</title>
+        <title>About Us | Super Delicious Records</title>
       </Head>
       <AboutUs />
     </>
   )
 }
-
 export default aboutUs

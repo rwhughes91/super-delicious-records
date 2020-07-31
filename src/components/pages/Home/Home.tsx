@@ -14,7 +14,7 @@ const Home: React.FC = () => {
           unselectable="on"
         />
         <div className={classes.Button}>
-          <Button color="purple" href="/about-us">
+          <Button size="large" color="purple" href="/about-us">
             Learn More
           </Button>
         </div>

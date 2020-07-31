@@ -8,7 +8,8 @@ interface Styles {
 interface Props {
   location: string
   children: JSX.Element | string
-  color?: 'purple' | 'white'
+  color?: 'purple' | 'white' | 'gray'
+  ripple?: boolean
   styles?: Styles
 }
 
@@ -19,10 +20,17 @@ const NavItem: React.FC<Props> = (props) => {
   if (props.location === router.pathname) {
     classNames.push(classes.Active)
   }
-  if (props.color && props.color === 'white') {
-    classNames.push(classes.White)
-  } else {
-    classNames.push(classes.Purple)
+  if (props.color) {
+    if (props.color === 'white') {
+      classNames.push(classes.White)
+    } else if (props.color === 'gray') {
+      classNames.push(classes.Gray)
+    } else {
+      classNames.push(classes.Purple)
+    }
+  }
+  if (props.ripple) {
+    classNames.push(classes.Ripple)
   }
   let styles = {}
   if (props.styles) {

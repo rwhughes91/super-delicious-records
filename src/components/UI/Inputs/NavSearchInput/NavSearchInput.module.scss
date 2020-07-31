@@ -1,21 +1,10 @@
 $font-size: 1.4rem;
 
-.Input {
-  outline: none;
-  border: none;
+.NavSearchInput {
   font-size: $font-size;
   color: var(--dark-purple-color);
   height: 100%;
   width: 100%;
-  background: none;
   font-family: 'Open Sans Regular';
   font-weight: 400;
-
-  &:placeholder-shown {
-    color: var(--dark-gray-color);
-  }
-
-  &:focus {
-    outline: none;
-  }
 }

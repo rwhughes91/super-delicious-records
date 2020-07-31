@@ -12,8 +12,33 @@
 }
 
 .ArrowLeft {
-  @include arrow-rules('left', 1rem);
+  &.Large {
+    @include arrow-rules('left', 1rem);
+  }
+  &.Medium {
+    @include arrow-rules('left', 0.9rem);
+  }
+  &.Medium {
+    @include arrow-rules('left', 0.8rem);
+  }
 }
 .ArrowRight {
-  @include arrow-rules('right', 1rem);
+  &.Large {
+    @include arrow-rules('right', 1rem);
+  }
+  &.Medium {
+    @include arrow-rules('right', 0.9rem);
+  }
+  &.Medium {
+    @include arrow-rules('right', 0.8rem);
+  }
+}
+
+@media (max-width: 56.25em) {
+  .ArrowLeft {
+    border-right: 1rem solid var(--bright-red-color);
+  }
+  .ArrowRight {
+    border-left: 1rem solid var(--bright-red-color);
+  }
 }

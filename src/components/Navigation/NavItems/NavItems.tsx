@@ -6,6 +6,9 @@ import NavSearchBar from '../NavSearchBar/NavSearchBar'
 interface Props {
   color: 'purple' | 'white'
   icons: boolean | 'only' | 'cart'
+  home?: boolean
+  ripple?: true
+  styles?: React.CSSProperties
 }
 
 const NavItems: React.FC<Props> = (props) => {
@@ -28,22 +31,27 @@ const NavItems: React.FC<Props> = (props) => {
   } else {
     navItems = (
       <>
-        <NavItem location="/about-us" color={props.color}>
+        {props.home && (
+          <NavItem location="/" color={props.color} ripple={props.ripple ? true : false}>
+            home
+          </NavItem>
+        )}
+        <NavItem location="/about-us" color={props.color} ripple={props.ripple ? true : false}>
           about us
         </NavItem>
-        <NavItem location="/news" color={props.color}>
+        <NavItem location="/news" color={props.color} ripple={props.ripple ? true : false}>
           news
         </NavItem>
-        <NavItem location="/artists" color={props.color}>
+        <NavItem location="/artists" color={props.color} ripple={props.ripple ? true : false}>
           artists
         </NavItem>
-        <NavItem location="/events" color={props.color}>
+        <NavItem location="/events" color={props.color} ripple={props.ripple ? true : false}>
           events
         </NavItem>
-        <NavItem location="/shop" color={props.color}>
+        <NavItem location="/shop" color={props.color} ripple={props.ripple ? true : false}>
           shop
         </NavItem>
-        <NavItem location="/contact-us" color={props.color}>
+        <NavItem location="/contact-us" color={props.color} ripple={props.ripple ? true : false}>
           contact us
         </NavItem>
         {props.icons && (

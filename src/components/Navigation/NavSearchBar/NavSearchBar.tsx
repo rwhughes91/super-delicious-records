@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import classes from './NavSearchBar.module.scss'
 import SearchIcon from '../../UI/Icons/SearchIcon/SearchIcon'
-import Input from '../../UI/Input/Input'
+import NavSearchInput from '../../UI/Inputs/NavSearchInput/NavSearchInput'
 
 interface Props {
   slide?: true
@@ -33,7 +33,7 @@ const NavSearchBar: React.FC<Props> = (props) => {
       </span>
       {showInput && (
         <div className={classes.InputContainer}>
-          <Input defaultValue="search for a band" />
+          <NavSearchInput defaultValue="search for a band" />
         </div>
       )}
     </div>
