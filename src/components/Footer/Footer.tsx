@@ -10,13 +10,13 @@ import InstagramIcon from '../UI/Icons/InstagramIcon/InstagramIcon'
 
 const Footer: React.FC = () => {
   const [urls] = useState({
-    facebook: 'https://facebook.com',
-    instagram: 'https://instagram.com',
-    twitter: 'https://twitter.com',
+    facebook: 'https://www.facebook.com/SuperDeliciousRecords',
+    instagram: 'https://www.instagram.com/accounts/login/?next=/superdeliciousrecords/',
+    twitter: 'https://twitter.com/SuperDeliciousR',
   })
   const icons = (type: 'small' | 'large') => (
     <>
-      <a href={urls.facebook} target={'blank'}>
+      <a href={urls.facebook} rel="noreferrer" target="_blank">
         <FacebookIcon size={type === 'large' ? 2.5 : undefined} />
       </a>
       <a href={urls.instagram} target={'blank'}>

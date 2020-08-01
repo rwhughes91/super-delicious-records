@@ -18,8 +18,8 @@
   &.Medium {
     @include arrow-rules('left', 0.9rem);
   }
-  &.Medium {
-    @include arrow-rules('left', 0.8rem);
+  &.Small {
+    @include arrow-rules('left', 0.6rem);
   }
 }
 .ArrowRight {
@@ -29,8 +29,8 @@
   &.Medium {
     @include arrow-rules('right', 0.9rem);
   }
-  &.Medium {
-    @include arrow-rules('right', 0.8rem);
+  &.Small {
+    @include arrow-rules('right', 0.6rem);
   }
 }
 

@@ -1,0 +1,43 @@
+@mixin breadcrumb {
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  margin: 0 1.5rem;
+  background: none;
+  color: var(--light-gray-color);
+  font-size: 1.2rem;
+}
+
+.BreadcrumbContainer {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+  width: 100%;
+}
+
+.Breadcrumb {
+  @include breadcrumb();
+}
+
+.BreadcrumbButton {
+  @include breadcrumb();
+  cursor: pointer;
+  transition: transform 0.1s;
+
+  &:hover {
+    color: var(--bright-red-color);
+    transform: scale(1.2);
+  }
+
+  &:active {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 56.25em) {
+  .BreadcrumbContainer {
+    display: none;
+  }
+}

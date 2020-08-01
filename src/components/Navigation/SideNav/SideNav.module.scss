@@ -4,6 +4,7 @@
   left: 0;
   width: 100%;
   visibility: hidden;
+  background-color: var(--tan-white-color);
   z-index: 100;
 }
 
@@ -26,6 +27,8 @@
   background-color: var(--dark-purple-color);
   overflow: hidden;
   z-index: 100;
+  backface-visibility: hidden;
+  transform: translateZ(0) scale(1, 1);
 }
 
 .Enter {

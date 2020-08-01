@@ -14,6 +14,7 @@ $row-padding: 1rem;
   justify-content: flex-end;
   padding: $row-padding / 2 2rem;
   background-color: var(--tan-white-color);
+  height: 4rem;
 }
 
 .SecondaryNavBar {
@@ -25,6 +26,7 @@ $row-padding: 1rem;
 .MainNavBarContainer {
   background-color: var(--dark-purple-color);
   padding: $row-padding / 2 0;
+  height: 4rem;
 }
 
 .MainNavBar {

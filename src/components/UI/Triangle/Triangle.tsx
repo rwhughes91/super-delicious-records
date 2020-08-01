@@ -3,6 +3,7 @@ import classes from './Triangle.module.scss'
 interface Props {
   direction: 'left' | 'right'
   size: 'small' | 'medium' | 'large'
+  styles?: React.CSSProperties
 }
 
 const Triangle: React.FC<Props> = (props) => {
@@ -25,7 +26,7 @@ const Triangle: React.FC<Props> = (props) => {
     default:
       break
   }
-  return <div className={classNames.join(' ')}></div>
+  return <div style={props.styles} className={classNames.join(' ')}></div>
 }
 
 export default Triangle

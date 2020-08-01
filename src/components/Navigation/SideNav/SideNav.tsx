@@ -36,7 +36,7 @@ const SideNav: React.FC = () => {
           unmountOnExit
         >
           <div className={classes.SideNavModal}>
-            <NavItems home={true} color="purple" icons={false} ripple />
+            <NavItems home color="purple" icons={false} ripple />
           </div>
         </CSSTransition>
       </div>
