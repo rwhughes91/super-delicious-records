@@ -19,7 +19,7 @@ const Layout: React.FC<Props> = (props) => {
     <>
       <Head>
         <meta charSet="UTF-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>{navigation}</header>

@@ -1,7 +1,7 @@
 import classes from './Triangle.module.scss'
 
 interface Props {
-  direction: 'left' | 'right'
+  direction: 'left' | 'right' | 'down'
   size: 'small' | 'medium' | 'large'
   styles?: React.CSSProperties
 }
@@ -10,6 +10,8 @@ const Triangle: React.FC<Props> = (props) => {
   const classNames = []
   if (props.direction === 'left') {
     classNames.push(classes.ArrowLeft)
+  } else if (props.direction === 'down') {
+    classNames.push(classes.ArrowDown)
   } else {
     classNames.push(classes.ArrowRight)
   }

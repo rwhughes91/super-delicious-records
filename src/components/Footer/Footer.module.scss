@@ -1,17 +1,15 @@
 .FooterContainer {
-  width: 100vw;
-  margin-top: 15rem;
-  height: 24.5rem;
+  margin-top: 10rem;
+  margin-bottom: 1.5rem;
 }
 
 .Footer {
-  width: 100%;
   background-color: var(--dark-purple-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  height: 23rem;
+  height: 23.5rem;
   position: relative;
 }
 
@@ -77,6 +75,7 @@
     position: static;
     justify-content: space-evenly;
     height: 80%;
+    width: 100%;
   }
   .ButtonGroup {
     position: static;

@@ -1,4 +1,5 @@
 $row-padding: 1rem;
+$nav-height: 5rem;
 
 .MainNav {
   position: fixed;
@@ -7,14 +8,16 @@ $row-padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  z-index: 100;
 }
 
 .SecondaryNavBarContainer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding: $row-padding / 2 2rem;
   background-color: var(--tan-white-color);
-  height: 4rem;
+  height: $nav-height;
 }
 
 .SecondaryNavBar {
@@ -26,7 +29,10 @@ $row-padding: 1rem;
 .MainNavBarContainer {
   background-color: var(--dark-purple-color);
   padding: $row-padding / 2 0;
-  height: 4rem;
+  height: $nav-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .MainNavBar {

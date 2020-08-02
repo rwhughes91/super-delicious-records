@@ -1,0 +1,60 @@
+.List {
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.ListTitle {
+  margin-left: 1rem;
+}
+
+.ListItemContainer {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.ListItem {
+  width: 56.5rem;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 1rem 0 1rem 50%;
+  transform: translateX(-42.5%);
+  white-space: nowrap;
+}
+
+.ListBody {
+  overflow-y: hidden;
+  transition: all 0.4s;
+  backface-visibility: hidden;
+  transform: translateZ(0) scale(1, 1);
+}
+
+.Show {
+  max-height: 20rem;
+  opacity: 1;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.Hide {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 56.25em) {
+  .ListItem {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 37.5em) {
+  .ListItem {
+    width: 100%;
+    margin: 1rem 0;
+    transform: none;
+  }
+}

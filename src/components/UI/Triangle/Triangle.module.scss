@@ -3,9 +3,15 @@
   height: 0;
   border-top: $size solid transparent;
   border-bottom: $size * 0.866 solid transparent;
+  transition: transform 0.2s;
+  backface-visibility: hidden;
 
   @if $direction == left {
     border-right: $size solid var(--bright-red-color);
+  } @else if $direction == down {
+    border-top: $size solid var(--bright-red-color);
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
   } @else {
     border-left: $size solid var(--bright-red-color);
   }
@@ -33,6 +39,17 @@
     @include arrow-rules('right', 0.6rem);
   }
 }
+.ArrowDown {
+  &.Large {
+    @include arrow-rules('down', 1rem);
+  }
+  &.Medium {
+    @include arrow-rules('down', 0.9rem);
+  }
+  &.Small {
+    @include arrow-rules('down', 0.6rem);
+  }
+}
 
 @media (max-width: 56.25em) {
   .ArrowLeft {
@@ -40,5 +57,8 @@
   }
   .ArrowRight {
     border-left: 1rem solid var(--bright-red-color);
+  }
+  .ArrowDown {
+    border-top: 1rem solid var(--bright-red-color);
   }
 }

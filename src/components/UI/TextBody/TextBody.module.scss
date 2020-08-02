@@ -1,0 +1,19 @@
+.Text {
+  color: var(--dark-purple-color);
+  font-size: 1.4rem;
+  font-family: 'Open Sans Regular';
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  transition: opacity 0.2s;
+  margin: 0.5rem auto;
+}
+
+@media (max-width: 56.25em) {
+  .Text {
+    width: 80%;
+  }
+}

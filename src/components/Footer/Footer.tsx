@@ -17,13 +17,13 @@ const Footer: React.FC = () => {
   const icons = (type: 'small' | 'large') => (
     <>
       <a href={urls.facebook} rel="noreferrer" target="_blank">
-        <FacebookIcon size={type === 'large' ? 2.5 : undefined} />
+        <FacebookIcon size={type === 'large' ? 2.5 : 2} />
       </a>
       <a href={urls.instagram} target={'blank'}>
-        <InstagramIcon size={type === 'large' ? 2.5 : undefined} />
+        <InstagramIcon size={type === 'large' ? 2.5 : 2} />
       </a>
       <a href={urls.twitter} target={'blank'}>
-        <TwitterIcon size={type === 'large' ? 2.5 : undefined} />
+        <TwitterIcon size={type === 'large' ? 2.5 : 2} />
       </a>
     </>
   )
