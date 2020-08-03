@@ -13,7 +13,12 @@ const Card: React.FC<Props> = (props) => {
       <div className={classes.CardTitle}>
         <TertiaryHeader>{props.title}</TertiaryHeader>
       </div>
-      <div className={classes.CardImage} style={{ backgroundImage: `url(${props.imageUrl})` }} />
+      <div
+        className={classes.CardImage}
+        style={{
+          backgroundImage: `url(${props.imageUrl})`,
+        }}
+      />
       <Button size="medium" color="purple">
         Read More
       </Button>

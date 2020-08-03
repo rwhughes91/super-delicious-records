@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import classes from '../styles/pages/News.module.scss'
 import Layout from '../components/Layout/Layout'
 import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
@@ -29,7 +29,7 @@ const news: React.FC<Props> = (props) => {
 
 export default news
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       cards: [
