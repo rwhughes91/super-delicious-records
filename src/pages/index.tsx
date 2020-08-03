@@ -1,6 +1,8 @@
 import Head from 'next/head'
-
-import Home from '../components/pages/Home/Home'
+import classes from '../styles/pages/Home.module.scss'
+import Layout from '../components/Layout/Layout'
+import Button from '../components/UI/Button/Button'
+import ScrollWidget from '../components/UI/ScrollWidget/ScrollWidget'
 
 const HomePage: React.FC = () => {
   return (
@@ -8,7 +10,24 @@ const HomePage: React.FC = () => {
       <Head>
         <title>Super Delicious Records</title>
       </Head>
-      <Home />
+      <Layout pageType="home">
+        <div className={classes.Hero}>
+          <img
+            className={classes.HeroImage}
+            src="/images/sdr-logo-primary.png"
+            alt="Super Delicious Records"
+            unselectable="on"
+          />
+          <div className={classes.Button}>
+            <Button size="large" color="purple" href="/about-us">
+              Learn More
+            </Button>
+          </div>
+        </div>
+        <div className={classes.MouseContainer}>
+          <ScrollWidget />
+        </div>
+      </Layout>
     </>
   )
 }

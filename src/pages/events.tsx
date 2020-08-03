@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Events from '../components/pages/Events/Events'
+import Layout from '../components/Layout/Layout'
 
 const events: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const events: React.FC = () => {
       <Head>
         <title>Events | Super Delicious Records</title>
       </Head>
-      <Events />
+      <Layout pageType="main"></Layout>
     </>
   )
 }

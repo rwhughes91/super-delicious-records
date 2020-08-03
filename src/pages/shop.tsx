@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Shop from '../components/pages/Shop/Shop'
+import Layout from '../components/Layout/Layout'
 
 const shop: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const shop: React.FC = () => {
       <Head>
         <title>Shop | Super Delicious Records</title>
       </Head>
-      <Shop />
+      <Layout pageType="main"></Layout>
     </>
   )
 }

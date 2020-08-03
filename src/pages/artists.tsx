@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Artists from '../components/pages/Artists/Artists'
+import Layout from '../components/Layout/Layout'
 
 const artists: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const artists: React.FC = () => {
       <Head>
         <title>Artists | Super Delicious Records</title>
       </Head>
-      <Artists />
+      <Layout pageType="main"></Layout>
     </>
   )
 }

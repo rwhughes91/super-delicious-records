@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import ContactUs from '../components/pages/ContactUs/ContactUs'
+import Layout from '../components/Layout/Layout'
 
 const contactUs: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const contactUs: React.FC = () => {
       <Head>
         <title>Contact Us | Super Delicious Records</title>
       </Head>
-      <ContactUs />
+      <Layout pageType="main"></Layout>
     </>
   )
 }
