@@ -3,15 +3,24 @@ import classes from './IconContainer.module.scss'
 interface Props {
   children: (x: string) => JSX.Element
   size?: number
+  styles?: React.CSSProperties
+  onClick?: () => void
 }
 
 const IconContainer: React.FC<Props> = (props) => {
-  let styles
+  let styles = { ...props.styles }
   if (props.size) {
-    styles = { height: `${props.size}rem`, width: `${props.size}rem` }
+    styles = { ...props.styles, height: `${props.size}rem`, width: `${props.size}rem` }
   }
   return (
-    <div style={styles} className={classes.IconContainer}>
+    <div
+      style={styles}
+      className={classes.IconContainer}
+      onClick={props.onClick}
+      role="button"
+      onKeyDown={props.onClick}
+      tabIndex={0}
+    >
       {props.children(classes.Icon)}
     </div>
   )

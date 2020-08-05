@@ -8,10 +8,10 @@ import Button from '../components/UI/Button/Button'
 import TertiaryHeader from '../components/UI/Headers/TertiaryHeader/TertiaryHeader'
 
 interface Props {
-  artists: Array<{ name: string; website: string; imageUrl: string }>
+  artists: Array<{ name: string; website: string; imageUrl: string; labelSide?: 'left' | 'right' }>
 }
 
-const artists: React.FC<Props> = (props) => {
+const Artists: React.FC<Props> = (props) => {
   return (
     <>
       <Head>
@@ -40,7 +40,7 @@ const artists: React.FC<Props> = (props) => {
           <TertiaryHeader styles={{ fontSize: '1.6rem' }}>
             Interested in joining our label?
           </TertiaryHeader>
-          <Button color="purple" size="large">
+          <Button color="purple" size="large" href="/about-us">
             Learn More
           </Button>
         </div>
@@ -49,7 +49,7 @@ const artists: React.FC<Props> = (props) => {
   )
 }
 
-export default artists
+export default Artists
 
 export const getStaticProps: GetStaticProps = async () => {
   return {

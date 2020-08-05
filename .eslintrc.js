@@ -18,9 +18,12 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   ignorePatterns: ['node_modules/**/*', '*.js'],
+  plugins: ['react-hooks'],
   rules: {
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
 }

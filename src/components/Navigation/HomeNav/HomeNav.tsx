@@ -8,7 +8,7 @@ const HomeNav: React.FC = () => {
       <div className={classes.Navbar}>
         <NavItems color="purple" icons />
       </div>
-      <SideNav />
+      <SideNav home />
     </>
   )
 }

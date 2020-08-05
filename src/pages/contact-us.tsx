@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
 
-const contactUs: React.FC = () => {
+const ContactUs: React.FC = () => {
   return (
     <>
       <Head>
@@ -12,4 +12,4 @@ const contactUs: React.FC = () => {
   )
 }
 
-export default contactUs
+export default ContactUs

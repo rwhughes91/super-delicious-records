@@ -26,8 +26,8 @@ $purple-gradient: rgba(123, 105, 145, 0.3);
   }
 
   &:hover .Image {
-    filter: blur(2px) brightness(0.7);
-    transform: scale(1.1);
+    // filter: blur(2px) brightness(0.7);
+    // transform: scale(1.1);
   }
 
   &:hover .Label {
@@ -60,29 +60,16 @@ $purple-gradient: rgba(123, 105, 145, 0.3);
   justify-content: flex-start;
   align-items: center;
   padding: 0 3rem;
-  font-size: 20px;
+  font-size: 3rem;
   font-family: 'Open Sans Bold', sans-serif;
   color: var(--tan-white-color);
   transition: color 0.2s;
-  background-color: rgba(32, 11, 59, 0.2);
-}
-
-@media (max-width: 56.25em) {
-  .Label {
-    font-size: 18px;
-  }
+  background-color: rgba(32, 11, 59, 0.1);
 }
 
 @media (max-width: 32.75em) {
   .ImageContainer {
     width: 100% !important;
     border-radius: 1px;
-    &:hover .Image {
-      filter: blur(0px) brightness(1);
-      transform: scale(1);
-    }
-  }
-  .Label {
-    font-size: 2rem;
   }
 }

@@ -102,7 +102,7 @@ const listItemState: ListItems = {
   10: false,
 }
 
-const aboutUs: React.FC = () => {
+const AboutUs: React.FC = () => {
   const [showListItem, setShowListItem] = useState(listItemState)
 
   const onClickHandler = (i: number) => {
@@ -177,7 +177,9 @@ const aboutUs: React.FC = () => {
                     }}
                   />
                   <div className={classes.ListTitle}>
-                    <TertiaryHeader>{listItem.title}</TertiaryHeader>
+                    <TertiaryHeader styles={{ textAlign: 'left', margin: 0 }}>
+                      {listItem.title}
+                    </TertiaryHeader>
                   </div>
                 </div>
               </div>
@@ -216,4 +218,4 @@ const aboutUs: React.FC = () => {
     </>
   )
 }
-export default aboutUs
+export default AboutUs

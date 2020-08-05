@@ -5,7 +5,11 @@ import NavButton from '../NavButton/NavButton'
 import { CSSTransition } from 'react-transition-group'
 import Backdrop from '../../UI/Backdrop/Backdrop'
 
-const SideNav: React.FC = () => {
+interface Props {
+  home?: boolean
+}
+
+const SideNav: React.FC<Props> = (props) => {
   const [showModal, setShowModal] = useState(false)
 
   const onClickHandler = () => {
@@ -24,9 +28,11 @@ const SideNav: React.FC = () => {
       <div className={classes.SideNav}>
         <div className={classes.SideNavBar}>
           <NavButton checked={showModal} onClick={onClickHandler} />
-          <div className={classes.SecondaryNavBar}>
-            <NavItems color="purple" icons="cart" />
-          </div>
+          {props.home || (
+            <div className={classes.SecondaryNavBar}>
+              <NavItems color="purple" icons="cart" />
+            </div>
+          )}
         </div>
         <CSSTransition
           in={showModal}

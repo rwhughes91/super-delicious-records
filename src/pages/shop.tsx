@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
 
-const shop: React.FC = () => {
+const Shop: React.FC = () => {
   return (
     <>
       <Head>
@@ -12,4 +12,4 @@ const shop: React.FC = () => {
   )
 }
 
-export default shop
+export default Shop

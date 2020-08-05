@@ -1,0 +1,48 @@
+.CalendarListItem {
+  display: flex;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  color: var(--dark-purple-color);
+  margin: 1rem 0;
+}
+
+.DateContainer {
+  height: 10rem;
+  width: 10rem;
+  border-radius: 3px;
+  color: var(--tan-white-color);
+  background-color: var(--dark-purple-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.TitleContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.Month {
+  color: var(--light-gray-color);
+}
+
+.Day {
+  font-size: 3.5rem;
+}
+
+.Year {
+  color: var(--light-gray-color);
+  font-size: 1.2rem;
+}
+
+.Title {
+  font-size: 1.75rem;
+}
+
+.Time {
+  color: var(--light-gray-color);
+}

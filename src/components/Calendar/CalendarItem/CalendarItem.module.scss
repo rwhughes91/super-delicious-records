@@ -1,0 +1,59 @@
+.CalendarItem {
+  color: var(--light-gray-color);
+  border: 1px solid var(--light-gray-color);
+  height: 12rem;
+  position: relative;
+  padding: 0 1.25rem;
+  overflow: hidden;
+}
+
+.CalendarItemDay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 100%;
+  color: var(--dark-gray-color);
+  font-size: 1.4rem;
+}
+
+.CalendarItemData {
+  width: 100%;
+  max-height: 8rem;
+  min-height: 6rem;
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: scroll;
+}
+
+.CalendarItemEvent {
+  outline: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.75rem 0;
+  color: var(--dark-purple-color);
+  text-transform: uppercase;
+  font-size: 1rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(181, 179, 181, 0.4);
+  }
+}
+
+.CurrentDay {
+  color: var(--tan-white-color);
+  background-color: var(--bright-red-color);
+}
+
+.Disabled {
+  background-color: rgba(181, 179, 181, 0.25);
+}

@@ -9,7 +9,7 @@ interface Props {
   cards: Array<{ title: string; url: string }>
 }
 
-const news: React.FC<Props> = (props) => {
+const News: React.FC<Props> = (props) => {
   return (
     <>
       <Head>
@@ -27,7 +27,7 @@ const news: React.FC<Props> = (props) => {
   )
 }
 
-export default news
+export default News
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
