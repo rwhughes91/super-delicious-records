@@ -155,44 +155,44 @@ const AboutUs: React.FC = () => {
         </TextBody>
         <SecondaryHeader>What are the advantages of working with a record label?</SecondaryHeader>
         <TextBody center>
-          There are several advantages to working with a label – here are 10 of them:
-        </TextBody>
-        <ul className={classes.List}>
-          {listItemText.map((listItem, i) => (
-            <li key={i}>
-              <div className={classes.ListItemContainer}>
-                <div
-                  className={classes.ListItem}
-                  onClick={() => onClickHandler(i)}
-                  onKeyPress={() => onClickHandler(i)}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <Triangle
-                    size="small"
-                    direction="right"
-                    styles={{
-                      borderLeftColor: 'var(--bright-blue-color)',
-                      transform: showListItem[i] ? 'rotate(90deg)' : '',
-                    }}
-                  />
-                  <div className={classes.ListTitle}>
-                    <TertiaryHeader styles={{ textAlign: 'left', margin: 0 }}>
-                      {listItem.title}
-                    </TertiaryHeader>
+          <span>There are several advantages to working with a label – here are 10 of them:</span>
+          <ul className={classes.List}>
+            {listItemText.map((listItem, i) => (
+              <li key={i}>
+                <div className={classes.ListItemContainer}>
+                  <div
+                    className={classes.ListItem}
+                    onClick={() => onClickHandler(i)}
+                    onKeyPress={() => onClickHandler(i)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <Triangle
+                      size="small"
+                      direction="right"
+                      styles={{
+                        borderLeftColor: 'var(--bright-blue-color)',
+                        transform: showListItem[i] ? 'rotate(90deg)' : '',
+                      }}
+                    />
+                    <div className={classes.ListTitle}>
+                      <TertiaryHeader styles={{ textAlign: 'left', margin: 0 }}>
+                        {listItem.title}
+                      </TertiaryHeader>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className={[classes.ListBody, showListItem[i] ? classes.Show : classes.Hide].join(
-                  ' '
-                )}
-              >
-                <TextBody center>{listItem.body}</TextBody>
-              </div>
-            </li>
-          ))}
-        </ul>
+                <div
+                  className={[classes.ListBody, showListItem[i] ? classes.Show : classes.Hide].join(
+                    ' '
+                  )}
+                >
+                  <TextBody center>{listItem.body}</TextBody>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </TextBody>
         <PrimaryHeader>Submission policy</PrimaryHeader>
         <SecondaryHeader>
           <p>

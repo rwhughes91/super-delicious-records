@@ -2,12 +2,16 @@ import classes from './TextBody.module.scss'
 
 interface Props {
   center?: boolean
+  styles?: React.CSSProperties
 }
 
 const Text: React.FC<Props> = (props) => (
-  <p style={{ textAlign: props.center ? 'center' : 'inherit' }} className={classes.Text}>
+  <div
+    style={{ ...props.styles, textAlign: props.center ? 'center' : 'inherit' }}
+    className={classes.Text}
+  >
     {props.children}
-  </p>
+  </div>
 )
 
 export default Text
