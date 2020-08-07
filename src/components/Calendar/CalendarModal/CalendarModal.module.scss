@@ -13,7 +13,7 @@
   justify-content: space-between;
   align-items: center;
   width: 45rem;
-  animation: slideDown 0.3s linear;
+  animation: slideDown 0.25s linear;
 }
 
 .Title {
@@ -44,22 +44,30 @@
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   font-size: 1.6rem;
   color: var(--dark-purple-color);
 }
 
 .SmallHeader {
-  color: var(--light-gray-color);
+  color: var(--dark-purple-color);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.8rem;
+
   &:not(:first-child) {
     margin-top: 1rem;
+  }
+
+  & span {
+    padding-left: 1.5rem;
   }
 }
 
 .AddToCalendar {
   color: var(--light-gray-color);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   text-align: center;
   margin: 1rem;
   margin-top: 1rem;

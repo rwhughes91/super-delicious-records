@@ -3,6 +3,9 @@ import { Props as CalendarListItemProps } from '../CalendarListItem/CalendarList
 import Backdrop from '../../UI/Backdrop/Backdrop'
 import AddToCalendarButton, { Event } from '../AddToCalendarButton/AddToCalendarButton'
 import { DateTime } from 'luxon'
+import CalendarIcon from '../../UI/Icons/CalendarIcon/CalendarIcon'
+import TimeIcon from '../../UI/Icons/TimeIcon/TimeIcon'
+import LocationIcon from '../../UI/Icons/LocationIcon/LocationIcon'
 
 interface Props extends CalendarListItemProps {
   onClick: () => void
@@ -51,14 +54,20 @@ const CalendarModal: React.FC<Props> = (props) => {
         {props.description && <div className={classes.Description}>{props.description}</div>}
         {props.url && <button className={classes.Link}>Read More</button>}
         <div className={classes.DateHeader}>
-          <div className={classes.SmallHeader}>Date:</div>
-          {props.date.toLocaleDateString()}
-          <div className={classes.SmallHeader}>Time:</div>
-          {formattedStartTime}
+          <div className={classes.SmallHeader}>
+            <CalendarIcon size={2.5} styles={{ color: 'var(--light-gray-color' }} />
+            <span>{props.date.toLocaleDateString()}</span>
+          </div>
+          <div className={classes.SmallHeader}>
+            <TimeIcon size={2.5} styles={{ color: 'var(--light-gray-color)' }} />
+            <span>{formattedStartTime}</span>
+          </div>
           {props.location && (
             <>
-              <div className={classes.SmallHeader}>Location:</div>
-              {props.location}
+              <div className={classes.SmallHeader}>
+                <LocationIcon size={2.5} styles={{ color: 'var(--light-gray-color)' }} />
+                <span>{props.location}</span>
+              </div>
             </>
           )}
         </div>
