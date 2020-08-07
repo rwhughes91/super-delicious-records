@@ -6,7 +6,7 @@ interface Props {
   color: 'purple' | 'white'
   size: 'small' | 'medium' | 'large'
   href?: string
-  onClick?: () => void
+  onClick?: (e?: React.SyntheticEvent) => void
 }
 
 const Button: React.FC<Props> = (props) => {

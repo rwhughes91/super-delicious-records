@@ -33,7 +33,13 @@ const Footer: React.FC = () => {
         <Logo width="6rem" height="5rem" />
         <div className={classes.FormContainer}>
           <p className={classes.FooterFormTitle}>Sign up for updates</p>
-          <form className={classes.FooterForm} id="footer-form">
+          <form
+            className={classes.FooterForm}
+            id="footer-form"
+            onSubmit={(e: React.SyntheticEvent) => {
+              e.preventDefault()
+            }}
+          >
             <FooterInput defaultValue="Your Name" />
             <FooterInput defaultValue="Your Email" />
             <div className={classes.ButtonGroup}>

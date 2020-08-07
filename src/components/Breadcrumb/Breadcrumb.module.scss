@@ -26,7 +26,8 @@
   cursor: pointer;
   transition: transform 0.1s;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--bright-red-color);
     transform: scale(1.2);
   }

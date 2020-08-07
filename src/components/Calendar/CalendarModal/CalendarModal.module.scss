@@ -91,7 +91,8 @@
   font-size: 1.6rem;
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--bright-red-color);
   }
 }

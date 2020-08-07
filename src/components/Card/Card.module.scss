@@ -14,7 +14,8 @@ $card-height: 35rem;
   margin: 1rem;
   transition: transform 0.2s;
 
-  &:hover {
+  &:hover,
+  &:focus {
     transform: scale(1.03);
   }
 }
