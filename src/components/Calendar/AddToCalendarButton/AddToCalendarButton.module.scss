@@ -1,0 +1,20 @@
+.AddToCalendarButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  align-items: center;
+  outline: none;
+  background: none;
+  border: none;
+  background-color: #b5b3b52b;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 100%;
+  cursor: pointer;
+  margin: 0 1rem;
+
+  &:hover {
+    background-color: #7b69912b;
+  }
+}

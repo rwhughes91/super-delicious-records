@@ -5,7 +5,7 @@
   width: 100%;
   visibility: hidden;
   background-color: var(--tan-white-color);
-  z-index: 100;
+  z-index: 999;
 }
 
 .SideNavBar {
@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 0.75rem 0 1rem;
-  z-index: 100;
+  z-index: 999;
 }
 
 .SecondaryNavBar {
@@ -26,7 +26,7 @@
   margin: 0 auto;
   background-color: var(--dark-purple-color);
   overflow: hidden;
-  z-index: 100;
+  z-index: 999;
   backface-visibility: hidden;
   transform: translateZ(0) scale(1, 1);
 }

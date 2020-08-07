@@ -1,10 +1,8 @@
 import classes from './CalendarItem.module.scss'
+import { Props as CalendarListItemProps } from '../CalendarListItem/CalendarListItem'
+import CalendarEventItem from '../CalendarEventItem/CalendarEventItem'
 
-interface Event {
-  date: Date
-  title: string
-  description?: string
-}
+type Event = CalendarListItemProps
 
 interface Props {
   day: number
@@ -15,6 +13,7 @@ interface Props {
 
 const CalendarItem: React.FC<Props> = (props) => {
   const classNames = [classes.CalendarItemDay]
+
   if (props.currentDay) {
     classNames.push(classes.CurrentDay)
   }
@@ -27,11 +26,7 @@ const CalendarItem: React.FC<Props> = (props) => {
       <div className={classNames.join(' ')}>{props.day}</div>
       <div className={classes.CalendarItemData}>
         {props.events?.map((event, i) => {
-          return (
-            <button className={classes.CalendarItemEvent} key={i}>
-              {event.title}
-            </button>
-          )
+          return <CalendarEventItem key={i} {...event} />
         })}
       </div>
     </td>

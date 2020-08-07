@@ -4,6 +4,24 @@
   text-transform: uppercase;
   color: var(--dark-purple-color);
   margin: 1rem 0;
+  outline: none;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: 1px solid var(--tan-white-color);
+  border-radius: 3px;
+  padding-right: 3rem;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+
+    & .AddListItem {
+      background-color: var(--bright-red-color);
+    }
+  }
 }
 
 .DateContainer {
@@ -19,11 +37,19 @@
 }
 
 .TitleContainer {
+  height: 10rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 1rem;
+}
+
+.AddButtonContainer {
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .Month {
@@ -45,4 +71,19 @@
 
 .Time {
   color: var(--light-gray-color);
+  font-size: 1.5rem;
+}
+
+.AddListItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--tan-white-color);
+  background-color: var(--dark-purple-color);
+  border-radius: 100%;
+  height: 2.5rem;
+  width: 2.5rem;
+  border: none;
+  font-size: 1.4rem;
 }

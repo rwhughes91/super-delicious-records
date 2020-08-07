@@ -1,0 +1,106 @@
+.CalendarModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  background-color: var(--tan-white-color);
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 45rem;
+  animation: slideDown 0.3s linear;
+}
+
+.Title {
+  color: var(--dark-purple-color);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.Description {
+  color: var(--dark-purple-color);
+  font-size: 1.4rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.Link {
+  margin-top: 1rem;
+  color: var(--bright-blue-color);
+  font-size: 1.6em;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.DateHeader {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.6rem;
+  color: var(--dark-purple-color);
+}
+
+.SmallHeader {
+  color: var(--light-gray-color);
+  &:not(:first-child) {
+    margin-top: 1rem;
+  }
+}
+
+.AddToCalendar {
+  color: var(--light-gray-color);
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 1rem;
+  margin-top: 1rem;
+}
+
+.CalendarButtons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.Exit {
+  border: none;
+  outline: none;
+  background: none;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  color: var(--light-gray-color);
+  font-family: 'Open Sans Bold', 'Open Sans SemiBold', sans-serif;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--bright-red-color);
+  }
+}
+
+@media (max-width: 37em) {
+  .CalendarModal {
+    width: 90%;
+    max-width: 45rem;
+    margin: 0 auto;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translate(-50%, -200%);
+  }
+  100% {
+    transform: translateY(-50%, -50%);
+  }
+}

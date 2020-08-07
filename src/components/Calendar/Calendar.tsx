@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import classes from './Calendar.module.scss'
+import Media from 'react-media'
 import CalendarListItem from './CalendarListItem/CalendarListItem'
 import Triangle from '../UI/Triangle/Triangle'
 import CalendarIcon from '../UI/Icons/CalendarIcon/CalendarIcon'
 import ListIcon from '../UI/Icons/ListIcon/ListIcon'
 import CalendarItem from './CalendarItem/CalendarItem'
-import Media from 'react-media'
 
 const EventsCalendar: React.FC = () => {
   const [view, setView] = useState<'listView' | 'detailView'>('detailView')
@@ -15,48 +15,44 @@ const EventsCalendar: React.FC = () => {
       date: new Date('7/31/2020'),
       title: 'Glass Alice Signing',
       description: 'Glass Alice signs with Super Delicious Records',
+      url: 'some link',
     },
     {
       date: new Date('8/3/2020'),
       title: 'Glass Alice Signing',
       description: 'Glass Alice signs with Super Delicious Records',
+      url: 'some link',
     },
     {
       date: new Date('8/3/2020'),
       title: 'Glass Alice Signing',
       description: 'Glass Alice signs with Super Delicious Records',
+      url: 'some link',
     },
     {
       date: new Date('8/4/2020'),
       title: 'Glass Alice Signing',
       description: 'Glass Alice signs with Super Delicious Records',
+      url: 'some link',
     },
     {
-      date: new Date('8/18/2020'),
+      date: new Date('8/18/2020 4:00'),
       title: 'Dark Adder Re-Press',
-      description: `HYDRAFORM'S debut Dark Adder CD to be re-pressed`,
     },
     {
-      date: new Date('8/29/2020'),
+      date: new Date('8/29/2020 16:00'),
+      endDate: new Date('8/30/2020 20:00'),
       title: 'Tour Starts',
-      description: 'HYDRAFORM tour begins',
-      time: '4:00PM',
+      description: `HYDRAFORM tour begins!
+      The tour will begin in LA and end in New York. There will be 42 shows in just under 3 months.`,
+      location: 'Boulder, CO',
+      url: 'some link',
     },
   ])
 
   const dates = useMemo(() => getDates(startingDate.getFullYear(), startingDate.getMonth()), [
     startingDate,
   ])
-
-  const eventMonthsYear = useMemo(() => {
-    const months: number[] = []
-    for (const event of events) {
-      const month = event.date.getMonth()
-      if (months.indexOf(month) === -1) {
-        months.push(month)
-      }
-    }
-  }, [events])
 
   const onChangeMonthHandler = useCallback((direction: 'prev' | 'next') => {
     let newDate: Date
@@ -84,22 +80,25 @@ const EventsCalendar: React.FC = () => {
         return event.date >= new Date(new Date().toLocaleDateString()) ? (
           <CalendarListItem
             key={i}
-            month={MONTHSABB[event.date.getMonth()]}
-            day={event.date.getDate()}
-            year={event.date.getFullYear()}
+            date={event.date}
+            endDate={event.endDate ? event.endDate : undefined}
             title={event.title}
-            time={event.time}
+            description={event.description}
+            location={event.location ? event.location : undefined}
+            url={event.url ? event.url : undefined}
+            upcoming
           />
         ) : null
       } else {
         return event.date < new Date(new Date().toLocaleDateString()) ? (
           <CalendarListItem
             key={i}
-            month={MONTHSABB[event.date.getMonth()]}
-            day={event.date.getDate()}
-            year={event.date.getFullYear()}
+            date={event.date}
+            endDate={event.endDate ? event.endDate : undefined}
             title={event.title}
-            time={event.time}
+            description={event.description}
+            location={event.location ? event.location : undefined}
+            url={event.url ? event.url : undefined}
           />
         ) : null
       }
@@ -217,8 +216,8 @@ const EventsCalendar: React.FC = () => {
 
 export default React.memo(EventsCalendar)
 
-const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-const MONTHS = [
+export const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+export const MONTHS = [
   'January',
   'February',
   'March',
@@ -232,7 +231,7 @@ const MONTHS = [
   'November',
   'December',
 ]
-const MONTHSABB = [
+export const MONTHSABB = [
   'Jan',
   'Feb',
   'Mar',

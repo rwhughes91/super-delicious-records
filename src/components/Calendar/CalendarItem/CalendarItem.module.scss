@@ -33,22 +33,6 @@
   overflow: scroll;
 }
 
-.CalendarItemEvent {
-  outline: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  padding: 0.75rem 0;
-  color: var(--dark-purple-color);
-  text-transform: uppercase;
-  font-size: 1rem;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid rgba(181, 179, 181, 0.4);
-  }
-}
-
 .CurrentDay {
   color: var(--tan-white-color);
   background-color: var(--bright-red-color);

@@ -46,7 +46,13 @@ const SideNav: React.FC<Props> = (props) => {
           </div>
         </CSSTransition>
       </div>
-      <Backdrop show={showModal} onClick={onClickHandler} top="46rem" left="0" />
+      <Backdrop
+        show={showModal}
+        onClick={onClickHandler}
+        top="46rem"
+        left="0"
+        styles={{ zIndex: 900 }}
+      />
     </>
   )
 }
