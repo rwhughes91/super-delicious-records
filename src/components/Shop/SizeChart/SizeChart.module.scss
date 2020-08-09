@@ -1,0 +1,47 @@
+.SizeChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--dark-purple-color);
+}
+
+.Title {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.Table {
+  font-size: 1.2rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+
+  & td {
+    // padding: 1rem;
+    border: 1px solid var(--light-gray-color);
+    width: 6rem;
+    height: 4rem;
+
+    &:first-child {
+      // padding: 1rem 0.3rem;
+    }
+  }
+}
+
+.Exit {
+  border: none;
+  outline: none;
+  background: none;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  color: var(--light-gray-color);
+  font-family: 'Open Sans Bold', 'Open Sans SemiBold', sans-serif;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: var(--bright-red-color);
+  }
+}

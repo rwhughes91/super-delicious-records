@@ -7,6 +7,7 @@ $purple-gradient: rgba(123, 105, 145, 0.3);
   border-radius: $border-radius;
   cursor: pointer;
   padding-top: 56.25%;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
 
   &::after {
     content: '';

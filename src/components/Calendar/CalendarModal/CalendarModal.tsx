@@ -1,11 +1,11 @@
+import { DateTime } from 'luxon'
 import classes from './CalendarModal.module.scss'
 import { Props as CalendarListItemProps } from '../CalendarListItem/CalendarListItem'
-import Backdrop from '../../UI/Backdrop/Backdrop'
 import AddToCalendarButton, { Event } from '../AddToCalendarButton/AddToCalendarButton'
-import { DateTime } from 'luxon'
 import CalendarIcon from '../../UI/Icons/CalendarIcon/CalendarIcon'
 import TimeIcon from '../../UI/Icons/TimeIcon/TimeIcon'
 import LocationIcon from '../../UI/Icons/LocationIcon/LocationIcon'
+import Modal from '../../UI/Modal/Modal'
 
 interface Props extends CalendarListItemProps {
   onClick: () => void
@@ -38,15 +38,14 @@ const CalendarModal: React.FC<Props> = (props) => {
     timezone: 'America/Denver',
   }
   return (
-    <>
-      <Backdrop
-        show
-        left="0"
-        top="0"
-        onClick={props.onClick}
-        styles={{ backgroundColor: 'rgba(0, 0, 0, .6)' }}
-      />
-      <div className={classes.CalendarModal}>
+    <Modal
+      show
+      left="0"
+      top="0"
+      onClick={props.onClick}
+      styles={{ backgroundColor: 'rgba(0, 0, 0, .6)' }}
+    >
+      <>
         <button className={classes.Exit} onClick={props.onClick}>
           X
         </button>
@@ -82,8 +81,8 @@ const CalendarModal: React.FC<Props> = (props) => {
             </div>
           </div>
         )}
-      </div>
-    </>
+      </>
+    </Modal>
   )
 }
 

@@ -8,6 +8,7 @@ import BreadCrumb from '../Breadcrumb/Breadcrumb'
 
 interface Props {
   pageType: 'home' | 'main'
+  currentPage?: string
 }
 
 const Layout: React.FC<Props> = (props) => {
@@ -29,7 +30,7 @@ const Layout: React.FC<Props> = (props) => {
         <>
           <main className={classes.Main}>
             <div>
-              <BreadCrumb>{['home']}</BreadCrumb>
+              <BreadCrumb currentPage={props.currentPage} />
             </div>
             {props.children}
           </main>

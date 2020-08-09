@@ -1,6 +1,6 @@
 import classes from './Backdrop.module.scss'
 
-interface Props {
+export interface Props {
   show: boolean
   left: string
   top: string

@@ -3,7 +3,7 @@ import Layout from '../components/Layout/Layout'
 import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import Calendar from '../components/Calendar/Calendar'
 
-const Events: React.FC = (props) => {
+const Events: React.FC = () => {
   return (
     <>
       <Head>

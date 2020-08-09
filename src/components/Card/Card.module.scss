@@ -2,7 +2,7 @@ $card-width: 30rem;
 $card-height: 35rem;
 
 .Card {
-  border-radius: 30px;
+  border-radius: 15px;
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -13,11 +13,6 @@ $card-height: 35rem;
   height: $card-height;
   margin: 1rem;
   transition: transform 0.2s;
-
-  &:hover,
-  &:focus {
-    transform: scale(1.03);
-  }
 }
 
 .CardTitle {
@@ -32,4 +27,13 @@ $card-height: 35rem;
   background-repeat: no-repeat;
   background-size: 175%;
   transition: all 0.4s;
+}
+
+@media (min-width: 56.26em) {
+  .Card {
+    &:hover,
+    &:focus {
+      transform: scale(1.03);
+    }
+  }
 }

@@ -1,0 +1,37 @@
+.ShopCarousel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ImageContainer {
+  overflow: hidden;
+  // box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+}
+
+.Carousel {
+  display: flex;
+  transition: transform 0.5s linear;
+  overflow-x: auto;
+}
+
+.Button {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin: 0.2rem;
+  border: 2px solid var(--tan-white-color);
+  border-radius: 3px;
+
+  &.Active {
+    border-bottom-color: var(--light-gray-color);
+  }
+}
+
+.ImagePreview {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
