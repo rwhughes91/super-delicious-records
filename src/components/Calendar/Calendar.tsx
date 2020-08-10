@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import classes from './Calendar.module.scss'
-import Media from 'react-media'
+import { useMedia } from 'react-media'
 import CalendarListItem from './CalendarListItem/CalendarListItem'
 import Triangle from '../UI/Triangle/Triangle'
 import CalendarIcon from '../UI/Icons/CalendarIcon/CalendarIcon'
@@ -10,6 +10,7 @@ import CalendarItem from './CalendarItem/CalendarItem'
 const EventsCalendar: React.FC = () => {
   const [view, setView] = useState<'listView' | 'detailView'>('detailView')
   const [startingDate, setStartingDate] = useState(new Date())
+  const isLargeScreen = useMedia({ query: '(min-width: 900px)' })
   const [events] = useState([
     {
       date: new Date('7/31/2020'),
@@ -187,10 +188,6 @@ const EventsCalendar: React.FC = () => {
 
   return (
     <>
-      <Media
-        query="(min-width: 900px)"
-        onChange={(matches) => setView(matches ? 'detailView' : 'listView')}
-      />
       <div className={classes.Calendar}>
         <div className={classes.IconContainer}>
           <CalendarIcon
@@ -208,7 +205,7 @@ const EventsCalendar: React.FC = () => {
             onClick={() => onChangeViewHandler('listView')}
           />
         </div>
-        {view === 'detailView' ? detailView : listView}
+        {isLargeScreen && view === 'detailView' ? detailView : listView}
       </div>
     </>
   )

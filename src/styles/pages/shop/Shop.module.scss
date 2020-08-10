@@ -1,8 +1,70 @@
+$columns: 3;
+
 .Shop {
   width: 100%;
   max-width: 110rem;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+@media (max-width: 56.25em) {
+  .Shop {
+    grid-template-columns: auto auto;
+  }
+}
+@media (max-width: 37em) {
+  .Shop {
+    grid-template-columns: auto;
+  }
+}
+
+.Filters {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 96%;
+  max-width: 135rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 56.25em) {
+  .Shop > div {
+    border-top: 1px solid var(--light-gray-color);
+    &:not(:nth-child(#{$columns - 1}n)) {
+      border-right: 1px solid var(--light-gray-color);
+    }
+    &:nth-child(-n + 2) {
+      border-top: none;
+    }
+  }
+}
+
+@media (max-width: 37em) {
+  .Shop > div {
+    width: 96%;
+    margin: 0 auto;
+    border: 1px solid var(--light-gray-color) !important;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (min-width: 56.26em) {
+  .Shop > div {
+    border-top: 1px solid var(--light-gray-color);
+
+    &:not(:nth-child(#{$columns}n)) {
+      border-right: 1px solid var(--light-gray-color);
+    }
+
+    &:nth-child(-n + 3) {
+      border-top: none;
+    }
+  }
+}
+
+@media (min-width: 37em) {
+  .Filters {
+    border-bottom: 1px solid var(--light-gray-color);
+  }
 }

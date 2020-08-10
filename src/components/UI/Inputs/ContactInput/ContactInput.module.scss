@@ -9,6 +9,7 @@ $input-color: var(--dark-purple-color);
   color: $input-color;
   border: 1px solid var(--light-gray-color);
   font-size: 1.2rem;
+  appearance: none;
 
   &::placeholder {
     color: var(--light-gray-color);

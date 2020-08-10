@@ -4,13 +4,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 4px;
   cursor: pointer;
   transition: transform 0.2s;
-  background-color: white;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-  margin: 1rem;
-  padding: 0.5rem;
 
   &:hover .Title,
   &:focus .Title {
@@ -22,32 +17,25 @@
   text-align: center;
   width: 100%;
   margin: 1rem 0;
+  margin-bottom: 0;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .Title {
   color: var(--dark-purple-color);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   text-transform: uppercase;
   transition: color 0.2s;
 }
 
 .Price {
-  color: var(--bright-red-color);
+  color: var(--dark-purple-color);
   font-size: 1.4rem;
 
   &::before {
     content: '$';
-  }
-}
-
-@media (min-width: 56.26em) {
-  .ShopItem {
-    &:hover,
-    &:focus {
-      transform: scale(1.03);
-    }
-    &:active {
-      transform: scale(1);
-    }
   }
 }

@@ -1,17 +1,24 @@
 $width: 100%;
 
 .ShopItemDetail {
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
-  height: 39rem;
+}
+
+.ShopItemDescriptionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 2rem;
 }
 
 .ShopItemDescription {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 25rem;
-  padding: 0 1rem;
+  width: 33rem;
 
   & form {
     display: flex;
@@ -20,9 +27,17 @@ $width: 100%;
   }
 }
 
+.Title {
+  color: var(--dark-purple-color);
+  font-size: 2.2rem;
+  white-space: nowrap;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
 .Price {
   color: var(--bright-red-color);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
 
   &:before {
     content: '$';
@@ -52,20 +67,6 @@ $width: 100%;
   }
 }
 
-.Dropdown {
-  width: $width;
-  background: none;
-  outline: none;
-  margin: 1rem auto;
-  border-radius: 3px;
-  height: 3.5rem;
-  padding: 0 0.5rem;
-  border: 1px solid var(--light-gray-color);
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  color: var(--dark-purple-color);
-}
-
 .Input {
   width: $width;
   outline: none;
@@ -76,8 +77,9 @@ $width: 100%;
   padding: 1rem 0.5rem;
   color: var(--dark-purple-color);
   border: 1px solid var(--light-gray-color);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   align-self: flex-start;
+  appearance: none;
 
   &::placeholder {
     color: var(--light-gray-color);
@@ -88,7 +90,20 @@ $width: 100%;
 .RelatedProducts {
   display: flex;
   justify-content: center;
-  align-items: center;
+  flex-wrap: nowrap;
+  width: 90%;
+  max-width: 100rem;
+  margin: 0 auto;
+  border-top: 1px solid var(--light-gray-color);
+
+  & > div {
+    border-right: 1px solid var(--light-gray-color);
+    padding: 1.5rem;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
 }
 
 .Button {
@@ -107,5 +122,63 @@ $width: 100%;
 
   &:disabled {
     cursor: not-allowed;
+  }
+}
+
+@media (max-width: 56.25em) {
+  .ShopItemDescription {
+    width: 100%;
+    max-width: 33rem;
+  }
+  .RelatedProducts {
+    overflow: scroll;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 45em) {
+  .ShopItemDetail {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ShopItemDescriptionContainer {
+    align-items: center;
+  }
+  .Price {
+    font-size: 2.2rem;
+    align-self: center;
+    margin-top: 1rem;
+  }
+  .ShopItemDescription {
+    width: 85%;
+
+    & select {
+      height: 4rem;
+    }
+  }
+  .Status {
+    font-size: 1.6rem;
+  }
+  .Input,
+  .Button {
+    height: 4rem;
+  }
+  .Title {
+    display: none;
+  }
+}
+
+@media (max-width: 18em) {
+  .ShopItemDescription {
+    max-width: 25rem;
+  }
+}
+
+@media (min-width: 45em) {
+  .PhoneHeader h1 {
+    display: none;
+  }
+  .ShopItemDescription {
+    padding: 3rem;
   }
 }

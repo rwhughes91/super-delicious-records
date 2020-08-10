@@ -1,6 +1,6 @@
 $icon-size: 1.8rem;
-$input-container: $icon-size * 1.8;
-$y-offset: $input-container / -4;
+$input-container: $icon-size * 2.2;
+$y-offset: $input-container / -3.5;
 $container-width: 21.5rem;
 $container-border-width: 25rem;
 
@@ -20,7 +20,7 @@ $container-border-width: 25rem;
 .InputContainer {
   position: absolute;
   top: $y-offset;
-  left: 2rem;
+  left: 2.5rem;
   height: $input-container;
   width: $container-width;
   padding-left: 0.5rem;

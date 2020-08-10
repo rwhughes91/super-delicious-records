@@ -7,7 +7,6 @@
 
 .ImageContainer {
   overflow: hidden;
-  // box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
 }
 
 .Carousel {
@@ -32,6 +31,14 @@
 
 .ImagePreview {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 21em) {
+  .ImagePreview {
+    overflow: scroll;
+    justify-content: flex-start;
+  }
 }

@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
             <FooterInput defaultValue="Your Name" />
             <FooterInput defaultValue="Your Email" />
             <div className={classes.ButtonGroup}>
-              <Button size="medium" color="white">
+              <Button size="large" color="white">
                 Sign Up
               </Button>
             </div>
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
           {icons('large')}
         </div>
         <div className={[classes.IconContainer, classes.IconContainerSmall].join(' ')}>
-          {icons('small')}
+          {icons('large')}
         </div>
       </div>
     </div>

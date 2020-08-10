@@ -3,6 +3,7 @@ export interface Props {
   imageUrl: string
   imageSetUrl: string
   alt: string
+  fixed?: boolean
 }
 
 const ShopImage: React.FC<Props> = (props) => {
@@ -11,7 +12,7 @@ const ShopImage: React.FC<Props> = (props) => {
       src={props.imageUrl}
       srcSet={props.imageSetUrl}
       alt={props.alt}
-      sizes={`(max-width: ${props.size}) 100vw, ${props.size}`}
+      sizes={props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`}
     />
   )
 }

@@ -8,6 +8,7 @@ import ShopItem from '../../components/Shop/ShopItem/ShopItem'
 import ShopCarousel from '../../components/Shop/ShopCarousel/ShopCarousel'
 import SizeChart from '../../components/Shop/SizeChart/SizeChart'
 import ProductDescription from '../../components/Shop/ProductDescription/ProductDescription'
+import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
 
 interface Props {
   pid: string
@@ -93,10 +94,17 @@ const ShopItemDetail: React.FC<Props> = (props) => {
       imageSetUrl: props.imageSetUrl,
       alt: 't-shirt',
     },
+    {
+      imageUrl: props.imageUrl,
+      imageSetUrl: props.imageSetUrl,
+      alt: 't-shirt',
+    },
   ]
+  const relatedImages = [props, props, props, props]
 
   const [formState, formDispatch] = useReducer(reducer, initialState)
   const [showModal, setShowModal] = useState(false)
+  // const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES })
 
   const onInputChangeHandler = (
     key: string,
@@ -105,69 +113,80 @@ const ShopItemDetail: React.FC<Props> = (props) => {
     formDispatch({ type: 'change', key: key, value: event.target.value })
   }
 
+  const onBlurChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    // Do something
+  }
+
   const onClickModalHandler = () => {
     setShowModal((prevState) => !prevState)
   }
 
-  const size = 300
+  const size = 425
+
   return (
     <>
       <Head>
         <title>Shop | Super Delicious Records</title>
       </Head>
       <Layout pageType="main" currentPage={props.name}>
-        <PrimaryHeader>{props.name}</PrimaryHeader>
+        <div className={classes.PhoneHeader}>
+          <PrimaryHeader>{props.name}</PrimaryHeader>
+        </div>
         <div className={classes.ShopItemDetail}>
           <ShopCarousel size={size} images={images} />
-          <div style={{ height: size }} className={classes.ShopItemDescription}>
-            <div className={classes.Price}>{props.price}</div>
-            <form>
-              <select
-                className={classes.Dropdown}
-                name="size"
-                id="size"
-                value={formState.size.value}
-                onBlur={(event) => onInputChangeHandler('size', event)}
-                onChange={(event) => onInputChangeHandler('size', event)}
-              >
-                <option disabled value="size">
-                  Select a size
-                </option>
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-              </select>
-              <select
-                className={classes.Dropdown}
-                name="color"
-                id="color"
-                value={formState.color.value}
-                onBlur={(event) => onInputChangeHandler('color', event)}
-                onChange={(event) => onInputChangeHandler('color', event)}
-              >
-                <option disabled value="color">
-                  Select a color
-                </option>
-                <option value="green">green</option>
-                <option value="red">red</option>
-                <option value="blue">blue</option>
-              </select>
-              <input
-                type="number"
-                step="1"
-                min="1"
-                max="99"
-                inputMode="numeric"
-                className={classes.Input}
-                placeholder="Qty"
-                value={formState.qty.value}
-                onChange={(event) => onInputChangeHandler('qty', event)}
-              />
-              <button className={classes.Button} disabled={!formState.formIsValid}>
-                Add to Cart
-              </button>
-            </form>
-            <div className={[classes.Status, classes.Available].join(' ')}>2 in stock</div>
+          <div
+            style={{ maxWidth: size, width: '100vw' }}
+            className={classes.ShopItemDescriptionContainer}
+          >
+            <div className={classes.ShopItemDescription}>
+              <div className={classes.Title}>{props.name}</div>
+              <div className={classes.Price}>{props.price}</div>
+              <form>
+                <Dropdown
+                  value={formState.size.value}
+                  onBlur={onBlurChangeHandler}
+                  onChange={(event) => onInputChangeHandler('size', event)}
+                >
+                  <>
+                    <option disabled value="size">
+                      Select a size
+                    </option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </>
+                </Dropdown>
+                <Dropdown
+                  value={formState.color.value}
+                  onBlur={onBlurChangeHandler}
+                  onChange={(event) => onInputChangeHandler('color', event)}
+                >
+                  <>
+                    <option disabled value="color">
+                      Select a color
+                    </option>
+                    <option value="green">green</option>
+                    <option value="red">red</option>
+                    <option value="blue">blue</option>
+                  </>
+                </Dropdown>
+                <input
+                  type="number"
+                  step="1"
+                  min="1"
+                  max="99"
+                  inputMode="numeric"
+                  className={classes.Input}
+                  placeholder="Qty"
+                  value={formState.qty.value}
+                  onChange={(event) => onInputChangeHandler('qty', event)}
+                />
+                <button className={classes.Button} disabled={!formState.formIsValid}>
+                  Add to Cart
+                </button>
+              </form>
+              <div className={[classes.Status, classes.Available].join(' ')}>2 in stock</div>
+            </div>
           </div>
         </div>
         <ProductDescription
@@ -177,13 +196,11 @@ const ShopItemDetail: React.FC<Props> = (props) => {
           sleeves add more durability to what is sure to be a favorite!"
           moreInfo="Weight: 1 pound"
         />
-        <div>
-          <PrimaryHeader>Related Products</PrimaryHeader>
-          <div className={classes.RelatedProducts}>
-            <ShopItem {...props} size="200px" />
-            <ShopItem {...props} size="200px" />
-            <ShopItem {...props} size="200px" />
-          </div>
+        <PrimaryHeader>Related Products</PrimaryHeader>
+        <div className={classes.RelatedProducts}>
+          {relatedImages.map((relatedImage, i) => {
+            return <ShopItem key={i} {...relatedImage} size="200px" />
+          })}
         </div>
         {showModal && <SizeChart onClick={onClickModalHandler} />}
       </Layout>
@@ -222,49 +239,49 @@ const items = [
   {
     pid: '1',
     name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.jpg',
+    imageUrl: '/shop/sdr-shop-item-small.png',
     imageSetUrl:
-      '/shop/sdr-shop-item-small.jpg 150w, /shop/sdr-shop-item-768.jpg 768w, /shop/sdr-shop-item.jpg 1000w',
+      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
     price: 14.99,
   },
   {
     pid: '2',
     name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.jpg',
+    imageUrl: '/shop/sdr-shop-item-small.png',
     imageSetUrl:
-      '/shop/sdr-shop-item-small.jpg 150w, /shop/sdr-shop-item-768.jpg 768w, /shop/sdr-shop-item.jpg 1000w',
+      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
     price: 14.99,
   },
   {
     pid: '3',
     name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.jpg',
+    imageUrl: '/shop/sdr-shop-item-small.png',
     imageSetUrl:
-      '/shop/sdr-shop-item-small.jpg 150w, /shop/sdr-shop-item-768.jpg 768w, /shop/sdr-shop-item.jpg 1000w',
+      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
     price: 14.99,
   },
   {
     pid: '4',
     name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.jpg',
+    imageUrl: '/shop/sdr-shop-item-small.png',
     imageSetUrl:
-      '/shop/sdr-shop-item-small.jpg 150w, /shop/sdr-shop-item-768.jpg 768w, /shop/sdr-shop-item.jpg 1000w',
+      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
     price: 14.99,
   },
   {
     pid: '5',
     name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.jpg',
+    imageUrl: '/shop/sdr-shop-item-small.png',
     imageSetUrl:
-      '/shop/sdr-shop-item-small.jpg 150w, /shop/sdr-shop-item-768.jpg 768w, /shop/sdr-shop-item.jpg 1000w',
+      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
     price: 14.99,
   },
   {
     pid: '6',
     name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.jpg',
+    imageUrl: '/shop/sdr-shop-item-small.png',
     imageSetUrl:
-      '/shop/sdr-shop-item-small.jpg 150w, /shop/sdr-shop-item-768.jpg 768w, /shop/sdr-shop-item.jpg 1000w',
+      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
     price: 14.99,
   },
 ]
