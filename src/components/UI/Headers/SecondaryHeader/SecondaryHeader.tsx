@@ -1,7 +1,13 @@
 import classes from './SecondaryHeader.module.scss'
 
-const SecondaryHeader: React.FC = (props) => (
-  <h2 className={classes.SecondaryHeader}>{props.children}</h2>
+interface Props {
+  styles?: React.CSSProperties
+}
+
+const SecondaryHeader: React.FC<Props> = (props) => (
+  <h2 style={props.styles} className={classes.SecondaryHeader}>
+    {props.children}
+  </h2>
 )
 
 export default SecondaryHeader

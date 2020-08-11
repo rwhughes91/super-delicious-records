@@ -5,6 +5,8 @@ import TertiaryHeader from '../UI/Headers/TertiaryHeader/TertiaryHeader'
 interface Props {
   title: string
   imageUrl: string
+  href: string
+  as?: string
 }
 
 const Card: React.FC<Props> = (props) => {
@@ -19,7 +21,7 @@ const Card: React.FC<Props> = (props) => {
           backgroundImage: `url(${props.imageUrl})`,
         }}
       />
-      <Button size="medium" color="purple">
+      <Button size="large" color="purple" href={props.href} as={props.as}>
         Read More
       </Button>
     </div>

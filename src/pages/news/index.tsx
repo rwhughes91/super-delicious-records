@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
-import classes from '../styles/pages/News.module.scss'
-import Layout from '../components/Layout/Layout'
-import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import Card from '../components/Card/Card'
+import classes from '../../styles/pages/news/News.module.scss'
+import Layout from '../../components/Layout/Layout'
+import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import Card from '../../components/Card/Card'
 
 interface Props {
-  cards: Array<{ title: string; url: string }>
+  cards: Array<{ pid: string; title: string; imageUrl: string }>
 }
 
 const News: React.FC<Props> = (props) => {
@@ -16,10 +16,16 @@ const News: React.FC<Props> = (props) => {
         <title>News | Super Delicious Records</title>
       </Head>
       <Layout pageType="main">
-        <PrimaryHeader>News</PrimaryHeader>
+        <PrimaryHeader>Latest News</PrimaryHeader>
         <div className={classes.Cards}>
           {props.cards.map((card, i) => (
-            <Card key={i} title={card.title} imageUrl={card.url} />
+            <Card
+              key={i}
+              title={card.title}
+              imageUrl={card.imageUrl}
+              href="/news/[pid]/"
+              as={`/news/${card.pid}`}
+            />
           ))}
         </div>
       </Layout>
@@ -34,16 +40,19 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       cards: [
         {
+          pid: '1',
           title: `Glass Alice signs with Super Delicious Records`,
-          url: '/news/glass-alice.png',
+          imageUrl: '/news/glass-alice.png',
         },
         {
+          pid: '2',
           title: `Super Delicious Records to re-press HYDRAFORM'S debut Dark Adder CD`,
-          url: '/news/hydraform-dark-adder.jpg',
+          imageUrl: '/news/hydraform-dark-adder.jpg',
         },
         {
+          pid: '3',
           title: `New merchandise is now available`,
-          url: '/news/merch.jpg',
+          imageUrl: '/news/merch.jpg',
         },
       ],
     },

@@ -6,6 +6,7 @@ interface Props {
   color: 'purple' | 'white'
   size: 'small' | 'medium' | 'large'
   href?: string
+  as?: string
   onClick?: (e?: React.SyntheticEvent) => void
 }
 
@@ -36,7 +37,7 @@ const Button: React.FC<Props> = (props) => {
   let childButton = <button className={classNames.join(' ')}>{props.children}</button>
   if (props.href) {
     childButton = (
-      <Link href={props.href}>
+      <Link href={props.href} as={props.as}>
         <button className={classNames.join(' ')}>{props.children}</button>
       </Link>
     )
