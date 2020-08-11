@@ -41,14 +41,6 @@
   margin-bottom: 2rem;
 }
 
-.Video {
-  height: 30rem;
-  width: 50rem;
-  border: 1px solid var(--tan-white-color);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
 .ButtonContainer {
   display: flex;
   flex-direction: column;
@@ -81,12 +73,5 @@
     align-items: center;
     text-align: center;
     margin: 0;
-  }
-}
-
-@media (max-width: 37em) {
-  .Video {
-    width: 100%;
-    max-width: 50rem;
   }
 }

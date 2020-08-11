@@ -2,14 +2,14 @@ import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import classes from '../../styles/pages/news/NewsItemDetail.module.scss'
 import Layout from '../../components/Layout/Layout'
-import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import Text from '../../components/UI/Text/Text'
 import SecondaryHeader from '../../components/UI/Headers/SecondaryHeader/SecondaryHeader'
 import Button from '../../components/UI/Button/Button'
+import Video from '../../components/UI/Video/Video'
 
 interface Video {
   src: string
-  header?: string
+  header: string
 }
 
 interface Link {
@@ -68,16 +68,7 @@ const NewsItemDetail: React.FC<Props> = (props) => {
               <SecondaryHeader styles={{ marginBottom: '2rem' }}>
                 {props.video.header}
               </SecondaryHeader>
-              <div className={classes.Video}>
-                <iframe
-                  src={props.video.src}
-                  frameBorder="0"
-                  title={props.video.header}
-                  width="100%"
-                  height="100%"
-                  allowFullScreen
-                ></iframe>
-              </div>
+              <Video src={props.video.src} title={props.video.header} />
             </>
           )}
         </div>

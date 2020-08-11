@@ -1,14 +1,21 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
-import classes from '../styles/pages/Artists.module.scss'
-import Layout from '../components/Layout/Layout'
-import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import Image from '../components/UI/Image/Image'
-import Button from '../components/UI/Button/Button'
-import TertiaryHeader from '../components/UI/Headers/TertiaryHeader/TertiaryHeader'
+import classes from '../../styles/pages/artists/Artists.module.scss'
+import Layout from '../../components/Layout/Layout'
+import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import Image from '../../components/UI/Image/Image'
+import Button from '../../components/UI/Button/Button'
+import TertiaryHeader from '../../components/UI/Headers/TertiaryHeader/TertiaryHeader'
+import Link from 'next/link'
 
 interface Props {
-  artists: Array<{ name: string; website: string; imageUrl: string; labelSide?: 'left' | 'right' }>
+  artists: Array<{
+    pid: string
+    name: string
+    website: string
+    imageUrl: string
+    labelSide?: 'left' | 'right'
+  }>
 }
 
 const Artists: React.FC<Props> = (props) => {
@@ -22,17 +29,19 @@ const Artists: React.FC<Props> = (props) => {
         <div className={classes.Images}>
           {props.artists.map((artist, i) => {
             return (
-              <div key={i} className={classes.ImageContainer}>
-                <Image
-                  height="300px"
-                  width="500px"
-                  src={artist.imageUrl}
-                  alt={`${artist.name}'s' image`}
-                  styles={{ margin: '1rem' }}
-                  label={artist.name}
-                  labelSide={artist.labelSide}
-                />
-              </div>
+              <Link key={i} href="/artists/[pid]" as={`/artists/${artist.pid}`}>
+                <div key={i} className={classes.ImageContainer}>
+                  <Image
+                    height="300px"
+                    width="500px"
+                    src={artist.imageUrl}
+                    alt={`${artist.name}'s' image`}
+                    styles={{ margin: '1rem' }}
+                    label={artist.name}
+                    labelSide={artist.labelSide}
+                  />
+                </div>
+              </Link>
             )
           })}
         </div>
@@ -56,12 +65,14 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       artists: [
         {
+          pid: '1',
           name: `Hydraform`,
           website: 'https://www.hydraformmusic.com/',
           imageUrl: '/artists/hydraform.jpg',
           labelSide: 'left',
         },
         {
+          pid: '2',
           name: `Glass Alice`,
           website: 'https://glassalicemusic.com/home',
           imageUrl: '/artists/glass-alice.png',

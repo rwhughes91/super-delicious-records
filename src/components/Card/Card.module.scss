@@ -2,13 +2,13 @@ $card-width: 30rem;
 $card-height: 35rem;
 
 .Card {
-  border-radius: 4px;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  box-shadow: 0 5px 10px var(--light-gray-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 3rem 0;
+  padding: 2rem 0;
   width: $card-width;
   height: $card-height;
   margin: 1rem;
@@ -17,6 +17,10 @@ $card-height: 35rem;
 
 .CardTitle {
   line-height: 1.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .CardImage {
@@ -36,4 +40,17 @@ $card-height: 35rem;
       transform: scale(1.03);
     }
   }
+}
+
+.Date {
+  font-size: 1.8rem;
+  margin-top: 1.5rem;
+  color: var(--dark-purple-color);
+}
+
+.Icons {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }

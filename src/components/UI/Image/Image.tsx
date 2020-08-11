@@ -5,7 +5,8 @@ interface Props {
   alt: string
   height?: string
   width?: string
-  label?: string
+  label?: string | JSX.Element[]
+  labelStyles?: React.CSSProperties
   labelSide?: 'left' | 'right'
   styles?: React.CSSProperties
 }
@@ -17,7 +18,7 @@ const Image: React.FC<Props> = (props) => {
   }
   return (
     <div className={classes.ImageContainer} style={{ ...props.styles, width: props.width }}>
-      <span style={{ justifyContent: position }} className={classes.Label}>
+      <span style={{ ...props.labelStyles, justifyContent: position }} className={classes.Label}>
         {props.label}
       </span>
       <img src={props.src} alt={props.alt} className={classes.Image} />

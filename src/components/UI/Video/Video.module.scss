@@ -1,0 +1,15 @@
+.Video {
+  height: 30rem;
+  width: 100%;
+  max-width: 50rem;
+  border: 1px solid var(--tan-white-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+@media (min-width: 37em) {
+  .Video {
+    width: 50rem;
+    max-width: none;
+  }
+}
