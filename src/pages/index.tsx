@@ -2,7 +2,6 @@ import Head from 'next/head'
 import classes from '../styles/pages/Home.module.scss'
 import Layout from '../components/Layout/Layout'
 import Button from '../components/UI/Button/Button'
-import ScrollWidget from '../components/UI/ScrollWidget/ScrollWidget'
 
 const HomePage: React.FC = () => {
   return (
@@ -23,9 +22,6 @@ const HomePage: React.FC = () => {
               Learn More
             </Button>
           </div>
-        </div>
-        <div className={classes.MouseContainer}>
-          <ScrollWidget />
         </div>
       </Layout>
     </>

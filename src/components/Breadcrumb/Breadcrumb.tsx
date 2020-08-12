@@ -19,6 +19,7 @@ const pathNames: Paths = {
   events: 'events',
   shop: 'shop',
   'contact-us': 'contact us',
+  cart: 'cart',
 }
 
 const Breadcrumb: React.FC<Props> = (props) => {

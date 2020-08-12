@@ -4,6 +4,7 @@ export interface Props {
   imageSetUrl: string
   alt: string
   fixed?: boolean
+  styles?: React.CSSProperties
 }
 
 const ShopImage: React.FC<Props> = (props) => {
@@ -12,6 +13,7 @@ const ShopImage: React.FC<Props> = (props) => {
       src={props.imageUrl}
       srcSet={props.imageSetUrl}
       alt={props.alt}
+      style={props.styles}
       sizes={props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`}
     />
   )

@@ -1,0 +1,22 @@
+$size: 18px;
+
+.CartIconContainer {
+  position: relative;
+}
+.CartNumber {
+  z-index: 10;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: $size;
+  height: $size;
+  border-radius: 100%;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--tan-white-color);
+  pointer-events: none;
+
+  background-color: var(--light-purple-color);
+}

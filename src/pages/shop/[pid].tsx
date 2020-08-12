@@ -10,7 +10,7 @@ import SizeChart from '../../components/Shop/SizeChart/SizeChart'
 import ProductDescription from '../../components/Shop/ProductDescription/ProductDescription'
 import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
 
-interface Props {
+export interface Props {
   pid: string
   name: string
   imageUrl: string

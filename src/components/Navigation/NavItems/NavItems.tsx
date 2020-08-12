@@ -1,6 +1,6 @@
 import classes from './NavItems.module.scss'
 import NavItem from './NavItem/NavItem'
-import CartIcon from '../../UI/Icons/CartIcon/CartIcon'
+import NavCartIcon from '../NavCartIcon/NavCartIcon'
 import NavSearchBar from '../NavSearchBar/NavSearchBar'
 
 interface Props {
@@ -17,15 +17,15 @@ const NavItems: React.FC<Props> = (props) => {
     navItems = (
       <>
         <NavSearchBar slide />
-        <NavItem location="/">
-          <CartIcon />
+        <NavItem location="/cart">
+          <NavCartIcon />
         </NavItem>
       </>
     )
   } else if (props.icons === 'cart') {
     navItems = (
-      <NavItem location="/" styles={{ width: '105%' }}>
-        <CartIcon size={3} />
+      <NavItem location="/cart" styles={{ width: '105%' }}>
+        <NavCartIcon size={3} />
       </NavItem>
     )
   } else {
@@ -56,8 +56,8 @@ const NavItems: React.FC<Props> = (props) => {
         </NavItem>
         {props.icons && (
           <>
-            <NavItem location="/">
-              <CartIcon />
+            <NavItem location="/cart">
+              <NavCartIcon />
             </NavItem>
             <NavSearchBar />
           </>
