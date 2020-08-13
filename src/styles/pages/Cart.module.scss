@@ -10,93 +10,6 @@ $max-width: 100rem;
   color: var(--dark-purple-color);
 }
 
-.CartItem {
-  border-bottom: 1px solid var(--light-gray-color);
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.Image {
-  width: 90%;
-  max-width: 20rem;
-  overflow: hidden;
-}
-
-.Title {
-  font-size: 3rem;
-}
-
-.DetailsContainer {
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 85%;
-  max-width: 40rem;
-  padding-left: 3rem;
-}
-
-.PriceContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  position: relative;
-}
-
-.RemoveButton {
-  outline: none;
-  background: none;
-  border: none;
-  color: var(--bright-red-color);
-  font-size: 1.6rem;
-  position: absolute;
-  top: 100%;
-  right: 0.25rem;
-  cursor: pointer;
-}
-
-.Price {
-  font-size: 2rem;
-  &::before {
-    content: '$';
-  }
-}
-
-.Qty {
-  outline: none;
-  border-radius: 3px;
-  padding-left: 1.5rem;
-  color: var(--dark-purple-color);
-  border: 1px solid var(--light-gray-color);
-  font-size: 1.6rem;
-  margin-top: 0.25rem;
-  appearance: none;
-  height: 4rem;
-  width: 4rem;
-
-  &::placeholder {
-    color: var(--light-gray-color);
-    text-transform: uppercase;
-  }
-}
-
-.QtyContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  position: relative;
-}
-
-.QtyTitle {
-  font-size: 1.6rem;
-  color: var(--light-purple-color);
-  position: absolute;
-  top: -2.5rem;
-}
-
 .CheckoutContainer {
   display: flex;
   flex-direction: column;
@@ -127,7 +40,7 @@ $max-width: 100rem;
   outline: none;
   background-color: var(--light-purple-color);
   border: none;
-  margin: 1rem 0;
+  margin-top: 1.5rem;
   border-radius: 3px;
   padding: 1rem 0.5rem;
   color: var(--tan-white-color);
@@ -160,32 +73,7 @@ $max-width: 100rem;
   font-family: 'Open Sans Regular', sans-serif;
 }
 
-.TitleLarge {
-  font-size: 2.6rem;
-  display: none;
-}
-
-@media (max-width: 15em) {
-  .QtyTitle {
-    top: 100%;
-  }
-}
-
 @media (min-width: 30em) {
-  .Title {
-    display: none;
-  }
-  .TitleLarge {
-    display: block;
-  }
-  .CartItem {
-    flex-direction: row;
-  }
-  .DetailsContainer {
-    max-width: none;
-    align-items: center;
-    height: 16rem;
-  }
   .Button {
     align-self: flex-end;
   }
@@ -194,8 +82,5 @@ $max-width: 100rem;
 @media (min-width: 50em) {
   .CheckoutSummaryContainer {
     width: 71rem;
-  }
-  .CartItem {
-    padding: 2rem 3rem;
   }
 }

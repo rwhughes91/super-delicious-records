@@ -1,5 +1,5 @@
 import classes from './Card.module.scss'
-import Button from '../UI/Button/Button'
+import Button from '../UI/Buttons/Button/Button'
 import TertiaryHeader from '../UI/Headers/TertiaryHeader/TertiaryHeader'
 
 interface Props {

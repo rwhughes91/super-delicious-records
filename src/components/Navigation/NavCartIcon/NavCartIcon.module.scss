@@ -11,12 +11,13 @@ $size: 18px;
   width: $size;
   height: $size;
   border-radius: 100%;
-  font-size: 12px;
+  font-size: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--tan-white-color);
   pointer-events: none;
+  font-family: 'Open Sans Bold', sans-serif;
 
-  background-color: var(--light-purple-color);
+  background-color: var(--bright-blue-color);
 }

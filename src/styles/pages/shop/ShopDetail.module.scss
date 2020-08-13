@@ -106,25 +106,6 @@ $width: 100%;
   }
 }
 
-.Button {
-  width: $width;
-  outline: none;
-  background-color: var(--light-purple-color);
-  border: none;
-  margin: 1rem auto;
-  border-radius: 3px;
-  height: 4rem;
-  padding: 1rem 0.5rem;
-  color: var(--tan-white-color);
-  font-size: 1.2rem;
-  cursor: pointer;
-  text-transform: uppercase;
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-}
-
 @media (max-width: 56.25em) {
   .ShopItemDescription {
     width: 100%;

@@ -1,6 +1,6 @@
 import classes from './Button.module.scss'
 import Link from 'next/link'
-import Triangle from '../Triangle/Triangle'
+import Triangle from '../../Triangle/Triangle'
 
 interface Props {
   color: 'purple' | 'white'
@@ -8,6 +8,7 @@ interface Props {
   href?: string
   as?: string
   onClick?: (e?: React.SyntheticEvent) => void
+  styles?: React.CSSProperties
 }
 
 const Button: React.FC<Props> = (props) => {
@@ -43,7 +44,7 @@ const Button: React.FC<Props> = (props) => {
     )
   }
   return (
-    <div className={classes.ButtonGroup}>
+    <div className={classes.ButtonGroup} style={props.styles}>
       <Triangle direction="left" size={size} />
       {childButton}
       <Triangle direction="right" size={size} />

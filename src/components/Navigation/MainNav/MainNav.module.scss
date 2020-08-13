@@ -18,11 +18,12 @@ $nav-height: 5rem;
   padding: $row-padding / 2 2rem;
   background-color: var(--tan-white-color);
   height: $nav-height;
+  margin-right: 1rem;
 }
 
 .SecondaryNavBar {
-  width: 15%;
-  max-width: 109.266px;
+  width: 20%;
+  max-width: 140px;
   min-width: 58px;
 }
 

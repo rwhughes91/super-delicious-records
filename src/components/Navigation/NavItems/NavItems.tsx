@@ -2,6 +2,7 @@ import classes from './NavItems.module.scss'
 import NavItem from './NavItem/NavItem'
 import NavCartIcon from '../NavCartIcon/NavCartIcon'
 import NavSearchBar from '../NavSearchBar/NavSearchBar'
+import ProfileIcon from '../../UI/Icons/ProfileIcon/ProfileIcon'
 
 interface Props {
   color: 'purple' | 'white'
@@ -17,6 +18,9 @@ const NavItems: React.FC<Props> = (props) => {
     navItems = (
       <>
         <NavSearchBar slide />
+        <NavItem location="/orders">
+          <ProfileIcon size={2} />
+        </NavItem>
         <NavItem location="/cart">
           <NavCartIcon />
         </NavItem>
@@ -24,9 +28,14 @@ const NavItems: React.FC<Props> = (props) => {
     )
   } else if (props.icons === 'cart') {
     navItems = (
-      <NavItem location="/cart" styles={{ width: '105%' }}>
-        <NavCartIcon size={3} />
-      </NavItem>
+      <div style={{ display: 'flex' }}>
+        <NavItem location="/orders" styles={{ marginRight: '2.5rem' }}>
+          <ProfileIcon size={3.4} />
+        </NavItem>
+        <NavItem location="/cart" styles={{ width: '105%' }}>
+          <NavCartIcon size={3} />
+        </NavItem>
+      </div>
     )
   } else {
     navItems = (

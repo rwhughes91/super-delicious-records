@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import classes from './Footer.module.scss'
 import Logo from '../UI/Logo/Logo'
-import Button from '../UI/Button/Button'
+import Button from '../UI/Buttons/Button/Button'
 import FooterNavItems from '../Navigation/FooterNavItems/FooterNavItems'
 import FooterInput from '../UI/Inputs/FooterInput/FooterInput'
 import FacebookIcon from '../UI/Icons/FacebookIcon/FacebookIcon'

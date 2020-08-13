@@ -9,6 +9,7 @@ import ShopCarousel from '../../components/Shop/ShopCarousel/ShopCarousel'
 import SizeChart from '../../components/Shop/SizeChart/SizeChart'
 import ProductDescription from '../../components/Shop/ProductDescription/ProductDescription'
 import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
+import FormButton from '../../components/UI/Buttons/FormButton/FormButton'
 
 export interface Props {
   pid: string
@@ -181,9 +182,7 @@ const ShopItemDetail: React.FC<Props> = (props) => {
                   value={formState.qty.value}
                   onChange={(event) => onInputChangeHandler('qty', event)}
                 />
-                <button className={classes.Button} disabled={!formState.formIsValid}>
-                  Add to Cart
-                </button>
+                <FormButton disabled={!formState.formIsValid}>Add to Cart</FormButton>
               </form>
               <div className={[classes.Status, classes.Available].join(' ')}>2 in stock</div>
             </div>

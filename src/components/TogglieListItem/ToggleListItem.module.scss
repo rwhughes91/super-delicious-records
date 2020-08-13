@@ -1,0 +1,62 @@
+.ToggleListItem {
+  display: block;
+  outline: none;
+  background: none;
+  border: none;
+  margin: 0 auto;
+  margin-top: 3rem;
+  overflow: hidden;
+  backface-visibility: hidden;
+  border-bottom: 1px solid var(--light-gray-color);
+
+  width: 90%;
+  max-width: 100rem;
+}
+
+.ToggleListItemTitle {
+  width: 100%;
+  height: 7rem;
+  background: none;
+  outline: none;
+  border: none;
+  border-top: 1px solid var(--light-gray-color);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.8rem;
+  color: var(--dark-purple-color);
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.SecondaryHeader {
+  width: 30%;
+  display: none;
+  text-align: left;
+  font-size: 1.8rem;
+}
+
+.Title {
+  width: 40%;
+  font-size: 1.8rem;
+  text-align: left;
+}
+
+.PlusIcon {
+  width: 40%;
+  text-align: right;
+  font-size: 2.2rem;
+}
+
+@media (min-width: 25em) {
+  .SecondaryHeader {
+    display: block;
+    text-align: center;
+  }
+  .Title {
+    width: 30%;
+  }
+  .PlusIcon {
+    width: 30%;
+  }
+}

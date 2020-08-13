@@ -4,7 +4,7 @@ import classes from '../../styles/pages/news/NewsItemDetail.module.scss'
 import Layout from '../../components/Layout/Layout'
 import Text from '../../components/UI/Text/Text'
 import SecondaryHeader from '../../components/UI/Headers/SecondaryHeader/SecondaryHeader'
-import Button from '../../components/UI/Button/Button'
+import Button from '../../components/UI/Buttons/Button/Button'
 import Video from '../../components/UI/Video/Video'
 
 interface Video {

@@ -2,10 +2,10 @@ import classes from '../styles/pages/Cart.module.scss'
 import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
 import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import ShopImage from '../components/Shop/ShopImage/ShopImage'
+import CartItem from '../components/Shop/CartItem/CartItem'
 import { Props as ShopItemProps } from './shop/[pid]'
 
-interface ShopItem {
+export interface ShopItem {
   item: ShopItemProps
   qty: number
 }
@@ -45,39 +45,7 @@ const Cart: React.FC = () => {
         <PrimaryHeader>Cart</PrimaryHeader>
         <div className={classes.Cart}>
           {cart.map((item, i) => {
-            return (
-              <div key={i} className={classes.CartItem}>
-                <div className={classes.Title}>{item.item.name}</div>
-                <div className={classes.Image}>
-                  <ShopImage
-                    size="100%"
-                    imageUrl={item.item.imageUrl}
-                    imageSetUrl={item.item.imageSetUrl}
-                    alt={item.item.name}
-                    styles={{ width: '100%', height: '100%' }}
-                  />
-                </div>
-                <div className={classes.DetailsContainer}>
-                  <div className={classes.TitleLarge}>{item.item.name}</div>
-                  <div className={classes.QtyContainer}>
-                    <span className={classes.QtyTitle}>Qty</span>
-                    <input
-                      className={classes.Qty}
-                      type="number"
-                      inputMode="numeric"
-                      step="1"
-                      min="1"
-                      max="99"
-                      value={item.qty}
-                    />
-                  </div>
-                  <div className={classes.PriceContainer}>
-                    <div className={classes.Price}>{item.item.price}</div>
-                    <button className={classes.RemoveButton}>Remove</button>
-                  </div>
-                </div>
-              </div>
-            )
+            return <CartItem key={i} {...item} />
           })}
           <div className={classes.CheckoutContainer}>
             <div className={classes.CheckoutSummaryContainer}>
@@ -103,5 +71,3 @@ const Cart: React.FC = () => {
 }
 
 export default Cart
-
-const cartItems = [{}]

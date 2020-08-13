@@ -1,6 +1,6 @@
 import classes from './ContactForm.module.scss'
 import ContactInput from '../UI/Inputs/ContactInput/ContactInput'
-import Button from '../UI/Button/Button'
+import Button from '../UI/Buttons/Button/Button'
 
 const ContactForm: React.FC = () => {
   const onSubmitHandler = (e: React.SyntheticEvent) => {

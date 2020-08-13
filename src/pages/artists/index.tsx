@@ -4,7 +4,7 @@ import classes from '../../styles/pages/artists/Artists.module.scss'
 import Layout from '../../components/Layout/Layout'
 import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import Image from '../../components/UI/Image/Image'
-import Button from '../../components/UI/Button/Button'
+import Button from '../../components/UI/Buttons/Button/Button'
 import TertiaryHeader from '../../components/UI/Headers/TertiaryHeader/TertiaryHeader'
 import Link from 'next/link'
 

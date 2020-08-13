@@ -10,7 +10,7 @@ interface Props {
   children: JSX.Element | string
   color?: 'purple' | 'white' | 'gray'
   ripple?: boolean
-  styles?: Styles
+  styles?: React.CSSProperties
 }
 
 const NavItem: React.FC<Props> = (props) => {

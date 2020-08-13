@@ -1,0 +1,9 @@
+.FormContainer {
+  padding-top: 5rem;
+}
+
+@media (min-width: 56.25em) {
+  .FormContainer {
+    padding-top: 0;
+  }
+}
