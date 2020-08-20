@@ -17,7 +17,11 @@ const NavItem: React.FC<Props> = (props) => {
   const router = useRouter()
 
   const classNames = [classes.NavItem]
-  if (props.location !== '/' && router.pathname.includes(props.location)) {
+  if (
+    props.location !== '/' &&
+    !router.pathname.includes('/admin') &&
+    router.pathname.includes(props.location)
+  ) {
     classNames.push(classes.Active)
   } else if (props.location === router.pathname) {
     classNames.push(classes.Active)

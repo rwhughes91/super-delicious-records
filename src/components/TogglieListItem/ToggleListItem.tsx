@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import classes from './ToggleListItem.module.scss'
 import AnimateHeight from 'react-animate-height'
-import SecondaryHeader from '../UI/Headers/SecondaryHeader/SecondaryHeader'
 
 interface Props {
   title: string

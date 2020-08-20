@@ -4,11 +4,17 @@ interface Props {
   children: string | JSX.Element
   disabled?: boolean
   styles?: React.CSSProperties
+  onClick?: () => void
 }
 
 const FormButton: React.FC<Props> = (props) => {
   return (
-    <button style={props.styles} disabled={props.disabled} className={classes.FormButton}>
+    <button
+      style={props.styles}
+      disabled={props.disabled}
+      className={classes.FormButton}
+      onClick={props.onClick}
+    >
       {props.children}
     </button>
   )

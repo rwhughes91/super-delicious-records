@@ -1,0 +1,25 @@
+.AdminFieldSetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.AppendButton {
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--light-purple-color);
+  font-size: 1.6rem;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.Relative {
+  position: relative;
+  top: 5.2rem;
+}
+
+.Title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}

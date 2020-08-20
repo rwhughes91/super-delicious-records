@@ -11,18 +11,18 @@ import YoutubeIcon from '../../components/UI/Icons/YoutubeIcon/YoutubeIcon'
 import AppleIcon from '../../components/UI/Icons/AppleIcon/AppleIcon'
 import Video from '../../components/UI/Video/Video'
 
-interface Intro {
+export interface Intro {
   header: string
   body: string
 }
 
-interface BandMember {
+export interface BandMember {
   name: string
   imageUrl: string
   instrument?: string
 }
 
-interface AlbumLink {
+export interface AlbumLink {
   website: string
   youtube: string
   spotify: string
@@ -30,19 +30,20 @@ interface AlbumLink {
   appleMusic?: string
 }
 
-interface Album {
+export interface Album {
   name: string
-  year: number
+  year: string
   imageUrl: string
   links: AlbumLink
 }
 
-interface Video {
+export interface Video {
   title: string
   src: string
 }
 
-interface Props {
+export interface Props {
+  pid: string
   name: string
   website: string
   imageUrl: string
@@ -97,6 +98,7 @@ const ArtistDetail: React.FC<Props> = (props) => {
                         src={member.imageUrl}
                         alt={member.name}
                         label={member.name}
+                        styles={{ cursor: 'auto' }}
                         labelStyles={{ color: 'var(--bright-red-color)', fontSize: '2rem' }}
                       />
                     </div>
@@ -247,8 +249,3 @@ const artists = [
     },
   },
 ]
-
-interface Video {
-  title: string
-  src: string
-}

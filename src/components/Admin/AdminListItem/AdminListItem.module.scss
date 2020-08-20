@@ -1,0 +1,22 @@
+.AdminListItem {
+  width: 100%;
+  border: none;
+  background: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--light-gray-color);
+  padding: 3rem;
+  color: var(--dark-purple-color);
+  font-size: 2rem;
+  cursor: pointer;
+
+  &:first-child {
+    border-top: 1px solid var(--light-gray-color);
+  }
+}
+
+.title {
+  margin-left: 3rem;
+  text-align: left;
+}

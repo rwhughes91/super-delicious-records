@@ -1,0 +1,58 @@
+.List {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  list-style: none;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.ListItem {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid var(--light-purple-color);
+  transition: border-color 0.1s;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &:not(:last-child):hover {
+    border-right-color: var(--bright-red-color);
+  }
+}
+
+.Button {
+  font-size: 1.8rem;
+  outline: none;
+  background: none;
+  border: none;
+  color: var(--light-purple-color);
+  font-family: 'Open Sans Regular';
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.1);
+    color: var(--bright-red-color);
+  }
+  &:active {
+    transform: scale(1);
+  }
+}
+
+.Title {
+  max-width: 75rem;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: var(--dark-gray-color);
+  text-transform: uppercase;
+  font-size: 1.8rem;
+}

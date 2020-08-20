@@ -2,6 +2,33 @@
   padding-top: 5rem;
 }
 
+.AdminButton {
+  margin: 0 auto;
+  max-width: 55rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+
+  & button {
+    outline: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    font-size: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: var(--light-purple-color);
+
+    &:hover {
+      color: var(--bright-red-color);
+    }
+  }
+}
+
 @media (min-width: 56.25em) {
   .FormContainer {
     padding-top: 0;

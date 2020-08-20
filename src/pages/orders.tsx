@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import classes from '../styles/pages/Orders.module.scss'
 import Layout from '../components/Layout/Layout'
 import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
@@ -32,6 +33,11 @@ const OrdersList: React.FC = () => {
     output = (
       <>
         <PrimaryHeader>Orders</PrimaryHeader>
+        <div className={classes.AdminButton}>
+          <Link href="/admin">
+            <button>Go to Admin</button>
+          </Link>
+        </div>
         <div>
           {orders.map((order, i) => {
             let style = {}

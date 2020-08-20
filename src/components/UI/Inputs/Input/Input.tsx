@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 interface Props {
   defaultValue?: string
+  onChange?: (value: string) => void
   styles?: React.CSSProperties
   classNames?: string
   type?: 'input' | 'textarea'
@@ -13,7 +14,9 @@ const Input: React.FC<Props> = (props) => {
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setValue(event.target.value)
+    props.onChange ? props.onChange(event.target.value) : ''
   }
+
   const classNames = [classes.Input]
   if (props.classNames) {
     classNames.push(props.classNames)
