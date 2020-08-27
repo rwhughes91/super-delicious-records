@@ -3,6 +3,7 @@ import NavItem from './NavItem/NavItem'
 import NavCartIcon from '../NavCartIcon/NavCartIcon'
 import NavSearchBar from '../NavSearchBar/NavSearchBar'
 import ProfileIcon from '../../UI/Icons/ProfileIcon/ProfileIcon'
+import UserToolTip from '../../UserToolTip/UserToolTip'
 
 interface Props {
   color: 'purple' | 'white'
@@ -18,10 +19,8 @@ const NavItems: React.FC<Props> = (props) => {
     navItems = (
       <>
         <NavSearchBar slide />
-        <NavItem location="/orders">
-          <ProfileIcon size={2} />
-        </NavItem>
-        <NavItem location="/cart">
+        <UserToolTip size={2} />
+        <NavItem location="/shop/cart">
           <NavCartIcon />
         </NavItem>
       </>
@@ -29,9 +28,7 @@ const NavItems: React.FC<Props> = (props) => {
   } else if (props.icons === 'cart') {
     navItems = (
       <div style={{ display: 'flex' }}>
-        <NavItem location="/orders" styles={{ marginRight: '2.5rem' }}>
-          <ProfileIcon size={3.4} />
-        </NavItem>
+        <UserToolTip size={3.4} styles={{ marginRight: '2.5rem' }} />
         <NavItem location="/cart" styles={{ width: '105%' }}>
           <NavCartIcon size={3} />
         </NavItem>
@@ -65,7 +62,7 @@ const NavItems: React.FC<Props> = (props) => {
         </NavItem>
         {props.icons && (
           <>
-            <NavItem location="/cart">
+            <NavItem location="/shop/cart">
               <NavCartIcon />
             </NavItem>
             <NavSearchBar />

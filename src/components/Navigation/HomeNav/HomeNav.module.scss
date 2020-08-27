@@ -1,7 +1,8 @@
 .Navbar {
-  width: 50%;
+  width: 65%;
   margin: 3rem auto;
   animation: slideDown 1.3s ease-out;
+  max-width: 75rem;
 }
 
 @keyframes slideDown {

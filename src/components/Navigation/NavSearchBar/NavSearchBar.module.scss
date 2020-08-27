@@ -2,7 +2,7 @@ $icon-size: 1.8rem;
 $input-container: $icon-size * 2.2;
 $y-offset: $input-container / -3.5;
 $container-width: 21.5rem;
-$container-border-width: 25rem;
+$container-border-width: 22rem;
 
 .Button {
   border: none;
@@ -42,6 +42,14 @@ $container-border-width: 25rem;
 
 .Slide {
   transform: translateX(-20rem);
+}
+
+@media (min-width: 65em) {
+  .InputContainer {
+    &:before {
+      width: 25rem;
+    }
+  }
 }
 
 @keyframes slideIn {

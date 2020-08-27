@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react'
+import { useReducer, useState, useCallback } from 'react'
 import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import classes from '../../styles/pages/shop/ShopDetail.module.scss'
@@ -10,6 +10,15 @@ import SizeChart from '../../components/Shop/SizeChart/SizeChart'
 import ProductDescription from '../../components/Shop/ProductDescription/ProductDescription'
 import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
 import FormButton from '../../components/UI/Buttons/FormButton/FormButton'
+import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Input/Input'
+import ContactInput from '../../components/UI/Inputs/ContactInput/ContactInput'
+import { cloneDeep } from 'lodash'
+
+interface FormControls {
+  size: InputProps
+  color: InputProps
+  qty: InputProps
+}
 
 export interface Props {
   pid: string
@@ -25,50 +34,24 @@ interface Action {
   value: string
 }
 
-interface InputState {
-  value: string
-  valid: boolean
-}
-
-interface State {
-  size: InputState
-  color: InputState
-  qty: InputState
-  formIsValid: boolean
-  [key: string]: InputState | boolean
-}
-
-const initialState: State = {
-  size: { value: 'size', valid: false },
-  color: { value: 'color', valid: false },
-  qty: { value: '1', valid: true },
-  formIsValid: false,
-}
-
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case 'change': {
-      const newState: State = {
-        ...state,
-        [action.key]: { value: action.value, valid: true },
-      }
-      let formIsValid = true
-      for (const key in newState) {
-        if (key === 'size' || key === 'color' || key === 'qty') {
-          formIsValid = newState[key].valid && formIsValid
-        }
-      }
-      return {
-        ...newState,
-        formIsValid,
-      }
-    }
-    default:
-      return state
-  }
+interface State extends FormControls {
+  formIsInvalid: boolean
+  [key: string]: InputProps | boolean
 }
 
 const ShopItemDetail: React.FC<Props> = (props) => {
+  const inputControls = cloneDeep(formControls)
+  const initialState: State = {
+    ...inputControls,
+    color: {
+      ...inputControls.color,
+      elementConfig: {
+        ...inputControls.color.elementConfig,
+        options: [{ value: 'green', displayValue: 'green' }],
+      },
+    },
+    formIsInvalid: true,
+  }
   const images = [
     {
       imageUrl: props.imageUrl,
@@ -105,22 +88,27 @@ const ShopItemDetail: React.FC<Props> = (props) => {
 
   const [formState, formDispatch] = useReducer(reducer, initialState)
   const [showModal, setShowModal] = useState(false)
-  // const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES })
 
-  const onInputChangeHandler = (
-    key: string,
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    formDispatch({ type: 'change', key: key, value: event.target.value })
-  }
+  const onInputChangeHandler = useCallback(
+    (key: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      formDispatch({ type: 'change', key: key, value: event.target.value })
+    },
+    []
+  )
 
   const onBlurChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     // Do something
   }
 
-  const onClickModalHandler = () => {
+  const onClickModalHandler = useCallback(() => {
     setShowModal((prevState) => !prevState)
-  }
+  }, [])
+
+  const onFormSubmitHandler = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    // locally store item with name, size, color, qty, price into a list of other items stored
+    // send this item to firebase --> cart via our api set up
+  }, [])
 
   const size = 425
 
@@ -142,47 +130,21 @@ const ShopItemDetail: React.FC<Props> = (props) => {
             <div className={classes.ShopItemDescription}>
               <div className={classes.Title}>{props.name}</div>
               <div className={classes.Price}>{props.price}</div>
-              <form>
+              <form onSubmit={onFormSubmitHandler}>
                 <Dropdown
-                  value={formState.size.value}
-                  onBlur={onBlurChangeHandler}
+                  {...formState.size}
                   onChange={(event) => onInputChangeHandler('size', event)}
-                >
-                  <>
-                    <option disabled value="size">
-                      Select a size
-                    </option>
-                    <option value="small">Small</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Large</option>
-                  </>
-                </Dropdown>
+                ></Dropdown>
                 <Dropdown
-                  value={formState.color.value}
-                  onBlur={onBlurChangeHandler}
+                  {...formState.color}
                   onChange={(event) => onInputChangeHandler('color', event)}
-                >
-                  <>
-                    <option disabled value="color">
-                      Select a color
-                    </option>
-                    <option value="green">green</option>
-                    <option value="red">red</option>
-                    <option value="blue">blue</option>
-                  </>
-                </Dropdown>
-                <input
-                  type="number"
-                  step="1"
-                  min="1"
-                  max="99"
-                  inputMode="numeric"
-                  className={classes.Input}
-                  placeholder="Qty"
-                  value={formState.qty.value}
+                ></Dropdown>
+                <ContactInput
+                  {...formState.qty}
+                  styles={{ width: '100%' }}
                   onChange={(event) => onInputChangeHandler('qty', event)}
                 />
-                <FormButton disabled={!formState.formIsValid}>Add to Cart</FormButton>
+                <FormButton disabled={formState.formIsInvalid}>Add to Cart</FormButton>
               </form>
               <div className={[classes.Status, classes.Available].join(' ')}>2 in stock</div>
             </div>
@@ -208,6 +170,76 @@ const ShopItemDetail: React.FC<Props> = (props) => {
 }
 
 export default ShopItemDetail
+
+const formControls: FormControls = {
+  size: {
+    value: '',
+    type: inputTypes.SELECT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Category',
+    elementConfig: {
+      placeholder: 'Category',
+      type: 'text',
+      options: [
+        { value: 'extraSmall', displayValue: 'X-Small' },
+        { value: 'small', displayValue: 'Small' },
+        { value: 'medium', displayValue: 'Medium' },
+        { value: 'large', displayValue: 'Large' },
+        { value: 'extraLarge', displayValue: 'X-Large' },
+      ],
+    },
+  },
+  color: {
+    value: '',
+    type: inputTypes.SELECT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Category',
+    elementConfig: {
+      placeholder: 'Category',
+      type: 'text',
+      options: [],
+    },
+  },
+  qty: {
+    value: '',
+    type: inputTypes.INPUT,
+    invalid: true,
+    touched: false,
+    errorMessage: '',
+    validation: { required: true },
+    elementConfig: {
+      placeholder: 'Qty',
+      type: 'number',
+    },
+  },
+}
+
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'change': {
+      const newState = {
+        ...state,
+        [action.key]: { ...(state[action.key] as InputProps), value: action.value, touched: true },
+      }
+      let formIsInvalid = false
+      for (const key in newState) {
+        if (key === 'qty' || key === 'color' || key === 'size') {
+          if (key === action.key) {
+            formIsInvalid = false || formIsInvalid
+          }
+          formIsInvalid = !newState[key].touched || formIsInvalid
+        }
+      }
+      return { ...newState, formIsInvalid }
+    }
+    default:
+      return state
+  }
+}
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const pid = context.params?.pid

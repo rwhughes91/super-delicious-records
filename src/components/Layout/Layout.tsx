@@ -5,6 +5,7 @@ import MainNav from '../Navigation/MainNav/MainNav'
 
 import Footer from '../Footer/Footer'
 import BreadCrumb from '../Breadcrumb/Breadcrumb'
+import UserProvider from '../../context/UserProvider'
 
 interface Props {
   pageType: 'home' | 'main'
@@ -16,6 +17,23 @@ const Layout: React.FC<Props> = (props) => {
   if (props.pageType === 'home') {
     navigation = <HomeNav />
   }
+
+  const output =
+    props.pageType === 'home' ? (
+      <main>{props.children}</main>
+    ) : (
+      <>
+        <main className={classes.Main}>
+          <div>
+            <BreadCrumb currentPage={props.currentPage} />
+          </div>
+          {props.children}
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+      </>
+    )
   return (
     <>
       <Head>
@@ -24,21 +42,7 @@ const Layout: React.FC<Props> = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>{navigation}</header>
-      {props.pageType === 'home' ? (
-        <main>{props.children}</main>
-      ) : (
-        <>
-          <main className={classes.Main}>
-            <div>
-              <BreadCrumb currentPage={props.currentPage} />
-            </div>
-            {props.children}
-          </main>
-          <footer>
-            <Footer />
-          </footer>
-        </>
-      )}
+      {output}
     </>
   )
 }

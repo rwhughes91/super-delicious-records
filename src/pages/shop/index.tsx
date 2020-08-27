@@ -6,6 +6,13 @@ import classes from '../../styles/pages/shop/Shop.module.scss'
 import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import ShopItem from '../../components/Shop/ShopItem/ShopItem'
 import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
+import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Input/Input'
+import { cloneDeep } from 'lodash'
+
+interface FormControls {
+  category: InputProps
+  sort: InputProps
+}
 
 interface Props {
   artists: string[]
@@ -13,6 +20,7 @@ interface Props {
 }
 
 const Shop: React.FC<Props> = (props) => {
+  const inputControls = cloneDeep(formControls)
   const [category, setCategory] = useState('category')
   const [sort, setSort] = useState('sort')
 
@@ -32,38 +40,10 @@ const Shop: React.FC<Props> = (props) => {
         <PrimaryHeader>Shop</PrimaryHeader>
         <div className={classes.Filters}>
           <div style={{ width: '45%', maxWidth: '25rem' }}>
-            <Dropdown value={category} onChange={onCategoryChange} onBlur={onCategoryChange}>
-              <>
-                <option disabled value="category">
-                  Category
-                </option>
-                <option value="hats">Hats</option>
-                <option value="shirts">Shirts</option>
-                <option value="swag">Swag</option>
-                <optgroup label="Artist's Products">
-                  {props.artists.map((artist, i) => {
-                    return (
-                      <option key={i} value={artist}>
-                        {artist}
-                      </option>
-                    )
-                  })}
-                </optgroup>
-              </>
-            </Dropdown>
+            <Dropdown {...inputControls.category}></Dropdown>
           </div>
           <div style={{ width: '45%', maxWidth: '25rem' }}>
-            <Dropdown value={sort} onChange={onSortChange} onBlur={onSortChange}>
-              <>
-                <option disabled value="sort">
-                  Sort by
-                </option>
-                <option value="popularity">Popularity</option>
-                <option value="latest">Latest</option>
-                <option value="priceHigh">Price (high to low)</option>
-                <option value="priceLow">Price (low to high)</option>
-              </>
-            </Dropdown>
+            <Dropdown {...inputControls.sort}></Dropdown>
           </div>
         </div>
         <div className={classes.Shop}>
@@ -77,6 +57,44 @@ const Shop: React.FC<Props> = (props) => {
 }
 
 export default Shop
+
+const formControls: FormControls = {
+  category: {
+    value: '',
+    type: inputTypes.SELECT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Category',
+    elementConfig: {
+      placeholder: 'Category',
+      type: 'text',
+      options: [
+        { value: 'hats', displayValue: 'Hats' },
+        { value: 'shirts', displayValue: 'Shirts' },
+        { value: 'swag', displayValue: 'Swag' },
+      ],
+    },
+  },
+  sort: {
+    value: '',
+    type: inputTypes.SELECT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Sort',
+    elementConfig: {
+      placeholder: 'Sort',
+      type: 'text',
+      options: [
+        { value: 'popular', displayValue: 'Popular' },
+        { value: 'latest', displayValue: 'Latest' },
+        { value: 'priceHigh', displayValue: 'Price (High)' },
+        { value: 'priceLow', displayValue: 'Price (Low)' },
+      ],
+    },
+  },
+}
 
 export const getStaticProps: GetStaticProps = async () => {
   return {

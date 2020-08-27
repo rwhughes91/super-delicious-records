@@ -1,9 +1,22 @@
+.InputContainer {
+  & textarea {
+    resize: vertical;
+  }
+}
+
 .Input {
   outline: none;
   border: none;
   background: none;
-
+  appearance: none;
   &:focus {
     outline: none;
   }
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.Invalid {
+  color: var(--bright-red-color);
 }

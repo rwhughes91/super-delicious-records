@@ -54,7 +54,9 @@ const NewsItemDetail: React.FC<Props> = (props) => {
                 props.links.map((link, i) => {
                   return (
                     <div key={i} className={classes.ButtonContainer}>
-                      <Text styles={{ marginBottom: '2rem' }}>{link.header}</Text>
+                      <Text styles={{ marginBottom: '2rem', fontFamily: 'Open Sans SemiBold' }}>
+                        {link.header}
+                      </Text>
                       <Button color="purple" size="large" href={link.src}>
                         {link.buttonText}
                       </Button>

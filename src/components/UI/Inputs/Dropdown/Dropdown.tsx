@@ -1,20 +1,15 @@
 import classes from './Dropdown.module.scss'
-
-interface Props {
-  children: JSX.Element
-  value: string
-  onBlur: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-}
+import Input, { Props, inputTypes } from '../Input/Input'
 
 const Dropdown: React.FC<Props> = (props) => {
   return (
-    <div className={classes.DropdownContainer}>
-      <div className={classes.DropdownCaret} />
-      <select className={classes.Dropdown} {...props}>
-        {props.children}
-      </select>
-    </div>
+    <Input
+      {...props}
+      type={inputTypes.SELECT}
+      containerClassName={classes.DropdownContainer}
+      className={classes.Dropdown}
+      label={<div className={classes.DropdownCaret} />}
+    />
   )
 }
 

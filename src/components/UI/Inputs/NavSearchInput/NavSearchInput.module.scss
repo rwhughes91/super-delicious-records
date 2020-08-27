@@ -1,5 +1,10 @@
 $font-size: 1.4rem;
 
+.NavContainer {
+  width: 100%;
+  height: 100%;
+}
+
 .NavSearchInput {
   font-size: $font-size;
   color: var(--dark-purple-color);

@@ -21,3 +21,5 @@ const FormButton: React.FC<Props> = (props) => {
 }
 
 export default FormButton
+
+export const FormButtonClass = classes.FormButton

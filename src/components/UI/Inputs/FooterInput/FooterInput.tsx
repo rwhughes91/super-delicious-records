@@ -1,13 +1,16 @@
 import classes from './FooterInput.module.scss'
-import Input from '../Input/Input'
-
-interface Props {
-  defaultValue?: string
-  styles?: React.CSSProperties
-}
+import Input, { Props } from '../Input/Input'
 
 const FooterInput: React.FC<Props> = (props) => {
-  return <Input {...props} classNames={classes.FooterInput} />
+  return (
+    <Input
+      {...props}
+      className={classes.FooterInput}
+      containerClassName={classes.ContainerInput}
+      errorMessageClassName={classes.ErrorMessage}
+      invalidClassName={classes.Invalid}
+    />
+  )
 }
 
 export default FooterInput

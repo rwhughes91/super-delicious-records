@@ -1,6 +1,6 @@
 import classes from './CartItem.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
-import { ShopItem as CartItemProps } from '../../../pages/cart'
+import { ShopItem as CartItemProps } from '../../../pages/shop/cart'
 
 interface Props extends CartItemProps {
   styles?: React.CSSProperties

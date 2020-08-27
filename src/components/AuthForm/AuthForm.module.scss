@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   color: var(--dark-purple-color);
-  padding: 3rem 0;
+  padding: 3rem 1rem;
   position: relative;
   background-color: var(--tan-white-color);
 }
@@ -27,4 +27,11 @@
   width: 90%;
   text-align: center;
   text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.AuthErrorMessage {
+  color: var(--bright-red-color);
+  font-size: 1.2rem;
+  width: 90%;
 }

@@ -1,5 +1,5 @@
-$card-width: 30rem;
-$card-height: 35rem;
+$card-width: 35rem;
+$card-height: 40rem;
 
 .Card {
   border-radius: 30px;
@@ -8,11 +8,12 @@ $card-height: 35rem;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 0;
+  padding: 3rem 0;
   width: $card-width;
   height: $card-height;
   margin: 1rem;
   transition: transform 0.2s;
+  position: relative;
 }
 
 .CardTitle {
@@ -31,6 +32,10 @@ $card-height: 35rem;
   background-repeat: no-repeat;
   background-size: 175%;
   transition: all 0.4s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (min-width: 56.26em) {

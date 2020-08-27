@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import classes from './NavSearchBar.module.scss'
 import SearchIcon from '../../UI/Icons/SearchIcon/SearchIcon'
 import NavSearchInput from '../../UI/Inputs/NavSearchInput/NavSearchInput'
+import { inputTypes } from '../../UI/Inputs/Input/Input'
 
 interface Props {
   slide?: true
@@ -10,9 +11,9 @@ interface Props {
 const NavSearchBar: React.FC<Props> = (props) => {
   const [showInput, setShowInput] = useState(false)
 
-  const onClickHandler = () => {
+  const onClickHandler = useCallback(() => {
     setShowInput((prevState) => !prevState)
-  }
+  }, [])
 
   const classNames = [classes.NavSearchBar]
 
@@ -33,7 +34,11 @@ const NavSearchBar: React.FC<Props> = (props) => {
       </span>
       {showInput && (
         <div className={classes.InputContainer}>
-          <NavSearchInput defaultValue="search for a band" />
+          <NavSearchInput
+            value=""
+            type={inputTypes.INPUT}
+            elementConfig={{ type: 'text', placeholder: 'search for a band' }}
+          />
         </div>
       )}
     </div>

@@ -6,13 +6,18 @@ export interface Props {
   top: string
   onClick: () => void
   styles?: React.CSSProperties
+  classNames?: string
 }
 
 const Backdrop: React.FC<Props> = (props) => {
+  const classNames = [classes.Backdrop]
+  if (props.classNames) {
+    classNames.push(props.classNames)
+  }
   return props.show ? (
     <div
       style={{ ...props.styles, left: props.left, top: props.top }}
-      className={classes.Backdrop}
+      className={classNames.join(' ')}
       role="button"
       tabIndex={0}
       onClick={props.onClick}

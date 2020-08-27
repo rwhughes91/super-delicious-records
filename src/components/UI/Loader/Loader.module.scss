@@ -1,6 +1,6 @@
-$animationHeight: -1rem;
+$animationHeight: -0.75rem;
 $animationTiming: 3s;
-$circleSize: 14px;
+$circleSize: 12px;
 
 @mixin Circle {
   height: $circleSize;

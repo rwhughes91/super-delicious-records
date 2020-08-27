@@ -1,0 +1,125 @@
+.ToolTip {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ToolTipButton {
+  outline: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.Tool {
+  position: fixed;
+  top: 0;
+  right: 0;
+  max-width: 30rem;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--dark-purple-color);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 3rem;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2);
+  transition: right 0.2s;
+}
+
+.ToolItem {
+  color: var(--tan-white-color);
+  font-size: 2rem;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  margin-bottom: 0.5rem;
+  outline: none;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--transparent-tan-white-color);
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    color: var(--bright-red-color);
+  }
+
+  &:nth-child(2) {
+    border-top: 1px solid var(--transparent-tan-white-color);
+  }
+}
+
+.Header {
+  color: var(--transparent-tan-white-color);
+  font-size: 2rem;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 56.25em) {
+  .Dropdown {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .Ripple {
+    background-position: center;
+    transition: background 0.8s;
+
+    &:hover {
+      background: radial-gradient(circle, transparent 1%, var(--dark-purple-color) 1%) center/15000%;
+    }
+
+    &:active {
+      background-color: var(--transparent-tan-white-color);
+      background-size: 100%;
+      transition: background 0s;
+    }
+  }
+}
+
+@media (min-width: 56.25em) {
+  .Tool {
+    height: auto;
+    width: 30rem;
+    position: absolute;
+    top: 5rem;
+    right: -2rem;
+    background-color: var(--tan-white-color);
+    border-radius: 3px;
+    padding-bottom: 4rem;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: -1.25rem;
+      right: 2.3rem;
+      border-width: 7px;
+      border-style: solid;
+      border-color: transparent transparent var(--tan-white-color) transparent;
+    }
+  }
+  .ToolItem {
+    color: var(--dark-purple-color);
+    border-color: var(--light-gray-color);
+
+    &:nth-child(2) {
+      border-top: 1px solid var(--light-gray-color);
+    }
+  }
+
+  .Header {
+    color: var(--light-purple-color);
+    border-color: var(--light-purple-color);
+    margin-bottom: 2rem;
+  }
+  .SideBar {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

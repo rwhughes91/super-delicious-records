@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useContext, useState, useCallback, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import classes from '../styles/pages/Orders.module.scss'
-import Layout from '../components/Layout/Layout'
-import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import AuthForm from '../components/AuthForm/AuthForm'
-import ToggleListItem from '../components/TogglieListItem/ToggleListItem'
-import CartItem from '../components/Shop/CartItem/CartItem'
+import classes from '../../styles/pages/shop/Orders.module.scss'
+import Layout from '../../components/Layout/Layout'
+import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import AuthForm from '../../components/AuthForm/AuthForm'
+import ToggleListItem from '../../components/TogglieListItem/ToggleListItem'
+import CartItem from '../../components/Shop/CartItem/CartItem'
 import { ShopItem as ShopItemProps } from './cart'
+import { UserContext } from '../../context/UserProvider'
+import Loader from '../../components/UI/Loader/Loader'
 
 interface Order {
   pid: string
@@ -17,26 +19,41 @@ interface Order {
 }
 
 const OrdersList: React.FC = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false)
-  const [admin, setAdmin] = useState(false)
+  const userState = useContext(UserContext)
+  const [loading, setLoading] = useState(false)
 
-  const toggleSignIn = () => {
-    setIsSignedIn((prevState) => !prevState)
-  }
+  useEffect(() => {
+    if (userState.user && loading) {
+      setLoading(false)
+    }
+  }, [userState.user, loading])
+
+  const togglerLoadingHandler = useCallback(() => {
+    setLoading((prevState) => !prevState)
+  }, [])
 
   let output = (
     <div className={classes.FormContainer}>
-      <AuthForm onSubmit={toggleSignIn} />
+      <AuthForm onSubmit={togglerLoadingHandler} />
     </div>
   )
-  if (isSignedIn) {
+  if (userState.loading || loading) {
+    output = (
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem' }}>
+        <Loader />
+      </div>
+    )
+  }
+  if (userState.user) {
     output = (
       <>
         <PrimaryHeader>Orders</PrimaryHeader>
         <div className={classes.AdminButton}>
-          <Link href="/admin">
-            <button>Go to Admin</button>
-          </Link>
+          {userState.admin && (
+            <Link href="/admin">
+              <button>Go to Admin</button>
+            </Link>
+          )}
         </div>
         <div>
           {orders.map((order, i) => {
