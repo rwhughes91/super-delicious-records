@@ -6,7 +6,9 @@ import {
   Arg,
   Mutation,
   InputType,
+  UseMiddleware,
 } from 'type-graphql'
+import { isAdmin } from '../../middleware/resolver/isAdmin'
 import { Video, VideoInput } from '../types'
 import { pushDataToDatabase } from '../../services/firebase/admin'
 import { shaveObject } from '../../utils/helpers'
@@ -191,7 +193,7 @@ const ArtistBaseResolver = createBaseResolver('Artist', Artist, '/artists')
 @Resolver(() => Artist)
 export default class ArtistsResolver extends ArtistBaseResolver {
   @Mutation(() => String)
-  // @UseMiddleware(isAdmin)
+  @UseMiddleware(isAdmin)
   async createArtist(@Arg('data') data: ArtistInput): Promise<string> {
     const artistInput = shaveObject(data)
     const newPid = await pushDataToDatabase<ArtistInput>('/artists', artistInput)

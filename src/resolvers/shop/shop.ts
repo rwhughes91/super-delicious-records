@@ -1,7 +1,26 @@
-import { ObjectType, Field, Resolver, Mutation, Arg, InputType, Int } from 'type-graphql'
+import {
+  ObjectType,
+  Field,
+  Resolver,
+  Mutation,
+  Arg,
+  InputType,
+  Int,
+  UseMiddleware,
+  registerEnumType,
+} from 'type-graphql'
+import { isAdmin } from '../../middleware/resolver/isAdmin'
 import { pushDataToDatabase } from '../../services/firebase/admin'
 import { shaveObject } from '../../utils/helpers'
 import createBaseResolver from '../baseResolver'
+
+enum Tag {
+  SHIRT = 'SHIRT',
+  HAT = 'HAT',
+  SWAG = 'SWAG',
+}
+
+registerEnumType(Tag, { name: 'Tag' })
 
 // Object Types
 @ObjectType()
@@ -38,6 +57,9 @@ class ShopItem {
 
   @Field(() => Int)
   qty!: number
+
+  @Field(() => Tag)
+  tag!: Tag
 }
 
 // Input Types
@@ -79,7 +101,7 @@ const ShopItemBaseResolver = createBaseResolver('Shop', ShopItem, '/shop')
 @Resolver(() => ShopItem)
 export default class ShopItemResolver extends ShopItemBaseResolver {
   @Mutation(() => String)
-  // @UseMiddleware(isAdmin)
+  @UseMiddleware(isAdmin)
   async createShopItem(@Arg('data') data: ShopItemInput): Promise<string> {
     const shopInput = shaveObject(data)
     const newPid = await pushDataToDatabase<ShopItemInput>('/shop', shopInput)

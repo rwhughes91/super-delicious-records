@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
+import { UserContext } from '../context/UserProvider'
 
 import { GET_NEWS_ITEM, GET_NEWS_ITEMS } from '../queries/news'
 
@@ -15,13 +16,15 @@ const HomePage: React.FC = () => {
   // }
   // const { data } = useSWR(GET_NEWS_ITEM, (query) => request('/api/graphql', query, variables))
 
+  const user = useContext(UserContext)
+
   return (
     <>
       <Head>
         <title>Super Delicious Records</title>
       </Head>
       <Layout pageType="main">
-        <div>test</div>
+        <div>{(user && user.user && user.user.uid) || 'Not Logged in'}</div>
       </Layout>
     </>
   )

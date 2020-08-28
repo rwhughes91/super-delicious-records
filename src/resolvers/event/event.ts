@@ -1,4 +1,5 @@
-import { ObjectType, Field, Resolver, Arg, Mutation, InputType } from 'type-graphql'
+import { ObjectType, Field, Resolver, Arg, Mutation, InputType, UseMiddleware } from 'type-graphql'
+import { isAdmin } from '../../middleware/resolver/isAdmin'
 import { pushDataToDatabase } from '../../services/firebase/admin'
 import { shaveObject } from '../../utils/helpers'
 import createBaseResolver from '../baseResolver'
@@ -52,7 +53,7 @@ const EventBaseResolver = createBaseResolver('Event', Event, '/events')
 @Resolver()
 export default class EventsResolver extends EventBaseResolver {
   @Mutation(() => String)
-  // @UseMiddleware(isAdmin)
+  @UseMiddleware(isAdmin)
   async createEvent(@Arg('data') data: EventInput): Promise<string> {
     const eventInput = shaveObject(data)
     const newPid = await pushDataToDatabase<EventInput>('/events', eventInput)
