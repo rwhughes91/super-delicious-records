@@ -1,6 +1,6 @@
 import { ObjectType, Field, Ctx, Resolver, Query, UseMiddleware } from 'type-graphql'
-import { ResolverContext } from '../types/resolver'
-import { isAuthenticated } from '../middleware/resolver/isAuthenticated'
+import { ResolverContext } from '../../types/resolver'
+import { isAuthenticated } from '../../middleware/resolver/isAuthenticated'
 
 @ObjectType()
 class User {

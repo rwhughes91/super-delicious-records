@@ -1,6 +1,14 @@
 import { NonEmptyArray } from 'type-graphql'
-import UserResolvers from './user'
-import NewsResolvers from './news'
-import ArtistResolvers from './artist'
+import UserResolvers from './user/user'
+import NewsResolvers from './news/news'
+import ArtistResolvers from './artist/artist'
+import EventResolvers from './event/event'
+import ShopResolvers from './shop/shop'
 
-export default [UserResolvers, NewsResolvers] as NonEmptyArray<Function>
+export default [
+  UserResolvers,
+  NewsResolvers,
+  ArtistResolvers,
+  EventResolvers,
+  ShopResolvers,
+] as NonEmptyArray<any>

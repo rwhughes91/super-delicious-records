@@ -3,13 +3,14 @@ import {
   Field,
   registerEnumType,
   Resolver,
-  Query,
   Arg,
   Mutation,
   InputType,
 } from 'type-graphql'
-import { getDataArray, getDataItem, pushDataToDatabase } from '../services/firebase/admin'
-import { shaveObject } from '../utils/helpers'
+import { Video, VideoInput } from '../types'
+import { pushDataToDatabase } from '../../services/firebase/admin'
+import { shaveObject } from '../../utils/helpers'
+import createBaseResolver from '../baseResolver'
 
 enum LabelSide {
   LEFT = 'left',
@@ -69,17 +70,8 @@ class Album {
   @Field()
   imageUrl!: string
 
-  @Field((type) => [AlbumLink])
+  @Field(() => [AlbumLink])
   links!: AlbumLink[]
-}
-
-@ObjectType()
-class Video {
-  @Field()
-  title!: string
-
-  @Field()
-  src!: string
 }
 
 @ObjectType()
@@ -96,19 +88,19 @@ class Artist {
   @Field()
   imageUrl!: string
 
-  @Field((type) => Intro)
+  @Field(() => Intro)
   introduction!: Intro
 
-  @Field((type) => LabelSide, { nullable: true })
+  @Field(() => LabelSide, { nullable: true })
   labelSide?: LabelSide
 
-  @Field((type) => [BandMember], { nullable: true })
+  @Field(() => [BandMember], { nullable: true })
   bandMembers?: BandMember[]
 
-  @Field((type) => [Album], { nullable: true })
+  @Field(() => [Album], { nullable: true })
   albums?: Album[]
 
-  @Field((type) => [Video], { nullable: true })
+  @Field(() => [Video], { nullable: true })
   videos?: Video[]
 }
 
@@ -163,17 +155,8 @@ class AlbumInput implements Partial<Album> {
   @Field()
   imageUrl!: string
 
-  @Field((type) => [AlbumLinkInput])
+  @Field(() => [AlbumLinkInput])
   links!: AlbumLinkInput[]
-}
-
-@InputType()
-class VideoInput implements Partial<Video> {
-  @Field()
-  title!: string
-
-  @Field()
-  src!: string
 }
 
 @InputType()
@@ -187,37 +170,26 @@ class ArtistInput implements Partial<Artist> {
   @Field()
   imageUrl!: string
 
-  @Field((type) => IntroInput)
+  @Field(() => IntroInput)
   introduction!: IntroInput
 
-  @Field((type) => LabelSide, { nullable: true })
+  @Field(() => LabelSide, { nullable: true })
   labelSide?: LabelSide
 
-  @Field((type) => [BandMemberInput], { nullable: true })
+  @Field(() => [BandMemberInput], { nullable: true })
   bandMembers?: BandMemberInput[]
 
-  @Field((type) => [AlbumInput], { nullable: true })
+  @Field(() => [AlbumInput], { nullable: true })
   albums?: AlbumInput[]
 
-  @Field((type) => [VideoInput], { nullable: true })
+  @Field(() => [VideoInput], { nullable: true })
   videos?: VideoInput[]
 }
 
+const ArtistBaseResolver = createBaseResolver('Artist', Artist, '/artists')
 // Resolver
-@Resolver()
-export default class ArtistsResolver {
-  @Query(() => [Artist])
-  async getArtists(): Promise<Artist[]> {
-    const artists = await getDataArray<Artist>('/artists')
-    return artists
-  }
-
-  @Query(() => Artist)
-  async getArtist(@Arg('pid') pid: string): Promise<Artist> {
-    const artist = await getDataItem<Artist>(`/artists/${pid}`)
-    return artist
-  }
-
+@Resolver(() => Artist)
+export default class ArtistsResolver extends ArtistBaseResolver {
   @Mutation(() => String)
   // @UseMiddleware(isAdmin)
   async createArtist(@Arg('data') data: ArtistInput): Promise<string> {
