@@ -10,9 +10,12 @@ export default async (
   context: ResolverContext,
   info: any
 ): Promise<any> => {
-  const authToken = context.req.headers.authorization || ''
+  let authToken = context.req.headers.authorization || ''
+  if (authToken) {
+    authToken = authToken.split(' ')[1]
+  }
   if (!authToken) {
-    // throw new AuthenticationError('Please sign in')
+    throw new AuthenticationError('Please sign in')
   } else {
     let me: User
     try {

@@ -7,16 +7,16 @@ import {
   Mutation,
   InputType,
   UseMiddleware,
+  Query,
+  Int,
 } from 'type-graphql'
 import { isAdmin } from '../../middleware/resolver/isAdmin'
 import { Video, VideoInput } from '../types'
-import { pushDataToDatabase } from '../../services/firebase/admin'
-import { shaveObject } from '../../utils/helpers'
-import createBaseResolver from '../baseResolver'
+import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
 
 enum LabelSide {
-  LEFT = 'left',
-  RIGHT = 'right',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
 }
 
 registerEnumType(LabelSide, { name: 'LabelSide' })
@@ -66,14 +66,14 @@ class Album {
   @Field()
   name!: string
 
-  @Field()
-  year!: string
+  @Field(() => Int)
+  year!: number
 
   @Field()
   imageUrl!: string
 
-  @Field(() => [AlbumLink])
-  links!: AlbumLink[]
+  @Field(() => AlbumLink)
+  links!: AlbumLink
 }
 
 @ObjectType()
@@ -151,14 +151,14 @@ class AlbumInput implements Partial<Album> {
   @Field()
   name!: string
 
-  @Field()
-  year!: string
+  @Field(() => Int)
+  year!: number
 
   @Field()
   imageUrl!: string
 
-  @Field(() => [AlbumLinkInput])
-  links!: AlbumLinkInput[]
+  @Field(() => AlbumLinkInput)
+  links!: AlbumLinkInput
 }
 
 @InputType()
@@ -188,15 +188,22 @@ class ArtistInput implements Partial<Artist> {
   videos?: VideoInput[]
 }
 
-const ArtistBaseResolver = createBaseResolver('Artist', Artist, '/artists')
 // Resolver
-@Resolver(() => Artist)
-export default class ArtistsResolver extends ArtistBaseResolver {
+@Resolver()
+export default class ArtistsResolver {
+  @Query(() => [Artist])
+  async getArtists(): Promise<Artist[]> {
+    return getDataArray<Artist>('/artists')
+  }
+
+  @Query(() => Artist)
+  async getArtist(@Arg('pid') pid: string): Promise<Artist> {
+    return getDataItem<Artist>(`/artists/${pid}`)
+  }
+
   @Mutation(() => String)
   @UseMiddleware(isAdmin)
   async createArtist(@Arg('data') data: ArtistInput): Promise<string> {
-    const artistInput = shaveObject(data)
-    const newPid = await pushDataToDatabase<ArtistInput>('/artists', artistInput)
-    return newPid || ''
+    return createDataItem('/artists', data)
   }
 }

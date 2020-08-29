@@ -8,11 +8,10 @@ import {
   Int,
   UseMiddleware,
   registerEnumType,
+  Query,
 } from 'type-graphql'
 import { isAdmin } from '../../middleware/resolver/isAdmin'
-import { pushDataToDatabase } from '../../services/firebase/admin'
-import { shaveObject } from '../../utils/helpers'
-import createBaseResolver from '../baseResolver'
+import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
 
 enum Tag {
   SHIRT = 'SHIRT',
@@ -39,7 +38,7 @@ class ShopImage {
 }
 
 @ObjectType()
-class ShopItem {
+export class ShopItem {
   @Field()
   pid!: string
 
@@ -55,8 +54,14 @@ class ShopItem {
   @Field()
   description!: string
 
+  @Field({ nullable: true })
+  moreInfo?: string
+
+  @Field({ nullable: true, defaultValue: 'No weight information available' })
+  weight?: string
+
   @Field(() => Int)
-  qty!: number
+  qtyAvailable!: number
 
   @Field(() => Tag)
   tag!: Tag
@@ -93,18 +98,34 @@ class ShopItemInput implements Partial<ShopItem> {
   description!: string
 
   @Field(() => Int)
-  qty!: number
+  qtyAvailable!: number
+
+  @Field(() => Tag)
+  tag!: Tag
+
+  @Field({ nullable: true })
+  moreInfo?: string
+
+  @Field({ nullable: true, defaultValue: 'No weight information available' })
+  weight?: string
 }
 
-const ShopItemBaseResolver = createBaseResolver('Shop', ShopItem, '/shop')
 // Resolver
 @Resolver(() => ShopItem)
-export default class ShopItemResolver extends ShopItemBaseResolver {
+export default class ShopItemResolver {
+  @Query(() => [ShopItem])
+  async getShop(): Promise<ShopItem[]> {
+    return getDataArray<ShopItem>('/shop')
+  }
+
+  @Query(() => ShopItem)
+  async getShopItem(@Arg('pid') pid: string): Promise<ShopItem> {
+    return getDataItem<ShopItem>(`/shop/${pid}`)
+  }
+
   @Mutation(() => String)
   @UseMiddleware(isAdmin)
   async createShopItem(@Arg('data') data: ShopItemInput): Promise<string> {
-    const shopInput = shaveObject(data)
-    const newPid = await pushDataToDatabase<ShopItemInput>('/shop', shopInput)
-    return newPid || ''
+    return createDataItem('/shop', data)
   }
 }

@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin'
 import firebaseServiceAccount from '../../../serviceAccount.json'
+import { shaveObject } from '../../utils/helpers'
 
 const serviceAccount = firebaseServiceAccount as admin.ServiceAccount
 
@@ -55,4 +56,10 @@ export async function getDataItem<T>(location: string): Promise<T> {
     })
   })
   return data
+}
+
+export async function createDataItem<T>(location: string, data: T): Promise<string> {
+  const shavedInput = shaveObject(data)
+  const newPid = await pushDataToDatabase<T>(location, shavedInput)
+  return newPid || ''
 }

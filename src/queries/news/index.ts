@@ -1,4 +1,6 @@
-export const GET_NEWS_ITEM = `
+import { gql } from 'graphql-request'
+
+export const GET_NEWS_ITEM = gql`
   query GetNewsItem($pid: String!) {
     getNewsItem(pid: $pid) {
       pid
@@ -9,7 +11,7 @@ export const GET_NEWS_ITEM = `
       date
       videos {
         src
-        header
+        title
       }
       links {
         header
@@ -20,7 +22,7 @@ export const GET_NEWS_ITEM = `
   }
 `
 
-export const GET_NEWS_ITEMS = `
+export const GET_NEWS_ITEMS = gql`
   query GetNewsItems {
     getNewsItems {
       pid
@@ -31,7 +33,7 @@ export const GET_NEWS_ITEMS = `
       date
       videos {
         src
-        header
+        title
       }
       links {
         header
@@ -39,5 +41,10 @@ export const GET_NEWS_ITEMS = `
         buttonText
       }
     }
+  }
+`
+export const CREATE_NEWS_ITEM = gql`
+  mutation CreateNewsItem($data: NewsInput!) {
+    createNewsItem(data: $data)
   }
 `

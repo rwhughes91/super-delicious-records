@@ -1,8 +1,15 @@
-import { ObjectType, Field, Resolver, Arg, Mutation, InputType, UseMiddleware } from 'type-graphql'
+import {
+  ObjectType,
+  Field,
+  Resolver,
+  Arg,
+  Mutation,
+  InputType,
+  UseMiddleware,
+  Query,
+} from 'type-graphql'
 import { isAdmin } from '../../middleware/resolver/isAdmin'
-import { pushDataToDatabase } from '../../services/firebase/admin'
-import { shaveObject } from '../../utils/helpers'
-import createBaseResolver from '../baseResolver'
+import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
 
 @ObjectType()
 class Event {
@@ -49,14 +56,21 @@ class EventInput implements Partial<Event> {
   location?: string
 }
 
-const EventBaseResolver = createBaseResolver('Event', Event, '/events')
 @Resolver()
-export default class EventsResolver extends EventBaseResolver {
+export default class EventsResolver {
+  @Query(() => [Event])
+  async getEvents(): Promise<Event[]> {
+    return getDataArray<Event>('/events')
+  }
+
+  @Query(() => Event)
+  async getEvent(@Arg('pid') pid: string): Promise<Event> {
+    return getDataItem<Event>(`/events/${pid}`)
+  }
+
   @Mutation(() => String)
   @UseMiddleware(isAdmin)
   async createEvent(@Arg('data') data: EventInput): Promise<string> {
-    const eventInput = shaveObject(data)
-    const newPid = await pushDataToDatabase<EventInput>('/events', eventInput)
-    return newPid || ''
+    return createDataItem('/events', data)
   }
 }

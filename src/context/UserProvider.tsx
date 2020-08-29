@@ -3,12 +3,14 @@ import { auth } from '../services/firebase/client'
 
 interface UserState {
   user: firebase.User | null
+  idToken: string | null
   admin: boolean
   loading: boolean
 }
 
 export const UserContext = React.createContext<UserState>({
   user: null,
+  idToken: null,
   admin: false,
   loading: true,
 })
@@ -16,6 +18,7 @@ export const UserContext = React.createContext<UserState>({
 const UserProvider: React.FC = (props) => {
   const [user, setUser] = useState<UserState>({
     user: null,
+    idToken: null,
     admin: false,
     loading: true,
   })
@@ -27,12 +30,14 @@ const UserProvider: React.FC = (props) => {
           if (idTokenResult.claims.admin) {
             setUser({
               user,
+              idToken: idTokenResult.token,
               admin: true,
               loading: false,
             })
           } else {
             setUser({
               user,
+              idToken: idTokenResult.token,
               admin: false,
               loading: false,
             })
@@ -41,6 +46,7 @@ const UserProvider: React.FC = (props) => {
       } else {
         setUser({
           user: null,
+          idToken: null,
           admin: false,
           loading: false,
         })

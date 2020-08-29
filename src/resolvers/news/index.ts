@@ -1,9 +1,16 @@
-import { ObjectType, Field, Resolver, Arg, Mutation, InputType, UseMiddleware } from 'type-graphql'
+import {
+  ObjectType,
+  Field,
+  Resolver,
+  Arg,
+  Mutation,
+  InputType,
+  UseMiddleware,
+  Query,
+} from 'type-graphql'
 import { isAdmin } from '../../middleware/resolver/isAdmin'
 import { Video, VideoInput } from '../types'
-import { pushDataToDatabase } from '../../services/firebase/admin'
-import { shaveObject } from '../../utils/helpers'
-import createBaseResolver from '../baseResolver'
+import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
 
 // Object Types
 @ObjectType()
@@ -59,7 +66,7 @@ class LinkInput implements Partial<Link> {
 }
 
 @InputType()
-class NewsInput implements Partial<NewsItem> {
+export class NewsInput implements Partial<NewsItem> {
   @Field()
   title!: string
 
@@ -82,16 +89,22 @@ class NewsInput implements Partial<NewsItem> {
   links?: LinkInput[]
 }
 
-// Creating base resolver
-const NewsBaseResolver = createBaseResolver('News', NewsItem, '/news')
 // Resolver
 @Resolver(() => NewsItem)
-export default class NewsResolver extends NewsBaseResolver {
+export default class NewsResolver {
+  @Query(() => [NewsItem])
+  async getNewsItems(): Promise<NewsItem[]> {
+    return getDataArray<NewsItem>('/news')
+  }
+
+  @Query(() => NewsItem)
+  async getNewsItem(@Arg('pid') pid: string): Promise<NewsItem> {
+    return getDataItem<NewsItem>(`/news/${pid}`)
+  }
+
   @Mutation(() => String)
   @UseMiddleware(isAdmin)
   async createNewsItem(@Arg('data') data: NewsInput): Promise<string> {
-    const newsInput = shaveObject(data)
-    const newPid = await pushDataToDatabase<NewsInput>('/news', newsInput)
-    return newPid || ''
+    return createDataItem('news', data)
   }
 }
