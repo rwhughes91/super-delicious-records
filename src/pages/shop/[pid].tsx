@@ -13,19 +13,14 @@ import FormButton from '../../components/UI/Buttons/FormButton/FormButton'
 import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Input/Input'
 import ContactInput from '../../components/UI/Inputs/ContactInput/ContactInput'
 import { cloneDeep } from 'lodash'
+import { getDataItem, getDataArray, getChildrenEqualTo } from '@services/firebase/admin'
+import * as typeDefs from '@generated/graphql'
+import { convertFieldsToParams } from '@utils/helpers'
 
 interface FormControls {
   size: InputProps
   color: InputProps
   qty: InputProps
-}
-
-export interface Props {
-  pid: string
-  name: string
-  imageUrl: string
-  imageSetUrl: string
-  price: number
 }
 
 interface Action {
@@ -39,6 +34,11 @@ interface State extends FormControls {
   [key: string]: InputProps | boolean
 }
 
+interface Props {
+  item: typeDefs.ShopItem
+  relatedProducts: typeDefs.ShopItem[]
+}
+
 const ShopItemDetail: React.FC<Props> = (props) => {
   const inputControls = cloneDeep(formControls)
   const initialState: State = {
@@ -47,44 +47,11 @@ const ShopItemDetail: React.FC<Props> = (props) => {
       ...inputControls.color,
       elementConfig: {
         ...inputControls.color.elementConfig,
-        options: [{ value: 'green', displayValue: 'green' }],
+        options: createColorOptions(props.item.colors),
       },
     },
     formIsInvalid: true,
   }
-  const images = [
-    {
-      imageUrl: props.imageUrl,
-      imageSetUrl: props.imageSetUrl,
-      alt: 't-shirt',
-    },
-    {
-      imageUrl: props.imageUrl,
-      imageSetUrl: props.imageSetUrl,
-      alt: 't-shirt',
-    },
-    {
-      imageUrl: props.imageUrl,
-      imageSetUrl: props.imageSetUrl,
-      alt: 't-shirt',
-    },
-    {
-      imageUrl: props.imageUrl,
-      imageSetUrl: props.imageSetUrl,
-      alt: 't-shirt',
-    },
-    {
-      imageUrl: props.imageUrl,
-      imageSetUrl: props.imageSetUrl,
-      alt: 't-shirt',
-    },
-    {
-      imageUrl: props.imageUrl,
-      imageSetUrl: props.imageSetUrl,
-      alt: 't-shirt',
-    },
-  ]
-  const relatedImages = [props, props, props, props]
 
   const [formState, formDispatch] = useReducer(reducer, initialState)
   const [showModal, setShowModal] = useState(false)
@@ -95,10 +62,6 @@ const ShopItemDetail: React.FC<Props> = (props) => {
     },
     []
   )
-
-  const onBlurChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    // Do something
-  }
 
   const onClickModalHandler = useCallback(() => {
     setShowModal((prevState) => !prevState)
@@ -117,19 +80,19 @@ const ShopItemDetail: React.FC<Props> = (props) => {
       <Head>
         <title>Shop | Super Delicious Records</title>
       </Head>
-      <Layout pageType="main" currentPage={props.name}>
+      <Layout pageType="main" currentPage={props.item.name}>
         <div className={classes.PhoneHeader}>
-          <PrimaryHeader>{props.name}</PrimaryHeader>
+          <PrimaryHeader>{props.item.name}</PrimaryHeader>
         </div>
         <div className={classes.ShopItemDetail}>
-          <ShopCarousel size={size} images={images} />
+          <ShopCarousel size={size} images={props.item.images} />
           <div
             style={{ maxWidth: size, width: '100vw' }}
             className={classes.ShopItemDescriptionContainer}
           >
             <div className={classes.ShopItemDescription}>
-              <div className={classes.Title}>{props.name}</div>
-              <div className={classes.Price}>{props.price}</div>
+              <div className={classes.Title}>{props.item.name}</div>
+              <div className={classes.Price}>{props.item.price}</div>
               <form onSubmit={onFormSubmitHandler}>
                 <Dropdown
                   {...formState.size}
@@ -146,21 +109,37 @@ const ShopItemDetail: React.FC<Props> = (props) => {
                 />
                 <FormButton disabled={formState.formIsInvalid}>Add to Cart</FormButton>
               </form>
-              <div className={[classes.Status, classes.Available].join(' ')}>2 in stock</div>
+              <div
+                className={[
+                  classes.Status,
+                  props.item.qtyAvailable > 0 ? classes.Available : classes.NotAvailable,
+                ].join(' ')}
+              >
+                {props.item.qtyAvailable > 0
+                  ? `${props.item.qtyAvailable} in stock`
+                  : 'Not in stock'}
+              </div>
             </div>
           </div>
         </div>
         <ProductDescription
           onClickModalHandler={onClickModalHandler}
-          description="You’ve now found the staple t-shirt of your wardrobe. It’s made of a thicker, heavier
-          cotton, but it’s still soft and comfy. And the double stitching on the neckline and
-          sleeves add more durability to what is sure to be a favorite!"
-          moreInfo="Weight: 1 pound"
+          description={props.item.description}
+          moreInfo={props.item.weight}
         />
         <PrimaryHeader>Related Products</PrimaryHeader>
         <div className={classes.RelatedProducts}>
-          {relatedImages.map((relatedImage, i) => {
-            return <ShopItem key={i} {...relatedImage} size="200px" />
+          {props.relatedProducts.map((relatedImage, i) => {
+            return (
+              <ShopItem
+                key={i}
+                pid={relatedImage.pid}
+                name={relatedImage.name}
+                price={relatedImage.price}
+                image={relatedImage.images[0]}
+                size="200px"
+              />
+            )
           })}
         </div>
         {showModal && <SizeChart onClick={onClickModalHandler} />}
@@ -218,6 +197,14 @@ const formControls: FormControls = {
   },
 }
 
+function createColorOptions(colors: string[]) {
+  const colorOptions = []
+  for (const color of colors) {
+    colorOptions.push({ value: color, displayValue: color })
+  }
+  return colorOptions
+}
+
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'change': {
@@ -243,76 +230,32 @@ const reducer = (state: State, action: Action) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const pid = context.params?.pid
-  const item = items.find((item) => item.pid === pid)
+  const shopItem = await getDataItem<typeDefs.ShopItem>(`/shop/${pid}`)
+  const relatedProducts = await getChildrenEqualTo<typeDefs.ShopItem>('/shop', 'tag', shopItem.tag)
+  const relatedProductsTrimmed = []
+  for (const relatedProduct of relatedProducts) {
+    if (relatedProduct.pid !== shopItem.pid) {
+      relatedProductsTrimmed.push({
+        pid: relatedProduct.pid,
+        name: relatedProduct.name,
+        price: relatedProduct.price,
+        images: [relatedProduct.images[0]],
+      })
+    }
+  }
   return {
     props: {
-      ...item,
+      item: shopItem,
+      relatedProducts: relatedProductsTrimmed,
     },
     revalidate: 1,
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const shop = await getDataArray<typeDefs.ShopItem>('/shop')
   return {
-    paths: [
-      { params: { pid: '1' } },
-      { params: { pid: '2' } },
-      { params: { pid: '3' } },
-      { params: { pid: '4' } },
-      { params: { pid: '5' } },
-      { params: { pid: '6' } },
-    ],
+    paths: convertFieldsToParams(['pid'], shop),
     fallback: false,
   }
 }
-
-const items = [
-  {
-    pid: '1',
-    name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    price: 14.99,
-  },
-  {
-    pid: '2',
-    name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    price: 14.99,
-  },
-  {
-    pid: '3',
-    name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    price: 14.99,
-  },
-  {
-    pid: '4',
-    name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    price: 14.99,
-  },
-  {
-    pid: '5',
-    name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    price: 14.99,
-  },
-  {
-    pid: '6',
-    name: `Super Delicious T-Shirt`,
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    price: 14.99,
-  },
-]

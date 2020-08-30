@@ -15,6 +15,9 @@ export const GET_SHOP_ITEM = gql`
       description
       qtyAvailable
       tag
+      moreInfo
+      weight
+      colors
     }
   }
 `
@@ -34,6 +37,9 @@ export const GET_SHOP = gql`
       description
       qtyAvailable
       tag
+      moreInfo
+      weight
+      colors
     }
   }
 `

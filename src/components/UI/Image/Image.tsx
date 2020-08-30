@@ -1,4 +1,5 @@
 import classes from './Image.module.scss'
+import * as typeDefs from '@generated/graphql'
 
 interface Props {
   src: string
@@ -7,7 +8,7 @@ interface Props {
   width?: string
   label?: string | JSX.Element[]
   labelStyles?: React.CSSProperties
-  labelSide?: 'left' | 'right'
+  labelSide?: 'left' | 'right' | typeDefs.LabelSide | null
   styles?: React.CSSProperties
 }
 

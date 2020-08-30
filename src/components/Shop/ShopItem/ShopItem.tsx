@@ -1,13 +1,11 @@
+import React from 'react'
 import classes from './ShopItem.module.scss'
 import Link from 'next/link'
 import ShopImage from '../ShopImage/ShopImage'
+import * as typeDefs from '@generated/graphql'
 
-interface Props {
-  pid: string
-  name: string
-  imageUrl: string
-  imageSetUrl: string
-  price: number
+interface Props extends Pick<typeDefs.ShopItem, 'pid' | 'name' | 'price'> {
+  image: typeDefs.ShopImage
   size?: string
 }
 
@@ -17,10 +15,10 @@ const ShopItem: React.FC<Props> = (props) => {
     <Link href="/shop/[pid]" as={`/shop/${props.pid}`}>
       <div className={classes.ShopItem}>
         <ShopImage
-          imageUrl={props.imageUrl}
-          imageSetUrl={props.imageSetUrl}
+          imageUrl={props.image.imageUrl}
+          imageSetUrl={props.image.imageSetUrl}
           size={size}
-          alt={props.name}
+          alt={props.image.alt}
         />
         <div className={classes.DetailsContainer}>
           <div className={classes.Title}>{props.name}</div>
@@ -31,4 +29,4 @@ const ShopItem: React.FC<Props> = (props) => {
   )
 }
 
-export default ShopItem
+export default React.memo(ShopItem)

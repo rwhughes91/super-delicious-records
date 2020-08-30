@@ -1,15 +1,16 @@
+import React from 'react'
 import classes from './Layout.module.scss'
 import Head from 'next/head'
 import HomeNav from '../Navigation/HomeNav/HomeNav'
 import MainNav from '../Navigation/MainNav/MainNav'
-
 import Footer from '../Footer/Footer'
 import BreadCrumb from '../Breadcrumb/Breadcrumb'
-import UserProvider from '../../context/UserProvider'
 
+type children = JSX.Element | boolean | null | undefined
 interface Props {
   pageType: 'home' | 'main'
   currentPage?: string
+  children: children | children[]
 }
 
 const Layout: React.FC<Props> = (props) => {
@@ -47,4 +48,4 @@ const Layout: React.FC<Props> = (props) => {
   )
 }
 
-export default Layout
+export default React.memo(Layout)

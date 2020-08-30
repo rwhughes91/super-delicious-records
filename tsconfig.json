@@ -32,7 +32,8 @@
       "@queries/*": ["./src/queries/*"],
       "@middleware/*": ["./src/middleware/*"],
       "@connectors/*": ["./src/connectors/*"],
-      "@generated/*": ["./src/generated/*"]
+      "@generated/*": ["./src/generated/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "exclude": ["node_modules"],

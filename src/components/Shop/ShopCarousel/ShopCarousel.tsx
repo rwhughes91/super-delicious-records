@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import classes from './ShopCarousel.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
+import * as typeDefs from '@generated/graphql'
 
 interface Props {
-  images: Array<{ imageUrl: string; imageSetUrl: string; alt: string }>
+  images: typeDefs.ShopImage[]
   size: number
 }
 
@@ -65,4 +66,4 @@ const ShopCarousel: React.FC<Props> = (props) => {
   )
 }
 
-export default ShopCarousel
+export default React.memo(ShopCarousel)

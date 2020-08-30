@@ -1,3 +1,4 @@
+import React from 'react'
 import classes from './Button.module.scss'
 import Link from 'next/link'
 import Triangle from '../../Triangle/Triangle'
@@ -9,6 +10,7 @@ interface Props {
   as?: string
   onClick?: (e?: React.SyntheticEvent) => void
   styles?: React.CSSProperties
+  children: string
 }
 
 const Button: React.FC<Props> = (props) => {
@@ -52,4 +54,4 @@ const Button: React.FC<Props> = (props) => {
   )
 }
 
-export default Button
+export default React.memo(Button)

@@ -63,3 +63,25 @@ export async function createDataItem<T>(location: string, data: T): Promise<stri
   const newPid = await pushDataToDatabase<T>(location, shavedInput)
   return newPid || ''
 }
+
+export async function getChildrenEqualTo<T>(
+  location: string,
+  key: string,
+  value: number | string | boolean
+): Promise<T[]> {
+  const ref = database.ref(location).orderByChild(key).equalTo(value)
+  const data: T[] = await new Promise((resolve) => {
+    ref.once('value', (snapshot) => {
+      const res = snapshot.val()
+      const newArray = []
+      for (const key in res) {
+        newArray.push({
+          ...res[key],
+          pid: key,
+        })
+      }
+      resolve(newArray)
+    })
+  })
+  return data
+}

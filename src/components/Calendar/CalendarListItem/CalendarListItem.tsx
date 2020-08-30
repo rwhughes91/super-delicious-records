@@ -3,15 +3,11 @@ import classes from './CalendarListItem.module.scss'
 import { MONTHSABB } from '../Calendar'
 import CalendarModal from '../CalendarModal/CalendarModal'
 import { DateTime } from 'luxon'
+import { Event } from '@pages/events'
 
-export interface Props {
+export interface Props extends Partial<Event> {
   date: Date
-  title: string
-  endDate?: Date
   upcoming?: boolean
-  description?: string
-  location?: string
-  url?: string
 }
 
 const CalendarListItem: React.FC<Props> = (props) => {

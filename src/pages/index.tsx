@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import classes from '../styles/pages/Home.module.scss'
-import Layout from '../components/Layout/Layout'
-import Button from '../components/UI/Buttons/Button/Button'
+import classes from '@styles/pages/Home.module.scss'
+import Layout from '@components/Layout/Layout'
+import Button from '@components/UI/Buttons/Button/Button'
 
 const HomePage: React.FC = () => {
   return (

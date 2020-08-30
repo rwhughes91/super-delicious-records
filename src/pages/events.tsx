@@ -1,19 +1,28 @@
 import Head from 'next/head'
-import Layout from '../components/Layout/Layout'
-import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import Calendar from '../components/Calendar/Calendar'
+import { GetStaticProps } from 'next'
+import Layout from '@components/Layout/Layout'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import Calendar from '@components/Calendar/Calendar'
+import { getDataArray } from '@services/firebase/admin'
+import * as typeDefs from '@generated/graphql'
 
+export interface Event extends Omit<typeDefs.Event, 'date' | 'endDate'> {
+  date: Date
+  endDate: Date | undefined
+}
 export interface Props {
-  pid: string
-  date: string
-  title: string
-  description?: string
-  url?: string
-  endDate?: string
-  location?: string
+  events: Event[]
 }
 
-const Events: React.FC = () => {
+const Events: React.FC<Props> = (props) => {
+  const convertedEvents = []
+  for (const event of props.events) {
+    convertedEvents.push({
+      ...event,
+      date: new Date(event.date),
+      endDate: event.endDate ? new Date(event.endDate) : undefined,
+    })
+  }
   return (
     <>
       <Head>
@@ -21,10 +30,20 @@ const Events: React.FC = () => {
       </Head>
       <Layout pageType="main">
         <PrimaryHeader>Events</PrimaryHeader>
-        <Calendar />
+        <Calendar events={convertedEvents} />
       </Layout>
     </>
   )
 }
 
 export default Events
+
+export const getStaticProps: GetStaticProps = async () => {
+  const events = await getDataArray<typeDefs.Event>('/events')
+  return {
+    props: {
+      events,
+    },
+    revalidate: 1,
+  }
+}

@@ -20,6 +20,9 @@ export const GET_ORDERS = gql`
           description
           qtyAvailable
           tag
+          moreInfo
+          weight
+          colors
         }
       }
       amount

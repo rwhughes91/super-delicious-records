@@ -1,3 +1,4 @@
+import React from 'react'
 import classes from './SizeChart.module.scss'
 import Modal from '../../UI/Modal/Modal'
 
@@ -67,4 +68,4 @@ const SizeChart: React.FC<Props> = (props) => {
   )
 }
 
-export default SizeChart
+export default React.memo(SizeChart)

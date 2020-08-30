@@ -114,5 +114,6 @@ const items: genTypes.ShopItemInput[] = [
     qtyAvailable: 2,
     tag: genTypes.Tag.Shirt,
     images: images,
+    colors: ['black', 'gray', 'white', 'green', 'red', 'blue'],
   },
 ]

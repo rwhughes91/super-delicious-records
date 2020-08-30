@@ -1,7 +1,5 @@
 .Hero {
   width: 100%;
-  height: 70vh;
-  max-height: 50rem;
   padding: 3rem;
   padding-top: 10vh;
   text-align: center;
@@ -9,10 +7,11 @@
 
 .HeroImage {
   margin-bottom: 5rem;
-  width: 90%;
+  width: 100%;
   max-width: 60rem;
   animation: fadeIn 1s linear;
   user-select: none;
+  will-change: scroll-position;
 }
 
 .Button {
@@ -28,12 +27,6 @@
   top: 100%;
   left: 50%;
   transform: translate(-50%, -100%);
-}
-
-@media screen and (max-height: 600px) {
-  .MouseContainer {
-    display: none;
-  }
 }
 
 @keyframes fadeIn {

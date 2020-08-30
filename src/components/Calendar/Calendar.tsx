@@ -6,50 +6,12 @@ import Triangle from '../UI/Triangle/Triangle'
 import CalendarIcon from '../UI/Icons/CalendarIcon/CalendarIcon'
 import ListIcon from '../UI/Icons/ListIcon/ListIcon'
 import CalendarItem from './CalendarItem/CalendarItem'
+import { Props } from '@pages/events'
 
-const EventsCalendar: React.FC = () => {
+const EventsCalendar: React.FC<Props> = (props) => {
   const [view, setView] = useState<'listView' | 'detailView'>('detailView')
   const [startingDate, setStartingDate] = useState(new Date())
   const isLargeScreen = useMedia({ query: '(min-width: 900px)' })
-  const [events] = useState([
-    {
-      date: new Date('7/31/2020'),
-      title: 'Glass Alice Signing',
-      description: 'Glass Alice signs with Super Delicious Records',
-      url: 'some link',
-    },
-    {
-      date: new Date('8/3/2020'),
-      title: 'Glass Alice Signing',
-      description: 'Glass Alice signs with Super Delicious Records',
-      url: 'some link',
-    },
-    {
-      date: new Date('8/3/2020'),
-      title: 'Glass Alice Signing',
-      description: 'Glass Alice signs with Super Delicious Records',
-      url: 'some link',
-    },
-    {
-      date: new Date('8/4/2020'),
-      title: 'Glass Alice Signing',
-      description: 'Glass Alice signs with Super Delicious Records',
-      url: 'some link',
-    },
-    {
-      date: new Date('8/18/2020 4:00'),
-      title: 'Dark Adder Re-Press',
-    },
-    {
-      date: new Date('8/29/2020 16:00'),
-      endDate: new Date('8/30/2020 20:00'),
-      title: 'Tour Starts',
-      description: `HYDRAFORM tour begins!
-      The tour will begin in LA and end in New York. There will be 42 shows in just under 3 months.`,
-      location: 'Boulder, CO',
-      url: 'some link',
-    },
-  ])
 
   const dates = useMemo(() => getDates(startingDate.getFullYear(), startingDate.getMonth()), [
     startingDate,
@@ -76,7 +38,7 @@ const EventsCalendar: React.FC = () => {
   }, [])
 
   const genListEvents = (type: 'gt' | 'lt') => {
-    return events.map((event, i) => {
+    return props.events.map((event, i) => {
       if (type === 'gt') {
         return event.date >= new Date(new Date().toLocaleDateString()) ? (
           <CalendarListItem
@@ -84,7 +46,7 @@ const EventsCalendar: React.FC = () => {
             date={event.date}
             endDate={event.endDate ? event.endDate : undefined}
             title={event.title}
-            description={event.description}
+            description={event.description || undefined}
             location={event.location ? event.location : undefined}
             url={event.url ? event.url : undefined}
             upcoming
@@ -97,7 +59,7 @@ const EventsCalendar: React.FC = () => {
             date={event.date}
             endDate={event.endDate ? event.endDate : undefined}
             title={event.title}
-            description={event.description}
+            description={event.description || undefined}
             location={event.location ? event.location : undefined}
             url={event.url ? event.url : undefined}
           />
@@ -166,7 +128,7 @@ const EventsCalendar: React.FC = () => {
                 if (startingDate.getMonth() !== day.getMonth()) {
                   disabled = true
                 }
-                const matchedEvents = events.filter(
+                const matchedEvents = props.events.filter(
                   (event) => event.date.toLocaleDateString() === day.toLocaleDateString()
                 )
                 return (

@@ -1,3 +1,4 @@
+import React from 'react'
 import classes from './Breadcrumb.module.scss'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -66,4 +67,4 @@ const Breadcrumb: React.FC<Props> = (props) => {
   return <div className={classes.BreadcrumbContainer}>{breadCrumb}</div>
 }
 
-export default Breadcrumb
+export default React.memo(Breadcrumb)

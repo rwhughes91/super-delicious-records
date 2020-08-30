@@ -12,7 +12,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query'
   me: User
-  getNewsItems: Array<NewsItem>
+  getNews: Array<NewsItem>
   getNewsItem: NewsItem
   getArtists: Array<Artist>
   getArtist: Artist
@@ -140,9 +140,10 @@ export type ShopItem = {
   images: Array<ShopImage>
   description: Scalars['String']
   moreInfo?: Maybe<Scalars['String']>
-  weight?: Maybe<Scalars['String']>
+  weight: Scalars['String']
   qtyAvailable: Scalars['Int']
   tag: Tag
+  colors: Array<Scalars['String']>
 }
 
 export type ShopImage = {
@@ -294,6 +295,7 @@ export type ShopItemInput = {
   tag: Tag
   moreInfo?: Maybe<Scalars['String']>
   weight?: Maybe<Scalars['String']>
+  colors: Array<Scalars['String']>
 }
 
 export type ShopImageInput = {
@@ -425,10 +427,10 @@ export type GetNewsItemQuery = { __typename?: 'Query' } & {
     }
 }
 
-export type GetNewsItemsQueryVariables = Exact<{ [key: string]: never }>
+export type GetNewsQueryVariables = Exact<{ [key: string]: never }>
 
-export type GetNewsItemsQuery = { __typename?: 'Query' } & {
-  getNewsItems: Array<
+export type GetNewsQuery = { __typename?: 'Query' } & {
+  getNews: Array<
     { __typename?: 'NewsItem' } & Pick<
       NewsItem,
       'pid' | 'title' | 'shortTitle' | 'imageUrl' | 'description' | 'date'
@@ -452,7 +454,15 @@ export type GetCartQuery = { __typename?: 'Query' } & {
     { __typename?: 'CartItem' } & Pick<CartItem, 'pid' | 'qty'> & {
         shopItem: { __typename?: 'ShopItem' } & Pick<
           ShopItem,
-          'pid' | 'name' | 'price' | 'description' | 'qtyAvailable' | 'tag'
+          | 'pid'
+          | 'name'
+          | 'price'
+          | 'description'
+          | 'qtyAvailable'
+          | 'tag'
+          | 'moreInfo'
+          | 'weight'
+          | 'colors'
         > & {
             images: Array<
               { __typename?: 'ShopImage' } & Pick<
@@ -480,7 +490,15 @@ export type GetOrdersQuery = { __typename?: 'Query' } & {
           { __typename?: 'OrderShopItem' } & Pick<OrderShopItem, 'qty' | 'purchasePrice'> & {
               shopItem: { __typename?: 'ShopItem' } & Pick<
                 ShopItem,
-                'pid' | 'name' | 'price' | 'description' | 'qtyAvailable' | 'tag'
+                | 'pid'
+                | 'name'
+                | 'price'
+                | 'description'
+                | 'qtyAvailable'
+                | 'tag'
+                | 'moreInfo'
+                | 'weight'
+                | 'colors'
               > & {
                   images: Array<
                     { __typename?: 'ShopImage' } & Pick<
@@ -508,7 +526,15 @@ export type GetShopItemQueryVariables = Exact<{
 export type GetShopItemQuery = { __typename?: 'Query' } & {
   getShopItem: { __typename?: 'ShopItem' } & Pick<
     ShopItem,
-    'pid' | 'name' | 'price' | 'description' | 'qtyAvailable' | 'tag'
+    | 'pid'
+    | 'name'
+    | 'price'
+    | 'description'
+    | 'qtyAvailable'
+    | 'tag'
+    | 'moreInfo'
+    | 'weight'
+    | 'colors'
   > & {
       images: Array<
         { __typename?: 'ShopImage' } & Pick<ShopImage, 'imageUrl' | 'imageSetUrl' | 'alt' | 'color'>
@@ -522,7 +548,15 @@ export type GetShopQuery = { __typename?: 'Query' } & {
   getShop: Array<
     { __typename?: 'ShopItem' } & Pick<
       ShopItem,
-      'pid' | 'name' | 'price' | 'description' | 'qtyAvailable' | 'tag'
+      | 'pid'
+      | 'name'
+      | 'price'
+      | 'description'
+      | 'qtyAvailable'
+      | 'tag'
+      | 'moreInfo'
+      | 'weight'
+      | 'colors'
     > & {
         images: Array<
           { __typename?: 'ShopImage' } & Pick<

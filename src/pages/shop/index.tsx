@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
 import Layout from '../../components/Layout/Layout'
@@ -8,28 +8,51 @@ import ShopItem from '../../components/Shop/ShopItem/ShopItem'
 import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
 import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Input/Input'
 import { cloneDeep } from 'lodash'
+import { getDataArray } from '@services/firebase/admin'
+import * as typeDefs from '@generated/graphql'
 
 interface FormControls {
   category: InputProps
   sort: InputProps
 }
 
+type Item = Pick<typeDefs.ShopItem, 'pid' | 'name' | 'price' | 'images' | 'tag'>
 interface Props {
-  artists: string[]
-  items: Array<{ pid: string; name: string; imageUrl: string; imageSetUrl: string; price: number }>
+  items: Item[]
 }
 
 const Shop: React.FC<Props> = (props) => {
   const inputControls = cloneDeep(formControls)
-  const [category, setCategory] = useState('category')
-  const [sort, setSort] = useState('sort')
+  const [category, setCategory] = useState<typeDefs.Tag | ''>('')
+  const [sort, setSort] = useState('')
 
-  const onCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(event.target.value)
-  }
-  const onSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onCategoryChangeHandler = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(event.target.value as typeDefs.Tag)
+  }, [])
+  const onSortChangeHandler = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(event.target.value)
+  }, [])
+
+  let items: Item[] | JSX.Element[] = [...props.items]
+
+  if (category) {
+    items = items.filter((shopItem) => shopItem.tag === category)
   }
+
+  if (sort) {
+    items.sort((shopItemA, shopItemB) => {
+      if (sort === 'priceLow') {
+        return shopItemA.price - shopItemB.price
+      } else if (sort === 'priceHigh') {
+        return shopItemB.price - shopItemA.price
+      }
+      return 0
+    })
+  }
+
+  items = items.map((item, i) => (
+    <ShopItem pid={item.pid} name={item.name} price={item.price} image={item.images[0]} key={i} />
+  ))
 
   return (
     <>
@@ -39,18 +62,57 @@ const Shop: React.FC<Props> = (props) => {
       <Layout pageType="main">
         <PrimaryHeader>Shop</PrimaryHeader>
         <div className={classes.Filters}>
-          <div style={{ width: '45%', maxWidth: '25rem' }}>
-            <Dropdown {...inputControls.category}></Dropdown>
+          <div
+            style={{
+              width: '45%',
+              maxWidth: '25rem',
+            }}
+          >
+            <span
+              style={{
+                position: 'relative',
+                top: '1rem',
+                textTransform: 'uppercase',
+                color: 'var(--light-purple-color)',
+                fontSize: '1.1rem',
+              }}
+            >
+              Filter
+            </span>
+            <Dropdown
+              {...inputControls.category}
+              onChange={onCategoryChangeHandler}
+              value={category}
+            ></Dropdown>
           </div>
-          <div style={{ width: '45%', maxWidth: '25rem' }}>
-            <Dropdown {...inputControls.sort}></Dropdown>
+          <div
+            style={{
+              width: '45%',
+              maxWidth: '25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+            }}
+          >
+            <span
+              style={{
+                position: 'relative',
+                top: '1rem',
+                textTransform: 'uppercase',
+                color: 'var(--light-purple-color)',
+                fontSize: '1.1rem',
+              }}
+            >
+              Sort
+            </span>
+            <Dropdown
+              {...inputControls.sort}
+              onChange={onSortChangeHandler}
+              value={sort}
+            ></Dropdown>
           </div>
         </div>
-        <div className={classes.Shop}>
-          {props.items.map((item, i) => {
-            return <ShopItem {...item} key={i} />
-          })}
-        </div>
+        <div className={classes.Shop}>{items}</div>
       </Layout>
     </>
   )
@@ -70,9 +132,9 @@ const formControls: FormControls = {
       placeholder: 'Category',
       type: 'text',
       options: [
-        { value: 'hats', displayValue: 'Hats' },
-        { value: 'shirts', displayValue: 'Shirts' },
-        { value: 'swag', displayValue: 'Swag' },
+        { value: typeDefs.Tag.Hat, displayValue: 'Hats' },
+        { value: typeDefs.Tag.Shirt, displayValue: 'Shirts' },
+        { value: typeDefs.Tag.Swag, displayValue: 'Swag' },
       ],
     },
   },
@@ -87,8 +149,6 @@ const formControls: FormControls = {
       placeholder: 'Sort',
       type: 'text',
       options: [
-        { value: 'popular', displayValue: 'Popular' },
-        { value: 'latest', displayValue: 'Latest' },
         { value: 'priceHigh', displayValue: 'Price (High)' },
         { value: 'priceLow', displayValue: 'Price (Low)' },
       ],
@@ -97,107 +157,26 @@ const formControls: FormControls = {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+  const artists = await getDataArray<typeDefs.Artist>('/artists')
+  const uniqueArtists: string[] = []
+  for (const artist of artists) {
+    uniqueArtists.push(artist.name)
+  }
+  const shop = await getDataArray<typeDefs.ShopItem>('/shop')
+  const shopItems = []
+  for (const shopItem of shop) {
+    shopItems.push({
+      pid: shopItem.pid,
+      name: shopItem.name,
+      price: shopItem.price,
+      images: [shopItem.images[0]],
+      tag: shopItem.tag,
+    })
+  }
   return {
     props: {
-      artists: ['HYDRAFORM', 'GLASS ALICE'],
-      items: [
-        {
-          pid: '1',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '2',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '3',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '4',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '5',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '6',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '7',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '8',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '9',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '10',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '11',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        {
-          pid: '12',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-      ],
+      artists: uniqueArtists,
+      items: shopItems,
     },
   }
 }

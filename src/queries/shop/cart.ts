@@ -18,6 +18,9 @@ export const GET_CART = gql`
         description
         qtyAvailable
         tag
+        moreInfo
+        weight
+        colors
       }
     }
   }

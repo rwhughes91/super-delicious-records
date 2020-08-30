@@ -22,9 +22,9 @@ export const GET_NEWS_ITEM = gql`
   }
 `
 
-export const GET_NEWS_ITEMS = gql`
-  query GetNewsItems {
-    getNewsItems {
+export const GET_NEWS = gql`
+  query GetNews {
+    getNews {
       pid
       title
       shortTitle
@@ -43,6 +43,7 @@ export const GET_NEWS_ITEMS = gql`
     }
   }
 `
+
 export const CREATE_NEWS_ITEM = gql`
   mutation CreateNewsItem($data: NewsInput!) {
     createNewsItem(data: $data)

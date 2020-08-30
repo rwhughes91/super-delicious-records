@@ -29,15 +29,15 @@
 }
 
 .Large {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 }
 
 .Medium {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
 
 .Small {
-  font-size: 1rem;
+  font-size: 1.6rem;
 }
 
 .Purple {
@@ -48,15 +48,15 @@
   color: var(--tan-white-color);
 }
 
-@media (max-width: 56.25em) {
+@media (min-width: 56.25em) {
   .Large {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
   .Medium {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
   }
   .Small {
-    font-size: 1.6rem;
+    font-size: 1rem;
   }
 }
 

@@ -1,3 +1,4 @@
+import React from 'react'
 import classes from './Triangle.module.scss'
 
 interface Props {
@@ -31,4 +32,4 @@ const Triangle: React.FC<Props> = (props) => {
   return <div style={props.styles} className={classNames.join(' ')}></div>
 }
 
-export default Triangle
+export default React.memo(Triangle)

@@ -1,21 +1,18 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
-import classes from '../../styles/pages/artists/Artists.module.scss'
-import Layout from '../../components/Layout/Layout'
-import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import Image from '../../components/UI/Image/Image'
-import Button from '../../components/UI/Buttons/Button/Button'
-import TertiaryHeader from '../../components/UI/Headers/TertiaryHeader/TertiaryHeader'
+import classes from '@styles/pages/artists/Artists.module.scss'
+import Layout from '@components/Layout/Layout'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import Image from '@components/UI/Image/Image'
+import Button from '@components/UI/Buttons/Button/Button'
+import TertiaryHeader from '@components/UI/Headers/TertiaryHeader/TertiaryHeader'
 import Link from 'next/link'
+import { getDataArray } from '@services/firebase/admin'
+import * as typeDefs from '@generated/graphql'
+import { extractFields } from '@utils/helpers'
 
 interface Props {
-  artists: Array<{
-    pid: string
-    name: string
-    website: string
-    imageUrl: string
-    labelSide?: 'left' | 'right'
-  }>
+  artists: Pick<typeDefs.Artist, 'pid' | 'name' | 'website' | 'imageUrl' | 'labelSide'>[]
 }
 
 const Artists: React.FC<Props> = (props) => {
@@ -61,24 +58,11 @@ const Artists: React.FC<Props> = (props) => {
 export default Artists
 
 export const getStaticProps: GetStaticProps = async () => {
+  const artists = await getDataArray<typeDefs.Artist>('/artists')
   return {
     props: {
-      artists: [
-        {
-          pid: '1',
-          name: `Hydraform`,
-          website: 'https://www.hydraformmusic.com/',
-          imageUrl: '/artists/hydraform.jpg',
-          labelSide: 'left',
-        },
-        {
-          pid: '2',
-          name: `Glass Alice`,
-          website: 'https://glassalicemusic.com/home',
-          imageUrl: '/artists/glass-alice.png',
-          labelSide: 'left',
-        },
-      ],
+      artists: extractFields(['pid', 'name', 'website', 'imageUrl', 'labelSide'], artists),
     },
+    revalidate: 1,
   }
 }

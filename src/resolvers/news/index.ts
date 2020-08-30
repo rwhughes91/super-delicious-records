@@ -93,7 +93,7 @@ export class NewsInput implements Partial<NewsItem> {
 @Resolver(() => NewsItem)
 export default class NewsResolver {
   @Query(() => [NewsItem])
-  async getNewsItems(): Promise<NewsItem[]> {
+  async getNews(): Promise<NewsItem[]> {
     return getDataArray<NewsItem>('/news')
   }
 

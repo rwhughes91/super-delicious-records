@@ -57,14 +57,17 @@ export class ShopItem {
   @Field({ nullable: true })
   moreInfo?: string
 
-  @Field({ nullable: true, defaultValue: 'No weight information available' })
-  weight?: string
+  @Field()
+  weight!: string
 
   @Field(() => Int)
   qtyAvailable!: number
 
   @Field(() => Tag)
   tag!: Tag
+
+  @Field(() => [String])
+  colors!: string[]
 }
 
 // Input Types
@@ -107,7 +110,10 @@ class ShopItemInput implements Partial<ShopItem> {
   moreInfo?: string
 
   @Field({ nullable: true, defaultValue: 'No weight information available' })
-  weight?: string
+  weight!: string
+
+  @Field(() => [String])
+  colors!: string[]
 }
 
 // Resolver
