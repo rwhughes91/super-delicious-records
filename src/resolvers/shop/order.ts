@@ -9,15 +9,13 @@ import {
   UseMiddleware,
   Mutation,
   InputType,
-  FieldResolver,
-  Root,
 } from 'type-graphql'
-import { isAuthenticated } from '../../middleware/resolver/isAuthenticated'
-import { ResolverContext } from '../../types/resolver'
-import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
 import { AuthenticationError } from 'apollo-server-micro'
-import { isAdmin } from '../../middleware/resolver/isAdmin'
+import { isAuthenticated } from '@middleware/resolver/isAuthenticated'
+import { isAdmin } from '@middleware/resolver/isAdmin'
+import { createDataItem, getUsersDataWithShopItem } from '@services/firebase/admin'
 import { ShopItem } from './shop'
+import { ResolverContext } from '../../types/resolver'
 
 @ObjectType()
 class OrderShopItem {
@@ -29,10 +27,13 @@ class OrderShopItem {
 
   @Field()
   purchasePrice!: number
+
+  @Field(() => ShopItem)
+  shopItem!: ShopItem
 }
 
 @ObjectType()
-class Order {
+export class Order {
   @Field()
   pid!: string
 
@@ -85,7 +86,7 @@ export default class OrdersResolver {
     if (!uid) {
       throw new AuthenticationError('No UID with user')
     }
-    return getDataArray(`/users/${uid}/orders`)
+    return await getUsersDataWithShopItem(uid)
   }
 
   @Mutation(() => String)
@@ -95,11 +96,7 @@ export default class OrdersResolver {
     if (!uid) {
       throw new AuthenticationError('No UID with user')
     }
-    return createDataItem(`/users/${uid}/orders`, data)
-  }
-
-  @FieldResolver(() => ShopItem)
-  async shopItem(@Root() parent: OrderShopItem): Promise<ShopItem> {
-    return getDataItem<ShopItem>(`/shop/${parent.shopPid}`)
+    const inputData = { ...data, uid }
+    return createDataItem(`/orders`, inputData)
   }
 }

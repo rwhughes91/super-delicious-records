@@ -25,10 +25,7 @@ const OrdersList: React.FC = () => {
   const { user } = useContext(UserContext)
   const [loading, setLoading] = useState(false)
 
-  const { data, error } = useSWR<Order>(user.idToken ? [GET_ORDERS, user.idToken] : null, fetcher, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  })
+  const { data, error } = useSWR<Order>(user.idToken ? [GET_ORDERS, user.idToken] : null, fetcher)
 
   useEffect(() => {
     if (data && loading) {

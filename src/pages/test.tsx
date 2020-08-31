@@ -7,6 +7,8 @@ import * as genTypes from '@generated/graphql'
 
 import { CREATE_ORDER, GET_ORDERS } from '@queries/index'
 
+import { getUsersDataWithShopItem } from '@services/firebase/admin'
+
 const HomePage: React.FC = () => {
   const { user } = useContext(UserContext)
 
@@ -95,3 +97,12 @@ const orders = [
     ],
   },
 ]
+
+export const getStaticProps = async (context) => {
+  return {
+    props: {
+      test: true,
+    },
+    revalidate: 1,
+  }
+}

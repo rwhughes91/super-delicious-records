@@ -172,9 +172,9 @@ export type Order = {
 export type OrderShopItem = {
   __typename?: 'OrderShopItem'
   shopPid: Scalars['String']
-  shopItem: ShopItem
   qty: Scalars['Int']
   purchasePrice: Scalars['Float']
+  shopItem: ShopItem
 }
 
 export type CartItem = {

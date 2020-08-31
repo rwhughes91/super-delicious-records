@@ -8,25 +8,16 @@ export const GET_ORDERS = gql`
         qty
         purchasePrice
         shopItem {
-          pid
           name
-          price
           images {
             imageUrl
             imageSetUrl
             alt
             color
           }
-          description
-          qtyAvailable
-          tag
-          moreInfo
-          weight
-          colors
         }
       }
       amount
-      currency
       date
     }
   }

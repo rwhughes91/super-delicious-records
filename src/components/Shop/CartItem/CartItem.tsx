@@ -3,7 +3,10 @@ import classes from './CartItem.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
 import * as genTypes from '@generated/graphql'
 
-interface Props extends genTypes.OrderShopItem {
+type ShopItem = Pick<genTypes.ShopItem, 'name' | 'images'>
+
+interface Props extends Pick<genTypes.OrderShopItem, 'qty' | 'purchasePrice'> {
+  shopItem: ShopItem
   styles?: React.CSSProperties
   order?: boolean
 }
@@ -17,7 +20,7 @@ const CartItem: React.FC<Props> = (props) => {
           size="100%"
           imageUrl={props.shopItem.images[0].imageUrl}
           imageSetUrl={props.shopItem.images[0].imageSetUrl}
-          alt={props.shopItem.name}
+          alt={props.shopItem.images[0].alt}
           styles={{ width: '100%', height: '100%' }}
         />
       </div>
