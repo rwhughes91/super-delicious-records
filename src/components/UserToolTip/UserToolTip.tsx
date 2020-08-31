@@ -14,7 +14,7 @@ interface Props {
 }
 
 const UserToolTip: React.FC<Props> = (props) => {
-  const user = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const router = useRouter()
   const [showToolTip, setShowToolTip] = useState(false)
 

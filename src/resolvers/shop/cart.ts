@@ -27,11 +27,14 @@ class CartItem {
   @Field()
   shopPid!: string
 
+  @Field()
+  size!: string
+
+  @Field()
+  color!: string
+
   @Field(() => Int)
   qty!: number
-
-  @Field(() => ShopItem)
-  shopItem!: ShopItem
 }
 
 @InputType()
@@ -41,6 +44,12 @@ class CartItemInput {
 
   @Field(() => Int)
   qty!: number
+
+  @Field()
+  size!: string
+
+  @Field()
+  color!: string
 }
 
 @Resolver(() => CartItem)

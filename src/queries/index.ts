@@ -1,4 +1,4 @@
-export { GET_NEWS_ITEM, GET_NEWS_ITEMS, CREATE_NEWS_ITEM } from './news/'
+export { GET_NEWS_ITEM, GET_NEWS, CREATE_NEWS_ITEM } from './news/'
 export { GET_ME } from './user/'
 export { GET_ARTIST, GET_ARTISTS, CREATE_ARTIST } from './artist/'
 export {

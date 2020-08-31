@@ -24,9 +24,6 @@ class OrderShopItem {
   @Field()
   shopPid!: string
 
-  @Field(() => ShopItem)
-  shopItem!: ShopItem
-
   @Field(() => Int)
   qty!: number
 

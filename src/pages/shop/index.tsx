@@ -178,5 +178,6 @@ export const getStaticProps: GetStaticProps = async () => {
       artists: uniqueArtists,
       items: shopItems,
     },
+    revalidate: 1,
   }
 }

@@ -7,6 +7,9 @@ $input-color: var(--dark-purple-color);
   align-items: center;
   position: relative;
   padding: 1rem 0;
+  & textarea {
+    resize: vertical;
+  }
 }
 
 .ContactInput {

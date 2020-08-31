@@ -1,0 +1,11 @@
+.FetchError {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 50rem;
+  width: 100%;
+}
+
+.FetchErrorMessage {
+  color: var(--bright-red-color);
+  font-size: 1.4rem;
+}

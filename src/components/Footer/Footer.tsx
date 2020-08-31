@@ -1,4 +1,5 @@
-import { useState, useReducer, ChangeEvent } from 'react'
+import React, { useCallback } from 'react'
+import { useState, ChangeEvent } from 'react'
 import classes from './Footer.module.scss'
 import Logo from '../UI/Logo/Logo'
 import Button from '../UI/Buttons/Button/Button'
@@ -8,29 +9,18 @@ import FacebookIcon from '../UI/Icons/FacebookIcon/FacebookIcon'
 import TwitterIcon from '../UI/Icons/TwitterIcon/TwitterIcon'
 import InstagramIcon from '../UI/Icons/InstagramIcon/InstagramIcon'
 import { Props as InputProps, inputTypes } from '../UI/Inputs/Input/Input'
-import formValidation, { Rules } from '../../utils/formValidation'
 import { cloneDeep } from 'lodash'
+import useForm from '@hooks/useForm'
 
 interface FormControls {
   name: InputProps
   email: InputProps
 }
 
-interface State extends FormControls {
-  formIsInvalid: boolean
-  [key: string]: InputProps | boolean
-}
-
-interface Action {
-  type: string
-  key: string
-  value: string
-}
-
 const Footer: React.FC = () => {
   const inputControls = cloneDeep(formControls)
-  const initialState: State = { ...inputControls, formIsInvalid: true }
-  const [formData, dispatchFormData] = useReducer(reducer, initialState)
+  const initialState = { ...inputControls, formIsInvalid: true }
+  const [formData, dispatchFormData] = useForm(initialState)
   const [urls] = useState({
     facebook: 'https://www.facebook.com/SuperDeliciousRecords',
     instagram: 'https://www.instagram.com/accounts/login/?next=/superdeliciousrecords/',
@@ -50,9 +40,12 @@ const Footer: React.FC = () => {
     </>
   )
 
-  const onChangeHandler = (key: string, event: ChangeEvent<HTMLInputElement>) => {
-    dispatchFormData({ type: 'change', key, value: event?.target.value })
-  }
+  const onChangeHandler = useCallback(
+    (key: string, event: ChangeEvent<HTMLInputElement>) => {
+      dispatchFormData({ type: 'change', key, value: event?.target.value })
+    },
+    [dispatchFormData]
+  )
 
   return (
     <div className={classes.FooterContainer}>
@@ -96,44 +89,7 @@ const Footer: React.FC = () => {
   )
 }
 
-export default Footer
-
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case 'change': {
-      const [valid, errorMessage] = formValidation(
-        action.value,
-        (state[action.key] as InputProps).validation as Rules
-      )
-      const newState: State = {
-        ...state,
-        [action.key]: {
-          ...(state[action.key] as InputProps),
-          value: action.value,
-          touched: true,
-          invalid: !valid,
-          errorMessage,
-        },
-      }
-      let formIsInvalid = false
-      for (const key in newState) {
-        if (key === 'email' || key === 'name') {
-          if (key === action.key) {
-            formIsInvalid = !valid || formIsInvalid
-          } else {
-            formIsInvalid = (newState[key].invalid as boolean) || formIsInvalid
-          }
-        }
-      }
-      return {
-        ...newState,
-        formIsInvalid,
-      }
-    }
-    default:
-      return state
-  }
-}
+export default React.memo(Footer)
 
 const formControls: FormControls = {
   name: {

@@ -5,6 +5,8 @@ export const GET_CART = gql`
     getCart {
       pid
       qty
+      size
+      color
       shopItem {
         pid
         name

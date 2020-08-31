@@ -1,9 +1,9 @@
+import React from 'react'
 import classes from './NavItems.module.scss'
 import NavItem from './NavItem/NavItem'
 import NavCartIcon from '../NavCartIcon/NavCartIcon'
 import NavSearchBar from '../NavSearchBar/NavSearchBar'
 import ProfileIcon from '../../UI/Icons/ProfileIcon/ProfileIcon'
-import UserToolTip from '../../UserToolTip/UserToolTip'
 
 interface Props {
   color: 'purple' | 'white'
@@ -19,7 +19,9 @@ const NavItems: React.FC<Props> = (props) => {
     navItems = (
       <>
         <NavSearchBar slide />
-        <UserToolTip size={2} />
+        <NavItem location="/shop/orders">
+          <ProfileIcon size={2} />
+        </NavItem>
         <NavItem location="/shop/cart">
           <NavCartIcon />
         </NavItem>
@@ -28,7 +30,9 @@ const NavItems: React.FC<Props> = (props) => {
   } else if (props.icons === 'cart') {
     navItems = (
       <div style={{ display: 'flex' }}>
-        <UserToolTip size={3.4} styles={{ marginRight: '2.5rem' }} />
+        <NavItem location="/shop/orders" styles={{ marginRight: '2.5rem' }}>
+          <ProfileIcon size={3.4} />
+        </NavItem>
         <NavItem location="/cart" styles={{ width: '105%' }}>
           <NavCartIcon size={3} />
         </NavItem>
@@ -74,4 +78,4 @@ const NavItems: React.FC<Props> = (props) => {
   return <nav className={classes.NavigationItems}>{navItems}</nav>
 }
 
-export default NavItems
+export default React.memo(NavItems)

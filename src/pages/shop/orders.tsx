@@ -1,62 +1,87 @@
 import { useContext, useState, useCallback, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import classes from '../../styles/pages/shop/Orders.module.scss'
-import Layout from '../../components/Layout/Layout'
-import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import AuthForm from '../../components/AuthForm/AuthForm'
-import ToggleListItem from '../../components/TogglieListItem/ToggleListItem'
-import CartItem from '../../components/Shop/CartItem/CartItem'
-import { ShopItem as ShopItemProps } from './cart'
-import { UserContext } from '../../context/UserProvider'
-import Loader from '../../components/UI/Loader/Loader'
+import useSWR from 'swr'
+import { GraphQLClient } from 'graphql-request'
+import classes from '@styles/pages/shop/Orders.module.scss'
+import Layout from '@components/Layout/Layout'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import AuthForm from '@components/AuthForm/AuthForm'
+import ToggleListItem from '@components/TogglieListItem/ToggleListItem'
+import CartItem from '@components/Shop/CartItem/CartItem'
+import { UserContext } from '@context/UserProvider'
+import Loader from '@components/UI/Loader/Loader'
+import Text from '@components/UI/Text/Text'
+import FetchError from '@components/FetchError/FetchError'
+import { auth } from '@services/firebase/client'
+import * as typeDefs from '@generated/graphql'
+import { GET_ORDERS } from '@queries/index'
 
 interface Order {
-  pid: string
-  date: string
-  items: ShopItemProps[]
-  total: number
+  getOrders: typeDefs.Order[]
 }
 
 const OrdersList: React.FC = () => {
-  const userState = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const [loading, setLoading] = useState(false)
 
+  const { data, error } = useSWR<Order>(user.idToken ? [GET_ORDERS, user.idToken] : null, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  })
+
   useEffect(() => {
-    if (userState.user && loading) {
+    if (data && loading) {
       setLoading(false)
     }
-  }, [userState.user, loading])
+  }, [data, loading])
 
   const togglerLoadingHandler = useCallback(() => {
     setLoading((prevState) => !prevState)
   }, [])
+
+  const logoutHandler = useCallback(() => {
+    if (user.user) {
+      auth.signOut()
+    }
+  }, [user.user])
+
+  const noOrders = (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Text styles={{ marginBottom: '1rem', fontSize: '1.8rem' }}>No orders...yet</Text>
+    </div>
+  )
 
   let output = (
     <div className={classes.FormContainer}>
       <AuthForm onSubmit={togglerLoadingHandler} />
     </div>
   )
-  if (userState.loading || loading) {
-    output = (
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem' }}>
-        <Loader />
-      </div>
-    )
-  }
-  if (userState.user) {
-    output = (
-      <>
-        <PrimaryHeader>Orders</PrimaryHeader>
-        <div className={classes.AdminButton}>
-          {userState.admin && (
-            <Link href="/admin">
-              <button>Go to Admin</button>
-            </Link>
-          )}
+
+  if (!user.errorMessage) {
+    if (user.loading || loading || (user.idToken && !data)) {
+      output = (
+        <div className={classes.LoaderWrapper}>
+          <Loader />
         </div>
-        <div>
-          {orders.map((order, i) => {
+      )
+    }
+
+    if (data || error) {
+      let orders
+      if (error) {
+        orders = <FetchError />
+      } else if (data) {
+        if (data.getOrders.length === 0) {
+          orders = noOrders
+        } else {
+          orders = data.getOrders.map((order: typeDefs.Order, i: number) => {
             let style = {}
             if (i !== 0) {
               style = { borderTop: 'none' }
@@ -65,23 +90,39 @@ const OrdersList: React.FC = () => {
               <ToggleListItem
                 key={i}
                 title={order.date}
-                secondaryHeader={`$${order.total}`}
+                secondaryHeader={`$${order.amount}`}
                 styles={{ marginTop: 0, width: '100%' }}
                 buttonStyles={style}
               >
-                {order.items.map((item, i) => {
+                {order.items.map((item: typeDefs.OrderShopItem, i) => {
                   let style = {}
                   if (i + 1 === order.items.length) {
                     style = { borderBottom: 'none' }
                   }
-                  return <CartItem key={i} {...item} styles={{ ...style }} />
+                  return <CartItem key={i} {...item} styles={{ ...style }} order />
                 })}
               </ToggleListItem>
             )
-          })}
-        </div>
-      </>
-    )
+          })
+        }
+      }
+      output = (
+        <>
+          <PrimaryHeader>Orders</PrimaryHeader>
+          <div>{orders}</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
+            <button className={classes.LogoutButton} onClick={logoutHandler}>
+              Logout
+            </button>
+            {user.admin && (
+              <Link href="/admin">
+                <button className={classes.AdminButton}>Admin Page</button>
+              </Link>
+            )}
+          </div>
+        </>
+      )
+    }
   }
   return (
     <>
@@ -95,63 +136,11 @@ const OrdersList: React.FC = () => {
 
 export default OrdersList
 
-const orders: Order[] = [
-  {
-    pid: '1ALDJF383',
-    date: '8/12/2020',
-    total: 100,
-    items: [
-      {
-        item: {
-          pid: '1',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item-small.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        qty: 2,
-      },
-      {
-        item: {
-          pid: '1',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item-small.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        qty: 1,
-      },
-    ],
-  },
-  {
-    pid: 'LSJF3R0384',
-    date: '7/15/2020',
-    total: 100,
-    items: [
-      {
-        item: {
-          pid: '1',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item-small.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        qty: 2,
-      },
-      {
-        item: {
-          pid: '1',
-          name: `Super Delicious T-Shirt`,
-          imageUrl: '/shop/sdr-shop-item-small.png',
-          imageSetUrl:
-            '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-          price: 14.99,
-        },
-        qty: 1,
-      },
-    ],
-  },
-]
+const fetcher = (query: string, idToken: string) => {
+  const client = new GraphQLClient('/api/graphql', {
+    headers: {
+      authorization: `Bearer ${idToken}`,
+    },
+  })
+  return client.request(query)
+}

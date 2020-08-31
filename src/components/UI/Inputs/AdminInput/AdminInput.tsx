@@ -8,14 +8,6 @@ export interface ElementConfig {
   options?: Array<{ value: string; displayValue: string }>
 }
 
-export enum types {
-  INPUT = 'input',
-  TEXT = 'textarea',
-  DATE = 'date',
-  SELECT = 'select',
-  FROZEN_INPUT = 'frozenInput',
-}
-
 const AdminInput: React.FC<Props> = (props) => {
   let invalid = false
   let message

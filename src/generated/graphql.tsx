@@ -181,6 +181,8 @@ export type CartItem = {
   __typename?: 'CartItem'
   pid: Scalars['String']
   shopPid: Scalars['String']
+  size: Scalars['String']
+  color: Scalars['String']
   qty: Scalars['Int']
   shopItem: ShopItem
 }
@@ -321,6 +323,8 @@ export type OrderShopItemInput = {
 export type CartItemInput = {
   shopPid: Scalars['String']
   qty: Scalars['Int']
+  size: Scalars['String']
+  color: Scalars['String']
 }
 
 export type GetArtistQueryVariables = Exact<{
@@ -451,7 +455,7 @@ export type GetCartQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetCartQuery = { __typename?: 'Query' } & {
   getCart: Array<
-    { __typename?: 'CartItem' } & Pick<CartItem, 'pid' | 'qty'> & {
+    { __typename?: 'CartItem' } & Pick<CartItem, 'pid' | 'qty' | 'size' | 'color'> & {
         shopItem: { __typename?: 'ShopItem' } & Pick<
           ShopItem,
           | 'pid'

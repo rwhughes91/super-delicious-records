@@ -5,10 +5,10 @@ import { UserContext } from '../context/UserProvider'
 import { GraphQLClient } from 'graphql-request'
 import * as genTypes from '@generated/graphql'
 
-import { CREATE_SHOP_ITEM, GET_SHOP } from '@queries/index'
+import { CREATE_ORDER, GET_ORDERS } from '@queries/index'
 
 const HomePage: React.FC = () => {
-  const user = useContext(UserContext)
+  const { user } = useContext(UserContext)
 
   const addData = () => {
     const client = new GraphQLClient('/api/graphql')
@@ -16,10 +16,10 @@ const HomePage: React.FC = () => {
       client.setHeader('authorization', `Bearer ${user.idToken}`)
     }
     const variables = {
-      data: items[0],
+      data: orders[1],
     }
     client
-      .request(CREATE_SHOP_ITEM, variables)
+      .request(CREATE_ORDER, variables)
       .then((res) => {
         console.log('data: ', res)
       })
@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
       client.setHeader('authorization', `Bearer ${user.idToken}`)
     }
     client
-      .request(GET_SHOP)
+      .request(GET_ORDERS)
       .then((res) => {
         console.log('data: ', res)
       })
@@ -59,61 +59,39 @@ const HomePage: React.FC = () => {
 
 export default HomePage
 
-const images = [
+const orders = [
   {
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    alt: 't-shirt',
-    color: 'black',
+    date: '8/12/2020',
+    amount: 100,
+    currency: 'USD',
+    items: [
+      {
+        shopPid: '-MFsqTYbk87ugUC3_ZRg',
+        qty: 2,
+        purchasePrice: 14.99,
+      },
+      {
+        shopPid: '-MFsqTYbk87ugUC3_ZRg',
+        qty: 1,
+        purchasePrice: 14.99,
+      },
+    ],
   },
   {
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    alt: 't-shirt',
-    color: 'gray',
-  },
-  {
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    alt: 't-shirt',
-    color: 'white',
-  },
-  {
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    alt: 't-shirt',
-    color: 'green',
-  },
-  {
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    alt: 't-shirt',
-    color: 'red',
-  },
-  {
-    imageUrl: '/shop/sdr-shop-item-small.png',
-    imageSetUrl:
-      '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-    alt: 't-shirt',
-    color: 'blue',
-  },
-]
-
-const items: genTypes.ShopItemInput[] = [
-  {
-    name: `Super Delicious T-Shirt`,
-    price: 14.99,
-    description: `You’ve now found the staple t-shirt of your wardrobe. It’s made of a thicker, heavier
-    cotton, but it’s still soft and comfy. And the double stitching on the neckline and
-    sleeves add more durability to what is sure to be a favorite!`,
-    qtyAvailable: 2,
-    tag: genTypes.Tag.Shirt,
-    images: images,
-    colors: ['black', 'gray', 'white', 'green', 'red', 'blue'],
+    date: '7/15/2020',
+    amount: 100,
+    currency: 'USD',
+    items: [
+      {
+        shopPid: '-MFsqTYbk87ugUC3_ZRg',
+        qty: 2,
+        purchasePrice: 14.99,
+      },
+      {
+        shopPid: '-MFsqTYbk87ugUC3_ZRg',
+        qty: 1,
+        purchasePrice: 14.99,
+      },
+    ],
   },
 ]

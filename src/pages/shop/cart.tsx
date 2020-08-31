@@ -1,15 +1,16 @@
 import { useState, useCallback, useContext, useEffect } from 'react'
-import classes from '../../styles/pages/shop/Cart.module.scss'
+import classes from '@styles/pages/shop/Cart.module.scss'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import Layout from '../../components/Layout/Layout'
-import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import CartItem from '../../components/Shop/CartItem/CartItem'
+import Layout from '@components/Layout/Layout'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import CartItem from '@components/Shop/CartItem/CartItem'
 import { Props as ShopItemProps } from './[pid]'
-import AuthForm from '../../components/AuthForm/AuthForm'
-import Modal from '../../components/UI/Modal/Modal'
-import Loader from '../../components/UI/Loader/Loader'
-import { UserContext } from '../../context/UserProvider'
+import AuthForm from '@components/AuthForm/AuthForm'
+import Modal from '@components/UI/Modal/Modal'
+import Loader from '@components/UI/Loader/Loader'
+import { UserContext } from '@context/UserProvider'
+import FormButton from '@components/UI/Buttons/FormButton/FormButton'
 
 export interface ShopItem {
   item: ShopItemProps
@@ -43,7 +44,7 @@ export interface ShopItem {
 
 const Cart: React.FC = () => {
   const router = useRouter()
-  const user = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const [showForm, setShowForm] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -88,9 +89,9 @@ const Cart: React.FC = () => {
             <div className={classes.Total}>114.02</div>
           </div>
         </div>
-        <button className={classes.Button} onClick={checkoutHandler}>
-          Checkout
-        </button>
+        <div style={{ width: '25rem', alignSelf: 'flex-end' }}>
+          <FormButton onClick={checkoutHandler}>Checkout</FormButton>
+        </div>
       </div>
     </div>
   )

@@ -1,13 +1,13 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import classes from '../styles/pages/AboutUs.module.scss'
-import Layout from '../components/Layout/Layout'
-import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import SecondaryHeader from '../components/UI/Headers/SecondaryHeader/SecondaryHeader'
-import TertiaryHeader from '../components/UI/Headers/TertiaryHeader/TertiaryHeader'
-import Triangle from '../components/UI/Triangle/Triangle'
-import TextBody from '../components/UI/TextBody/TextBody'
-import SubmissionPolicy from '../components/SubmissionPolicy/SubmissionPolicy'
+import classes from '@styles/pages/AboutUs.module.scss'
+import Layout from '@components/Layout/Layout'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import SecondaryHeader from '@components/UI/Headers/SecondaryHeader/SecondaryHeader'
+import TertiaryHeader from '@components/UI/Headers/TertiaryHeader/TertiaryHeader'
+import Triangle from '@components/UI/Triangle/Triangle'
+import TextBody from '@components/UI/TextBody/TextBody'
+import SubmissionPolicy from '@components/SubmissionPolicy/SubmissionPolicy'
 
 interface ListItems {
   [key: number]: boolean

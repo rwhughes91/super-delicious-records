@@ -1,27 +1,18 @@
-import { useState, useReducer, ChangeEvent } from 'react'
+import React, { useContext, useCallback } from 'react'
+import { useState, ChangeEvent } from 'react'
 import classes from './AuthForm.module.scss'
 import ContactInput from '../UI/Inputs/ContactInput/ContactInput'
 import { Props as InputProps, inputTypes } from '../UI/Inputs/Input/Input'
 import FormButton from '../UI/Buttons/FormButton/FormButton'
 import { cloneDeep } from 'lodash'
-import formValidation, { Rules } from '../../utils/formValidation'
-import { auth } from '../../services/firebase/client'
-
-interface Action {
-  type: string
-  key: string
-  value: string
-}
+import { auth } from '@services/firebase/client'
+import useForm from '@hooks/useForm'
+import { UserContext } from '@context/UserProvider'
 
 interface FormControls {
   email: InputProps
   password: InputProps
   confirmPassword: InputProps
-}
-
-interface State extends FormControls {
-  formIsInvalid: boolean
-  [key: string]: InputProps | boolean
 }
 
 interface Props {
@@ -30,46 +21,56 @@ interface Props {
 }
 
 const AuthForm: React.FC<Props> = (props) => {
+  const { user, setError } = useContext(UserContext)
   const inputControls = cloneDeep(formControls)
-  const initialState: State = { ...inputControls, formIsInvalid: true }
-  const [formData, dispatchFormData] = useReducer(reducer, initialState)
+  const initialState = { ...inputControls, formIsInvalid: true }
+  const [formData, dispatchFormData] = useForm(initialState)
   const [isSignUp, setIsSignUp] = useState(false)
-  const [error, setError] = useState('')
 
-  const onIsSignUpClickHandler = () => {
-    setError('')
+  const onIsSignUpClickHandler = useCallback(() => {
     dispatchFormData({ type: 'toggleInvalid', key: 'confirmPassword', value: '' })
     setIsSignUp((prevState) => !prevState)
-  }
+  }, [dispatchFormData])
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    props.onSubmit && props.onSubmit()
-    if (isSignUp) {
-      auth.createUserWithEmailAndPassword(
-        formData.email.value.toString(),
-        formData.password.value.toString()
-      )
-    } else {
-      auth
-        .signInWithEmailAndPassword(
-          formData.email.value.toString(),
-          formData.password.value.toString()
-        )
-        .catch((error) => {
-          setError(error.message)
-        })
-    }
-  }
+  const { onSubmit } = props
+  const onSubmitHandler = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      onSubmit && onSubmit()
+      if (isSignUp) {
+        auth
+          .createUserWithEmailAndPassword(
+            formData.email.value.toString(),
+            formData.password.value.toString()
+          )
+          .catch((error) => {
+            setError(error.message)
+          })
+      } else {
+        auth
+          .signInWithEmailAndPassword(
+            formData.email.value.toString(),
+            formData.password.value.toString()
+          )
+          .catch((error) => {
+            setError(error.message)
+          })
+      }
+    },
+    [formData.email.value, formData.password.value, onSubmit, isSignUp, setError]
+  )
 
-  const onChangeHandler = (key: string, event: ChangeEvent<HTMLInputElement>) => {
-    dispatchFormData({ type: 'change', key, value: event?.target.value })
-  }
+  const onChangeHandler = useCallback(
+    (key: string, event: ChangeEvent<HTMLInputElement>) => {
+      dispatchFormData({ type: 'change', key, value: event?.target.value })
+    },
+    [dispatchFormData]
+  )
 
   return (
     <div className={classes.Profile} style={props.styles}>
       <h6 className={classes.Title}>{isSignUp ? 'Sign Up' : 'Sign In'}</h6>
-      {error && <div className={classes.AuthErrorMessage}>{error}</div>}
+      {user.errorMessage && <div className={classes.AuthErrorMessage}>{user.errorMessage}</div>}
       <form className={classes.AuthForm} onSubmit={onSubmitHandler}>
         <ContactInput
           {...formData.email}
@@ -109,75 +110,7 @@ const AuthForm: React.FC<Props> = (props) => {
   )
 }
 
-export default AuthForm
-
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case 'toggleInvalid': {
-      const invalid = !(state[action.key] as InputProps).invalid
-      const formIsInvalid = isFormInvalid(state, action.key, invalid)
-      return {
-        ...state,
-        [action.key]: {
-          ...(state[action.key] as InputProps),
-          invalid,
-        },
-        formIsInvalid,
-      }
-    }
-    case 'change': {
-      let invalid
-      let errorMessage
-      if (action.key === 'confirmPassword') {
-        const confirmPasswordValidation: Rules = {
-          required: true,
-          equal: [state['password'].value as string, 'Does not equal password'],
-        }
-        const [valid, errorMessageStr] = formValidation(action.value, confirmPasswordValidation)
-        invalid = !valid
-        errorMessage = errorMessageStr
-      } else {
-        const [valid, errorMessageStr] = formValidation(
-          action.value,
-          (state[action.key] as InputProps).validation as Rules
-        )
-        invalid = !valid
-        errorMessage = errorMessageStr
-      }
-      const newState: State = {
-        ...state,
-        [action.key]: {
-          ...(state[action.key] as InputProps),
-          value: action.value,
-          touched: true,
-          invalid,
-          errorMessage,
-        },
-      }
-      const formIsInvalid = isFormInvalid(newState, action.key, invalid)
-      return {
-        ...newState,
-        formIsInvalid,
-      }
-    }
-    default:
-      return state
-  }
-}
-
-const isFormInvalid = (state: State, actionKey: string, invalid: boolean) => {
-  let formIsInvalid = false
-  for (const key in state) {
-    if (key === 'email' || key === 'password' || key === 'confirmPassword') {
-      if (key === actionKey) {
-        formIsInvalid = invalid || formIsInvalid
-      } else {
-        formIsInvalid = (state[key].invalid as boolean) || formIsInvalid
-      }
-    }
-  }
-  return formIsInvalid
-}
+export default React.memo(AuthForm)
 
 const formControls: FormControls = {
   email: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { auth } from '../services/firebase/client'
 
 interface UserState {
@@ -6,13 +6,23 @@ interface UserState {
   idToken: string | null
   admin: boolean
   loading: boolean
+  errorMessage: string | null
 }
 
-export const UserContext = React.createContext<UserState>({
-  user: null,
-  idToken: null,
-  admin: false,
-  loading: true,
+interface ContextState {
+  user: UserState
+  setError: (x: string) => void
+}
+
+export const UserContext = React.createContext<ContextState>({
+  user: {
+    user: null,
+    idToken: null,
+    admin: false,
+    loading: true,
+    errorMessage: null,
+  },
+  setError: () => null,
 })
 
 const UserProvider: React.FC = (props) => {
@@ -21,7 +31,18 @@ const UserProvider: React.FC = (props) => {
     idToken: null,
     admin: false,
     loading: true,
+    errorMessage: null,
   })
+
+  const setError = useCallback((message: string) => {
+    setUser((prevUserState) => {
+      return { ...prevUserState, errorMessage: message }
+    })
+  }, [])
+
+  const userPackage = useMemo(() => {
+    return { user, setError }
+  }, [user, setError])
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(function (user) {
@@ -33,6 +54,7 @@ const UserProvider: React.FC = (props) => {
               idToken: idTokenResult.token,
               admin: true,
               loading: false,
+              errorMessage: null,
             })
           } else {
             setUser({
@@ -40,6 +62,7 @@ const UserProvider: React.FC = (props) => {
               idToken: idTokenResult.token,
               admin: false,
               loading: false,
+              errorMessage: null,
             })
           }
         })
@@ -49,13 +72,14 @@ const UserProvider: React.FC = (props) => {
           idToken: null,
           admin: false,
           loading: false,
+          errorMessage: null,
         })
       }
     })
     return () => unsubscribe()
   }, [])
 
-  return <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
+  return <UserContext.Provider value={userPackage}>{props.children}</UserContext.Provider>
 }
 
 export default UserProvider

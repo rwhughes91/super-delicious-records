@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import Layout from '../components/Layout/Layout'
-import SubmissionPolicy from '../components/SubmissionPolicy/SubmissionPolicy'
-import PrimaryHeader from '../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import SecondaryHeader from '../components/UI/Headers/SecondaryHeader/SecondaryHeader'
-import ContactForm from '../components/ContactForm/ContactForm'
+import Layout from '@components/Layout/Layout'
+import SubmissionPolicy from '@components/SubmissionPolicy/SubmissionPolicy'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import SecondaryHeader from '@components/UI/Headers/SecondaryHeader/SecondaryHeader'
+import ContactForm from '@components/ContactForm/ContactForm'
 
 const ContactUs: React.FC = () => {
   return (

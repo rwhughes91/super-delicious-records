@@ -1,9 +1,9 @@
 import { useState, useReducer, useCallback, ChangeEvent, Dispatch } from 'react'
-import AdminInput, { ElementConfig, types } from '../../UI/Inputs/AdminInput/AdminInput'
+import AdminInput, { ElementConfig } from '../../UI/Inputs/AdminInput/AdminInput'
 import { difference } from 'lodash'
 import { DateTime } from 'luxon'
 
-export { types } from '../../UI/Inputs/AdminInput/AdminInput'
+import { inputTypes } from '../../UI/Inputs/Input/Input'
 
 export enum actions {
   UPDATE = 'UPDATE_VALUE',
@@ -22,7 +22,7 @@ interface Action<T> {
 export interface Field {
   value: string | Field | Field[]
   sectionHeader?: string
-  type?: types
+  type?: inputTypes
   elementConfig?: ElementConfig
   label?: string
   invalid?: boolean
@@ -115,7 +115,7 @@ const useForm = <T extends unknown>(
           <AdminInput
             key={fieldKey as string}
             {...formField}
-            type={formField.type ?? types.INPUT}
+            type={formField.type ?? inputTypes.INPUT}
             value={formField.value as string}
             elementConfig={formField.elementConfig ?? { placeholder: '', type: 'input' }}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
