@@ -1,8 +1,6 @@
 import { useContext, useState, useCallback, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import useSWR from 'swr'
-import { GraphQLClient } from 'graphql-request'
 import classes from '@styles/pages/shop/Orders.module.scss'
 import Layout from '@components/Layout/Layout'
 import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
@@ -13,21 +11,19 @@ import { UserContext } from '@context/UserProvider'
 import Loader from '@components/UI/Loader/Loader'
 import TextBody from '@components/UI/TextBody/TextBody'
 import FetchError from '@components/FetchError/FetchError'
-import { auth } from '@services/firebase/client'
 import * as typeDefs from '@generated/graphql'
 import { GET_ORDERS } from '@queries/index'
+import useCancellableSWR from '@hooks/useCancellableSWR'
 
 interface Order {
   getOrders: typeDefs.Order[]
 }
 
 const OrdersList: React.FC = () => {
-  const { user } = useContext(UserContext)
+  const { user, logoutHandler } = useContext(UserContext)
   const [loading, setLoading] = useState(false)
 
-  const { data, error } = useSWR<Order>(user.idToken ? [GET_ORDERS, user.user] : null, fetcher, {
-    revalidateOnFocus: false,
-  })
+  const [{ data, error }, cancelFn] = useCancellableSWR<Order>(GET_ORDERS, user.idToken, user.user)
 
   useEffect(() => {
     if (data && loading) {
@@ -39,13 +35,26 @@ const OrdersList: React.FC = () => {
     setLoading((prevState) => !prevState)
   }, [])
 
-  const logoutHandler = useCallback(() => {
-    if (user.user) {
-      auth.signOut()
-    }
-  }, [user.user])
+  const logout = useCallback(() => {
+    logoutHandler()
+    setLoading(false)
+    cancelFn('Operation Canceled')
+  }, [logoutHandler, cancelFn])
 
   const noOrders = <TextBody styles={{ marginBottom: '1rem' }}>No orders...yet</TextBody>
+
+  const loggedIn = (
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
+      <button className={classes.LogoutButton} onClick={logout}>
+        Logout
+      </button>
+      {user.admin && (
+        <Link href="/admin">
+          <button className={classes.AdminButton}>Admin Page</button>
+        </Link>
+      )}
+    </div>
+  )
 
   let output = (
     <div className={classes.FormContainer}>
@@ -63,6 +72,7 @@ const OrdersList: React.FC = () => {
           <TextBody styles={{ marginTop: '5rem' }}>
             Hold tight while we grab your orders for you
           </TextBody>
+          {user.user && loggedIn}
         </>
       )
     }
@@ -104,16 +114,7 @@ const OrdersList: React.FC = () => {
         <>
           <PrimaryHeader>Orders</PrimaryHeader>
           <div>{orders}</div>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
-            <button className={classes.LogoutButton} onClick={logoutHandler}>
-              Logout
-            </button>
-            {user.admin && (
-              <Link href="/admin">
-                <button className={classes.AdminButton}>Admin Page</button>
-              </Link>
-            )}
-          </div>
+          {loggedIn}
         </>
       )
     }
@@ -129,13 +130,3 @@ const OrdersList: React.FC = () => {
 }
 
 export default OrdersList
-
-const fetcher = async (query: string, user: firebase.User) => {
-  const idToken = await user.getIdToken()
-  const client = new GraphQLClient('/api/graphql', {
-    headers: {
-      authorization: `Bearer ${idToken}`,
-    },
-  })
-  return client.request(query)
-}

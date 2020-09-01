@@ -8,14 +8,11 @@ import useForm, {
   types,
   actions,
 } from '../hooks/useAdminForm'
-import {
-  Props as NewsProps,
-  Video as VideoProps,
-  Link as LinkProps,
-} from '../../../pages/news/[pid]'
 import { cloneDeep } from 'lodash'
 import AdminFieldSet from '../AdminFieldSet/AdminFieldSet'
 import AdminForm from '../AdminForm/AdminForm'
+
+// import { Props as NewsProps, Video as VideoProps, Link as LinkProps } from '@pages/news/[pid]'
 
 interface Props {
   data?: NewsProps

@@ -74,7 +74,7 @@ const Shop: React.FC<Props> = (props) => {
                 top: '1rem',
                 textTransform: 'uppercase',
                 color: 'var(--light-purple-color)',
-                fontSize: '1.1rem',
+                fontSize: '1.2rem',
               }}
             >
               Filter
@@ -100,7 +100,7 @@ const Shop: React.FC<Props> = (props) => {
                 top: '1rem',
                 textTransform: 'uppercase',
                 color: 'var(--light-purple-color)',
-                fontSize: '1.1rem',
+                fontSize: '1.2rem',
               }}
             >
               Sort
