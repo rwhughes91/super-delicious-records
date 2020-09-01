@@ -7,6 +7,9 @@ export interface ElemConfig {
   type: string
   options?: Array<{ value: string; displayValue: string }>
   required?: boolean
+  min?: string
+  max?: string
+  step?: string
 }
 
 export enum inputTypes {

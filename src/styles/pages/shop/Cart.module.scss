@@ -14,7 +14,7 @@ $max-width: 100rem;
   display: flex;
   flex-direction: column;
   font-size: 2rem;
-  padding: 3rem;
+  padding: 1rem 3rem;
   border-bottom: 1px solid var(--light-gray-color);
   width: 100%;
   max-width: $max-width;
@@ -85,14 +85,29 @@ $max-width: 100rem;
   }
 }
 
+.FormButtonContainer {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  & div {
+    width: 100%;
+    max-width: 30rem;
+  }
+}
+
 @media (min-width: 30em) {
   .Button {
     align-self: flex-end;
+  }
+  .FormButtonContainer {
+    width: 100%;
+    justify-content: flex-end;
   }
 }
 
 @media (min-width: 50em) {
   .CheckoutSummaryContainer {
-    width: 71rem;
+    width: 55rem;
   }
 }

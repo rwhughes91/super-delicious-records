@@ -33,7 +33,7 @@ const NavItems: React.FC<Props> = (props) => {
         <NavItem location="/shop/orders" styles={{ marginRight: '2.5rem' }}>
           <ProfileIcon size={3.4} />
         </NavItem>
-        <NavItem location="/cart" styles={{ width: '105%' }}>
+        <NavItem location="/shop/cart" styles={{ width: '105%' }}>
           <NavCartIcon size={3} />
         </NavItem>
       </div>

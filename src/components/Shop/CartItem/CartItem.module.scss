@@ -8,28 +8,37 @@
 
 .Image {
   width: 90%;
-  max-width: 20rem;
+  max-width: 12rem;
   overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 .Title {
-  font-size: 3rem;
+  font-size: 2.6rem;
+  color: var(--dark-purple-color);
+}
+
+.TitleContainer {
+  position: absolute;
+}
+
+.Static {
+  position: static !important;
 }
 
 .DetailsContainer {
   display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 85%;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  width: 100%;
   max-width: 40rem;
-  padding-left: 3rem;
 }
 
 .PriceContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   position: relative;
 }
 
@@ -39,9 +48,6 @@
   border: none;
   color: var(--bright-red-color);
   font-size: 1.6rem;
-  position: absolute;
-  top: 100%;
-  right: 0;
   cursor: pointer;
 }
 
@@ -63,6 +69,7 @@
   height: 3.75rem;
   width: 3.75rem;
   text-align: center;
+  background-color: var(--tan-white-color);
 
   &::placeholder {
     color: var(--light-gray-color);
@@ -80,45 +87,75 @@
   align-items: center;
   justify-content: flex-start;
   position: relative;
+  margin: 0 2rem;
 }
 
 .QtyTitle {
   font-size: 1.4rem;
   color: var(--light-purple-color);
   position: absolute;
-  top: -2.5rem;
+  top: -1.25rem;
 }
 
 .TitleLarge {
   font-size: 2.6rem;
   display: none;
+  color: var(--dark-purple-color);
 }
 
-@media (max-width: 18em) {
-  .QtyTitle {
-    top: 100%;
-  }
+.SubTextHeader {
+  color: var(--light-purple-color);
+  font-size: 1.6rem;
+  text-transform: capitalize;
+  font-family: 'Open Sans Regular';
+}
+
+.SubText {
+  text-transform: capitalize;
+  color: var(--light-purple-color);
+  font-size: 1.6rem;
+  font-family: 'Open Sans Regular';
 }
 
 @media (min-width: 30em) {
   .Title {
     display: none;
   }
+
   .TitleLarge {
     display: block;
   }
+
   .CartItem {
     flex-direction: row;
   }
+
   .DetailsContainer {
     max-width: none;
     align-items: center;
-    height: 16rem;
+    justify-content: space-between;
+    padding-left: 3rem;
+  }
+
+  .Row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .Image {
+    margin-bottom: 0;
+    max-width: 15rem;
+  }
+  .PriceContainer {
+    margin-left: 5rem;
+  }
+  .TitleContainer {
+    position: static;
   }
 }
 
 @media (min-width: 50em) {
   .CartItem {
-    padding: 2rem 3rem;
+    padding: 1rem 3rem;
   }
 }

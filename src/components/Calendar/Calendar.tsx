@@ -68,12 +68,26 @@ const EventsCalendar: React.FC<Props> = (props) => {
     })
   }
 
+  const upcomingEvents = genListEvents('gt')
+  const recentEvents = genListEvents('lt')
+
+  const modUpcomingEvents = upcomingEvents.filter((event) => event !== null)
+  const modRecentEvents = recentEvents.filter((event) => event !== null)
+
   const listView = (
     <div className={classes.CalendarList}>
       <div className={classes.Date}>Upcoming Events</div>
-      {genListEvents('gt')}
+      {modUpcomingEvents.length > 0 ? (
+        modUpcomingEvents
+      ) : (
+        <span className={classes.NoEventsHeader}>No upcoming events</span>
+      )}
       <div className={classes.Date}>Recent Events</div>
-      {genListEvents('lt')}
+      {modRecentEvents.length > 0 ? (
+        modRecentEvents
+      ) : (
+        <span className={classes.NoEventsHeader}>No recent events</span>
+      )}
     </div>
   )
 

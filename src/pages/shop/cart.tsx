@@ -5,50 +5,23 @@ import { useRouter } from 'next/router'
 import Layout from '@components/Layout/Layout'
 import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import CartItem from '@components/Shop/CartItem/CartItem'
-import { Props as ShopItemProps } from './[pid]'
 import AuthForm from '@components/AuthForm/AuthForm'
 import Modal from '@components/UI/Modal/Modal'
 import Loader from '@components/UI/Loader/Loader'
-import { UserContext } from '@context/UserProvider'
 import FormButton from '@components/UI/Buttons/FormButton/FormButton'
-
-export interface ShopItem {
-  item: ShopItemProps
-  qty: number
-}
-
-// const cart: ShopItem[] = [
-//   {
-//     item: {
-//       pid: '1',
-//       name: `Super Delicious T-Shirt`,
-//       imageUrl: '/shop/sdr-shop-item-small.png',
-//       imageSetUrl:
-//         '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-//       price: 14.99,
-//     },
-//     qty: 2,
-//   },
-//   {
-//     item: {
-//       pid: '1',
-//       name: `Super Delicious T-Shirt`,
-//       imageUrl: '/shop/sdr-shop-item-small.png',
-//       imageSetUrl:
-//         '/shop/sdr-shop-item-small.png 150w, /shop/sdr-shop-item-768.png 768w, /shop/sdr-shop-item.png 1000w',
-//       price: 14.99,
-//     },
-//     qty: 1,
-//   },
-// ]
+import TextBody from '@components/UI/TextBody/TextBody'
+import { UserContext } from '@context/UserProvider'
+import { CartContext } from '@context/CartProvider'
 
 const Cart: React.FC = () => {
   const router = useRouter()
   const { user } = useContext(UserContext)
+  const { cart } = useContext(CartContext)
   const [showForm, setShowForm] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const cart = []
+  const tax = (cart.subTotal * 0.02).toFixed(2)
+  const total = (cart.subTotal * 0.02 + cart.subTotal).toFixed(2)
 
   useEffect(() => {
     if (user.user && loading) {
@@ -69,32 +42,64 @@ const Cart: React.FC = () => {
     router.push('/shop/checkout')
   }, [router])
 
-  const cartItems = (
-    <div className={classes.Cart}>
-      {cart.map((item, i) => {
-        return <CartItem key={i} {...item} />
-      })}
-      <div className={classes.CheckoutContainer}>
-        <div className={classes.CheckoutSummaryContainer}>
-          <div>
-            <div className={classes.Light}>Subtotal</div>
-            <div className={[classes.Dollar, classes.Light].join(' ')}>100.00</div>
+  let cartItems
+
+  if (cart.cart.length > 0) {
+    cartItems = (
+      <div className={classes.Cart}>
+        {cart.cart.map((item, i) => {
+          return (
+            <CartItem
+              key={i}
+              qty={item.qty}
+              purchasePrice={item.shopItem.price}
+              shopItem={item.shopItem}
+              shopPid={item.shopPid}
+              color={item.color}
+              size={item.size}
+            />
+          )
+        })}
+        <div className={classes.CheckoutContainer}>
+          <div className={classes.CheckoutSummaryContainer}>
+            <div>
+              <div className={classes.Light}>Subtotal</div>
+              <div className={[classes.Dollar, classes.Light].join(' ')}>
+                {cart.subTotal.toFixed(2)}
+              </div>
+            </div>
+            <div>
+              <div>
+                <span className={classes.Light}>Estimated Tax</span>
+                <span
+                  className={classes.Light}
+                  style={{
+                    color: 'var(--light-gray-color)',
+                    paddingLeft: '1rem',
+                    fontSize: '1.6rem',
+                  }}
+                >
+                  (2%)
+                </span>
+              </div>
+              <div className={[classes.Dollar, classes.Light].join(' ')}>{tax}</div>
+            </div>
+            <div>
+              <div>Total</div>
+              <div className={classes.Total}>{total}</div>
+            </div>
           </div>
-          <div>
-            <div className={classes.Light}>Estimated Tax</div>
-            <div className={[classes.Dollar, classes.Light].join(' ')}>14.02</div>
+          <div className={classes.FormButtonContainer}>
+            <div>
+              <FormButton onClick={checkoutHandler}>Checkout</FormButton>
+            </div>
           </div>
-          <div>
-            <div>Total</div>
-            <div className={classes.Total}>114.02</div>
-          </div>
-        </div>
-        <div style={{ width: '25rem', alignSelf: 'flex-end' }}>
-          <FormButton onClick={checkoutHandler}>Checkout</FormButton>
         </div>
       </div>
-    </div>
-  )
+    )
+  } else {
+    cartItems = <TextBody>No items in your cart</TextBody>
+  }
 
   return (
     <>

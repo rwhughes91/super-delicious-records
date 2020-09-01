@@ -11,7 +11,7 @@ import ToggleListItem from '@components/TogglieListItem/ToggleListItem'
 import CartItem from '@components/Shop/CartItem/CartItem'
 import { UserContext } from '@context/UserProvider'
 import Loader from '@components/UI/Loader/Loader'
-import Text from '@components/UI/Text/Text'
+import TextBody from '@components/UI/TextBody/TextBody'
 import FetchError from '@components/FetchError/FetchError'
 import { auth } from '@services/firebase/client'
 import * as typeDefs from '@generated/graphql'
@@ -25,7 +25,9 @@ const OrdersList: React.FC = () => {
   const { user } = useContext(UserContext)
   const [loading, setLoading] = useState(false)
 
-  const { data, error } = useSWR<Order>(user.idToken ? [GET_ORDERS, user.idToken] : null, fetcher)
+  const { data, error } = useSWR<Order>(user.idToken ? [GET_ORDERS, user.user] : null, fetcher, {
+    revalidateOnFocus: false,
+  })
 
   useEffect(() => {
     if (data && loading) {
@@ -43,17 +45,7 @@ const OrdersList: React.FC = () => {
     }
   }, [user.user])
 
-  const noOrders = (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Text styles={{ marginBottom: '1rem', fontSize: '1.8rem' }}>No orders...yet</Text>
-    </div>
-  )
+  const noOrders = <TextBody styles={{ marginBottom: '1rem' }}>No orders...yet</TextBody>
 
   let output = (
     <div className={classes.FormContainer}>
@@ -64,9 +56,14 @@ const OrdersList: React.FC = () => {
   if (!user.errorMessage) {
     if (user.loading || loading || (user.idToken && !data)) {
       output = (
-        <div className={classes.LoaderWrapper}>
-          <Loader />
-        </div>
+        <>
+          <div className={classes.LoaderWrapper}>
+            <Loader />
+          </div>
+          <TextBody styles={{ marginTop: '5rem' }}>
+            Hold tight while we grab your orders for you
+          </TextBody>
+        </>
       )
     }
 
@@ -133,7 +130,8 @@ const OrdersList: React.FC = () => {
 
 export default OrdersList
 
-const fetcher = (query: string, idToken: string) => {
+const fetcher = async (query: string, user: firebase.User) => {
+  const idToken = await user.getIdToken()
   const client = new GraphQLClient('/api/graphql', {
     headers: {
       authorization: `Bearer ${idToken}`,

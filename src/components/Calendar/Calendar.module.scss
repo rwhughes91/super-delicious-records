@@ -1,4 +1,4 @@
-$width: 102.9rem;
+$width: 125rem;
 
 .Calendar {
   display: flex;
@@ -75,6 +75,13 @@ $width: 102.9rem;
   margin: 1rem;
   text-transform: uppercase;
   line-height: 3rem;
+}
+
+.NoEventsHeader {
+  color: var(--dark-purple-color);
+  font-size: 1.8rem;
+  margin: 1rem 0;
+  font-family: 'Open Sans Regular';
 }
 
 @media (max-width: 56.25em) {

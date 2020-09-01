@@ -1,12 +1,15 @@
 import { AppProps } from 'next/app'
 import UserProvider from '../context/UserProvider'
+import CartProvider from '@context/CartProvider'
 
-import '../styles/fonts.scss'
-import '../styles/styles.scss'
+import '@styles/fonts.scss'
+import '@styles/styles.scss'
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => (
   <UserProvider>
-    <Component {...pageProps} />
+    <CartProvider>
+      <Component {...pageProps} />
+    </CartProvider>
   </UserProvider>
 )
 

@@ -7,6 +7,8 @@ export const GET_ORDERS = gql`
       items {
         qty
         purchasePrice
+        color
+        size
         shopItem {
           name
           images {

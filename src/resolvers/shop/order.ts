@@ -30,6 +30,12 @@ class OrderShopItem {
 
   @Field(() => ShopItem)
   shopItem!: ShopItem
+
+  @Field({ nullable: true })
+  color?: string
+
+  @Field({ nullable: true })
+  size?: string
 }
 
 @ObjectType()
@@ -60,6 +66,12 @@ class OrderShopItemInput {
 
   @Field()
   purchasePrice!: number
+
+  @Field({ nullable: true })
+  color?: string
+
+  @Field({ nullable: true })
+  size?: string
 }
 
 @InputType()

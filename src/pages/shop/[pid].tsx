@@ -1,32 +1,27 @@
-import { useReducer, useState, useCallback } from 'react'
+import { useReducer, useState, useCallback, useContext } from 'react'
 import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import classes from '../../styles/pages/shop/ShopDetail.module.scss'
-import Layout from '../../components/Layout/Layout'
-import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
-import ShopItem from '../../components/Shop/ShopItem/ShopItem'
-import ShopCarousel from '../../components/Shop/ShopCarousel/ShopCarousel'
-import SizeChart from '../../components/Shop/SizeChart/SizeChart'
-import ProductDescription from '../../components/Shop/ProductDescription/ProductDescription'
-import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
-import FormButton from '../../components/UI/Buttons/FormButton/FormButton'
-import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Input/Input'
-import ContactInput from '../../components/UI/Inputs/ContactInput/ContactInput'
 import { cloneDeep } from 'lodash'
+import classes from '@styles/pages/shop/ShopDetail.module.scss'
+import Layout from '@components/Layout/Layout'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import ShopItem from '@components/Shop/ShopItem/ShopItem'
+import ShopCarousel from '@components/Shop/ShopCarousel/ShopCarousel'
+import SizeChart from '@components/Shop/SizeChart/SizeChart'
+import ProductDescription from '@components/Shop/ProductDescription/ProductDescription'
+import Dropdown from '@components/UI/Inputs/Dropdown/Dropdown'
+import FormButton from '@components/UI/Buttons/FormButton/FormButton'
+import { Props as InputProps, inputTypes } from '@components/UI/Inputs/Input/Input'
 import { getDataItem, getDataArray, getChildrenEqualTo } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import { convertFieldsToParams } from '@utils/helpers'
+import { CartContext } from '@context/CartProvider'
+import useForm from '@hooks/useForm'
 
 interface FormControls {
   size: InputProps
   color: InputProps
   qty: InputProps
-}
-
-interface Action {
-  type: string
-  key: string
-  value: string
 }
 
 interface State extends FormControls {
@@ -40,6 +35,7 @@ interface Props {
 }
 
 const ShopItemDetail: React.FC<Props> = (props) => {
+  const { addToCartHandler } = useContext(CartContext)
   const inputControls = cloneDeep(formControls)
   const initialState: State = {
     ...inputControls,
@@ -50,28 +46,46 @@ const ShopItemDetail: React.FC<Props> = (props) => {
         options: createColorOptions(props.item.colors),
       },
     },
+    qty: {
+      ...inputControls.qty,
+      elementConfig: {
+        ...inputControls.qty.elementConfig,
+        options: generateQtyOptions(),
+      },
+    },
     formIsInvalid: true,
   }
 
-  const [formState, formDispatch] = useReducer(reducer, initialState)
+  const [formState, formDispatch] = useForm(initialState)
+
   const [showModal, setShowModal] = useState(false)
 
   const onInputChangeHandler = useCallback(
     (key: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       formDispatch({ type: 'change', key: key, value: event.target.value })
     },
-    []
+    [formDispatch]
   )
 
   const onClickModalHandler = useCallback(() => {
     setShowModal((prevState) => !prevState)
   }, [])
 
-  const onFormSubmitHandler = useCallback((event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    // locally store item with name, size, color, qty, price into a list of other items stored
-    // send this item to firebase --> cart via our api set up
-  }, [])
+  const onFormSubmitHandler = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+
+      const cartItem: Omit<typeDefs.CartItem, 'pid'> = {
+        shopPid: props.item.pid,
+        qty: parseInt(formState.qty.value.toString()),
+        size: formState.size.value.toString(),
+        color: formState.color.value.toString(),
+        shopItem: { ...props.item },
+      }
+      addToCartHandler(cartItem)
+    },
+    [addToCartHandler, formState.qty, formState.size, formState.color, props.item]
+  )
 
   const size = 425
 
@@ -96,16 +110,22 @@ const ShopItemDetail: React.FC<Props> = (props) => {
               <form onSubmit={onFormSubmitHandler}>
                 <Dropdown
                   {...formState.size}
-                  onChange={(event) => onInputChangeHandler('size', event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+                    onInputChangeHandler('size', event)
+                  }
                 ></Dropdown>
                 <Dropdown
                   {...formState.color}
-                  onChange={(event) => onInputChangeHandler('color', event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+                    onInputChangeHandler('color', event)
+                  }
                 ></Dropdown>
-                <ContactInput
+                <Dropdown
                   {...formState.qty}
                   styles={{ width: '100%' }}
-                  onChange={(event) => onInputChangeHandler('qty', event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+                    onInputChangeHandler('qty', event)
+                  }
                 />
                 <FormButton disabled={formState.formIsInvalid}>Add to Cart</FormButton>
               </form>
@@ -115,9 +135,7 @@ const ShopItemDetail: React.FC<Props> = (props) => {
                   props.item.qtyAvailable > 0 ? classes.Available : classes.NotAvailable,
                 ].join(' ')}
               >
-                {props.item.qtyAvailable > 0
-                  ? `${props.item.qtyAvailable} in stock`
-                  : 'Not in stock'}
+                {props.item.qtyAvailable > 0 ? `In stock` : 'Not in stock'}
               </div>
             </div>
           </div>
@@ -154,10 +172,11 @@ const formControls: FormControls = {
   size: {
     value: '',
     type: inputTypes.SELECT,
-    invalid: false,
+    invalid: true,
     touched: false,
     errorMessage: '',
     label: 'Category',
+    validation: { required: true },
     elementConfig: {
       placeholder: 'Category',
       type: 'text',
@@ -173,10 +192,11 @@ const formControls: FormControls = {
   color: {
     value: '',
     type: inputTypes.SELECT,
-    invalid: false,
+    invalid: true,
     touched: false,
     errorMessage: '',
     label: 'Category',
+    validation: { required: true },
     elementConfig: {
       placeholder: 'Category',
       type: 'text',
@@ -184,15 +204,16 @@ const formControls: FormControls = {
     },
   },
   qty: {
-    value: '',
-    type: inputTypes.INPUT,
-    invalid: true,
-    touched: false,
+    value: '1',
+    type: inputTypes.SELECT,
+    invalid: false,
+    touched: true,
     errorMessage: '',
     validation: { required: true },
     elementConfig: {
       placeholder: 'Qty',
-      type: 'number',
+      type: 'text',
+      options: [],
     },
   },
 }
@@ -205,27 +226,12 @@ function createColorOptions(colors: string[]) {
   return colorOptions
 }
 
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case 'change': {
-      const newState = {
-        ...state,
-        [action.key]: { ...(state[action.key] as InputProps), value: action.value, touched: true },
-      }
-      let formIsInvalid = false
-      for (const key in newState) {
-        if (key === 'qty' || key === 'color' || key === 'size') {
-          if (key === action.key) {
-            formIsInvalid = false || formIsInvalid
-          }
-          formIsInvalid = !newState[key].touched || formIsInvalid
-        }
-      }
-      return { ...newState, formIsInvalid }
-    }
-    default:
-      return state
+function generateQtyOptions() {
+  const options = []
+  for (let x = 1; x < 31; x++) {
+    options.push({ value: x.toString(), displayValue: x.toString() })
   }
+  return options
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {

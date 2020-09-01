@@ -1,17 +1,98 @@
-import React from 'react'
+import React, { useContext, useCallback, ChangeEvent } from 'react'
 import classes from './CartItem.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
 import * as genTypes from '@generated/graphql'
+import { Props as InputProps, inputTypes } from '@components/UI/Inputs/Input/Input'
+import DropDown from '@components/UI/Inputs/Dropdown/Dropdown'
+import useForm from '@hooks/useForm'
+import { cloneDeep } from 'lodash'
+import { CartContext } from '@context/CartProvider'
+
+interface FormControls {
+  qty: InputProps
+}
+
+interface State extends FormControls {
+  formIsInvalid: boolean
+  qty: InputProps
+  [key: string]: InputProps | boolean
+}
 
 type ShopItem = Pick<genTypes.ShopItem, 'name' | 'images'>
 
-interface Props extends Pick<genTypes.OrderShopItem, 'qty' | 'purchasePrice'> {
+interface Props extends Pick<genTypes.OrderShopItem, 'qty' | 'purchasePrice' | 'color' | 'size'> {
   shopItem: ShopItem
   styles?: React.CSSProperties
   order?: boolean
+  shopPid?: string
 }
 
 const CartItem: React.FC<Props> = (props) => {
+  const { cart, editCartItemHandler, removeFromCart } = useContext(CartContext)
+  const inputControls = cloneDeep(formControls)
+  const initialState: State = {
+    qty: {
+      ...inputControls.qty,
+      value: props.qty,
+      elementConfig: {
+        ...inputControls.qty.elementConfig,
+        options: generateQtyOptions(),
+      },
+    },
+    formIsInvalid: true,
+  }
+
+  const [qtyState, dispatchFormData] = useForm(initialState)
+
+  const onChangeHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      dispatchFormData({ type: 'change', key: 'qty', value: event?.target.value })
+      if (event?.target.value !== qtyState.qty.value) {
+        const itemToUpdate = cart.cart.find(
+          (cartItem) =>
+            cartItem.shopPid === props.shopPid &&
+            cartItem.color === props.color &&
+            cartItem.size === props.size
+        )
+        if (itemToUpdate) {
+          editCartItemHandler(itemToUpdate, parseInt(event?.target.value))
+        }
+      }
+    },
+    [
+      dispatchFormData,
+      cart.cart,
+      editCartItemHandler,
+      props.color,
+      props.shopPid,
+      props.size,
+      qtyState.qty.value,
+    ]
+  )
+
+  const removeCartItemHandler = useCallback(() => {
+    if (props.shopPid) {
+      removeFromCart(props.shopPid)
+    }
+  }, [props.shopPid, removeFromCart])
+
+  const sizeAndColor = (
+    <div className={classes.Row}>
+      {props.color && (
+        <div>
+          <span className={classes.SubTextHeader}>Color: </span>
+          <span className={classes.SubText}>{props.color}</span>
+        </div>
+      )}
+      {props.size && (
+        <div>
+          <span className={classes.SubTextHeader}>Size: </span>
+          <span className={classes.SubText}>{props.size}</span>
+        </div>
+      )}
+    </div>
+  )
+
   return (
     <div className={classes.CartItem} style={props.styles}>
       <div className={classes.Title}>{props.shopItem.name}</div>
@@ -25,7 +106,14 @@ const CartItem: React.FC<Props> = (props) => {
         />
       </div>
       <div className={classes.DetailsContainer}>
-        <div className={classes.TitleLarge}>{props.shopItem.name}</div>
+        <div
+          className={[classes.TitleContainer, props.size || props.color ? classes.Static : ''].join(
+            ' '
+          )}
+        >
+          <div className={classes.TitleLarge}>{props.shopItem.name}</div>
+          {props.size || props.color ? sizeAndColor : null}
+        </div>
         <div className={classes.QtyContainer}>
           <span className={classes.QtyTitle}>Qty</span>
           {props.order ? (
@@ -35,26 +123,26 @@ const CartItem: React.FC<Props> = (props) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: 'white',
               }}
             >
               {props.qty}
             </span>
           ) : (
-            <input
-              className={classes.Qty}
-              type="number"
-              inputMode="numeric"
-              step="1"
-              min="1"
-              max="99"
-              value={props.qty}
+            <DropDown
+              styles={{ width: '4.5rem', textTransform: 'capitalize' }}
+              {...qtyState.qty}
+              value={qtyState.qty.value}
+              onChange={onChangeHandler}
             />
           )}
         </div>
         <div className={classes.PriceContainer}>
-          <div className={classes.Price}>{props.purchasePrice * props.qty}</div>
-          {!props.order && <button className={classes.RemoveButton}>Remove</button>}
+          <div className={classes.Price}>{(props.purchasePrice * props.qty).toFixed(2)}</div>
+          {!props.order && (
+            <button className={classes.RemoveButton} onClick={removeCartItemHandler}>
+              Remove
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -62,3 +150,27 @@ const CartItem: React.FC<Props> = (props) => {
 }
 
 export default React.memo(CartItem)
+
+const formControls: FormControls = {
+  qty: {
+    value: '',
+    type: inputTypes.SELECT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    validation: { required: true },
+    elementConfig: {
+      placeholder: 'Qty',
+      type: 'text',
+      options: [],
+    },
+  },
+}
+
+function generateQtyOptions() {
+  const options = []
+  for (let x = 1; x < 31; x++) {
+    options.push({ value: x.toString(), displayValue: x.toString() })
+  }
+  return options
+}

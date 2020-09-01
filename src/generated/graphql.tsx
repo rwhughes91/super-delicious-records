@@ -175,6 +175,8 @@ export type OrderShopItem = {
   qty: Scalars['Int']
   purchasePrice: Scalars['Float']
   shopItem: ShopItem
+  color?: Maybe<Scalars['String']>
+  size?: Maybe<Scalars['String']>
 }
 
 export type CartItem = {
@@ -318,6 +320,8 @@ export type OrderShopItemInput = {
   shopPid: Scalars['String']
   qty: Scalars['Int']
   purchasePrice: Scalars['Float']
+  color?: Maybe<Scalars['String']>
+  size?: Maybe<Scalars['String']>
 }
 
 export type CartItemInput = {
@@ -489,21 +493,13 @@ export type GetOrdersQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetOrdersQuery = { __typename?: 'Query' } & {
   getOrders: Array<
-    { __typename?: 'Order' } & Pick<Order, 'pid' | 'amount' | 'currency' | 'date'> & {
+    { __typename?: 'Order' } & Pick<Order, 'pid' | 'amount' | 'date'> & {
         items: Array<
-          { __typename?: 'OrderShopItem' } & Pick<OrderShopItem, 'qty' | 'purchasePrice'> & {
-              shopItem: { __typename?: 'ShopItem' } & Pick<
-                ShopItem,
-                | 'pid'
-                | 'name'
-                | 'price'
-                | 'description'
-                | 'qtyAvailable'
-                | 'tag'
-                | 'moreInfo'
-                | 'weight'
-                | 'colors'
-              > & {
+          { __typename?: 'OrderShopItem' } & Pick<
+            OrderShopItem,
+            'qty' | 'purchasePrice' | 'color' | 'size'
+          > & {
+              shopItem: { __typename?: 'ShopItem' } & Pick<ShopItem, 'name'> & {
                   images: Array<
                     { __typename?: 'ShopImage' } & Pick<
                       ShopImage,
