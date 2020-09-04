@@ -94,8 +94,6 @@ const UserProvider: React.FC = (props) => {
     return () => unsubscribe()
   }, [])
 
-  console.log(user)
-
   return <UserContext.Provider value={userPackage}>{props.children}</UserContext.Provider>
 }
 

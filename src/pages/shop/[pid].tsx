@@ -1,4 +1,4 @@
-import { useReducer, useState, useCallback, useContext } from 'react'
+import { useState, useCallback, useContext, useEffect } from 'react'
 import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { cloneDeep } from 'lodash'
@@ -17,6 +17,7 @@ import * as typeDefs from '@generated/graphql'
 import { convertFieldsToParams } from '@utils/helpers'
 import { CartContext } from '@context/CartProvider'
 import useForm from '@hooks/useForm'
+import { v4 } from 'uuid'
 
 interface FormControls {
   size: InputProps
@@ -35,7 +36,7 @@ interface Props {
 }
 
 const ShopItemDetail: React.FC<Props> = (props) => {
-  const { addToCartHandler } = useContext(CartContext)
+  const { addToCartHandler, editingState } = useContext(CartContext)
   const inputControls = cloneDeep(formControls)
   const initialState: State = {
     ...inputControls,
@@ -57,8 +58,17 @@ const ShopItemDetail: React.FC<Props> = (props) => {
   }
 
   const [formState, formDispatch] = useForm(initialState)
-
   const [showModal, setShowModal] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    if (submitted) {
+      const timer = setTimeout(() => {
+        setSubmitted(false)
+      }, 2500)
+      return () => clearTimeout(timer)
+    }
+  }, [submitted])
 
   const onInputChangeHandler = useCallback(
     (key: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -74,20 +84,34 @@ const ShopItemDetail: React.FC<Props> = (props) => {
   const onFormSubmitHandler = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-
-      const cartItem: Omit<typeDefs.CartItem, 'pid'> = {
+      setSubmitted(true)
+      formDispatch({ type: 'reset', key: '', value: '' })
+      let image = props.item.images.find(
+        (image) => image.color?.toLowerCase() === formState.color.value.toString().toLowerCase()
+      )
+      if (!image) {
+        image = props.item.images[0]
+      }
+      const cartItem = {
+        pid: v4(),
         shopPid: props.item.pid,
         qty: parseInt(formState.qty.value.toString()),
-        size: formState.size.value.toString(),
+        size: formState.size.value.toString() as typeDefs.Size,
         color: formState.color.value.toString(),
-        shopItem: { ...props.item },
+        shopItem: {
+          name: props.item.name,
+          price: props.item.price,
+          images: [image],
+        },
       }
-      addToCartHandler(cartItem)
+      addToCartHandler(cartItem, 'create')
     },
-    [addToCartHandler, formState.qty, formState.size, formState.color, props.item]
+    [addToCartHandler, formState.qty, formState.size, formState.color, props.item, formDispatch]
   )
 
   const size = 425
+
+  console.log(editingState, submitted)
 
   return (
     <>
@@ -127,7 +151,13 @@ const ShopItemDetail: React.FC<Props> = (props) => {
                     onInputChangeHandler('qty', event)
                   }
                 />
-                <FormButton disabled={formState.formIsInvalid}>Add to Cart</FormButton>
+                <FormButton
+                  disabled={formState.formIsInvalid || editingState.loading}
+                  loading={editingState.loading}
+                  successOnClick={submitted && !editingState.loading}
+                >
+                  Add to Cart
+                </FormButton>
               </form>
               <div
                 className={[
@@ -181,11 +211,11 @@ const formControls: FormControls = {
       placeholder: 'Category',
       type: 'text',
       options: [
-        { value: 'extraSmall', displayValue: 'X-Small' },
-        { value: 'small', displayValue: 'Small' },
-        { value: 'medium', displayValue: 'Medium' },
-        { value: 'large', displayValue: 'Large' },
-        { value: 'extraLarge', displayValue: 'X-Large' },
+        { value: typeDefs.Size.Xsmall, displayValue: 'X-Small' },
+        { value: typeDefs.Size.Small, displayValue: 'Small' },
+        { value: typeDefs.Size.Medium, displayValue: 'Medium' },
+        { value: typeDefs.Size.Large, displayValue: 'Large' },
+        { value: typeDefs.Size.Xlarge, displayValue: 'X-Large' },
       ],
     },
   },

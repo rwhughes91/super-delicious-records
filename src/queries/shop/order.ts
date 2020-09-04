@@ -4,7 +4,10 @@ export const GET_ORDERS = gql`
   query GetOrders {
     getOrders {
       pid
+      amount
+      date
       items {
+        shopPid
         qty
         purchasePrice
         color
@@ -19,8 +22,6 @@ export const GET_ORDERS = gql`
           }
         }
       }
-      amount
-      date
     }
   }
 `

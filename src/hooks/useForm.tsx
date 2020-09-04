@@ -63,6 +63,8 @@ export default function useForm<T>(initialState: T & Base): [T & Base, Dispatch<
           formIsInvalid,
         }
       }
+      case 'reset':
+        return initialState
       default:
         return state
     }

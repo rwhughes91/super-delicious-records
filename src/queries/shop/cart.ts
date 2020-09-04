@@ -4,11 +4,11 @@ export const GET_CART = gql`
   query GetCart {
     getCart {
       pid
-      qty
+      shopPid
       size
       color
+      qty
       shopItem {
-        pid
         name
         price
         images {
@@ -17,12 +17,6 @@ export const GET_CART = gql`
           alt
           color
         }
-        description
-        qtyAvailable
-        tag
-        moreInfo
-        weight
-        colors
       }
     }
   }
@@ -31,5 +25,11 @@ export const GET_CART = gql`
 export const ADD_TO_CART = gql`
   mutation AddToCart($data: CartItemInput!) {
     addToCart(data: $data)
+  }
+`
+
+export const REMOVE_FROM_CART = gql`
+  mutation RemoveFromCart($data: String!) {
+    removeFromCart(pid: $data)
   }
 `

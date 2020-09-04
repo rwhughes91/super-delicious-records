@@ -7,6 +7,7 @@ export {
   CREATE_SHOP_ITEM,
   GET_CART,
   ADD_TO_CART,
+  REMOVE_FROM_CART,
   GET_ORDERS,
   CREATE_ORDER,
 } from './shop/'

@@ -6,7 +6,7 @@ import MainNav from '../Navigation/MainNav/MainNav'
 import Footer from '../Footer/Footer'
 import BreadCrumb from '../Breadcrumb/Breadcrumb'
 
-type children = JSX.Element | boolean | null | undefined
+type children = JSX.Element | boolean | null | undefined | string
 interface Props {
   pageType: 'home' | 'main'
   currentPage?: string

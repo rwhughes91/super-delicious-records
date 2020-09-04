@@ -9,47 +9,57 @@ import {
   Ctx,
   UseMiddleware,
   InputType,
-  FieldResolver,
-  Root,
 } from 'type-graphql'
-import { isAuthenticated } from '../../middleware/resolver/isAuthenticated'
-import { isAdmin } from '../../middleware/resolver/isAdmin'
+import { isAuthenticated } from '@middleware/resolver/isAuthenticated'
 import { ResolverContext } from '../../types/resolver'
-import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
+import {
+  getDataArray,
+  createDataItemWithPid,
+  removeDataItemFromList,
+} from '@services/firebase/admin'
 import { AuthenticationError } from 'apollo-server-micro'
-import { ShopItem } from './shop'
+import { ShopItemTrimmed, ShopItemTrimmedInput, Size } from '@resolvers/types'
 
 @ObjectType()
-class CartItem {
+export class CartItem {
   @Field()
   pid!: string
 
   @Field()
   shopPid!: string
 
-  @Field()
-  size!: string
+  @Field(() => Size, { nullable: true })
+  size?: Size
 
-  @Field()
-  color!: string
+  @Field({ nullable: true })
+  color?: string
 
   @Field(() => Int)
   qty!: number
+
+  @Field(() => ShopItemTrimmed)
+  shopItem!: ShopItemTrimmed
 }
 
 @InputType()
 class CartItemInput {
+  @Field()
+  pid!: string
+
   @Field()
   shopPid!: string
 
   @Field(() => Int)
   qty!: number
 
-  @Field()
-  size!: string
+  @Field(() => Size, { nullable: true })
+  size?: Size
 
-  @Field()
-  color!: string
+  @Field({ nullable: true })
+  color?: string
+
+  @Field(() => ShopItemTrimmedInput)
+  shopItem!: ShopItemTrimmedInput
 }
 
 @Resolver(() => CartItem)
@@ -65,17 +75,28 @@ export default class CartResolver {
   }
 
   @Mutation(() => String)
-  @UseMiddleware(isAdmin)
-  async addToCart(@Arg('data') data: CartItemInput, @Ctx() ctx: ResolverContext): Promise<string> {
+  @UseMiddleware(isAuthenticated)
+  async addToCart(
+    @Arg('data') data: CartItemInput,
+    @Ctx() ctx: ResolverContext
+  ): Promise<true | string> {
     const uid = ctx.me && ctx.me.uid
     if (!uid) {
       throw new AuthenticationError('No UID with user')
     }
-    return createDataItem(`/users/${uid}/cart`, data)
+    return createDataItemWithPid<CartItemInput>(`/users/${uid}/cart`, data)
   }
 
-  @FieldResolver(() => ShopItem)
-  async shopItem(@Root() parent: CartItem): Promise<ShopItem> {
-    return getDataItem<ShopItem>(`/shop/${parent.shopPid}`)
+  @Mutation(() => String)
+  @UseMiddleware(isAuthenticated)
+  async removeFromCart(
+    @Arg('pid') pid: string,
+    @Ctx() ctx: ResolverContext
+  ): Promise<true | string> {
+    const uid = ctx.me && ctx.me.uid
+    if (!uid) {
+      throw new AuthenticationError('No UID with user')
+    }
+    return removeDataItemFromList(`/users/${uid}/cart/${pid}`)
   }
 }

@@ -1,10 +1,11 @@
-import useSWR, { responseInterface } from 'swr'
+import useSWR, { responseInterface, ConfigInterface } from 'swr'
 import axios, { Canceler } from 'axios'
 
 export default function useCancellableSWR<T>(
   query: string,
   idToken: string | null,
-  user: firebase.User | null
+  user: firebase.User | null,
+  options?: ConfigInterface
 ): [responseInterface<T, Error>, Canceler] {
   const source = axios.CancelToken.source()
   async function fetcher(query: string, user: firebase.User) {
@@ -20,5 +21,5 @@ export default function useCancellableSWR<T>(
       )
       .then((res) => res.data.data)
   }
-  return [useSWR(idToken ? [query, user] : null, fetcher), source.cancel]
+  return [useSWR(idToken ? [query, user] : null, fetcher, options), source.cancel]
 }

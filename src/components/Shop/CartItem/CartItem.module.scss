@@ -66,7 +66,7 @@
   font-size: 1.4rem;
   margin-top: 0.25rem;
   appearance: none;
-  height: 3.75rem;
+  height: 4rem;
   width: 3.75rem;
   text-align: center;
   background-color: var(--tan-white-color);
@@ -94,7 +94,7 @@
   font-size: 1.4rem;
   color: var(--light-purple-color);
   position: absolute;
-  top: -1.25rem;
+  top: -1.75rem;
 }
 
 .TitleLarge {
@@ -103,17 +103,11 @@
   color: var(--dark-purple-color);
 }
 
+.SubText,
 .SubTextHeader {
-  color: var(--light-purple-color);
-  font-size: 1.6rem;
-  text-transform: capitalize;
-  font-family: 'Open Sans Regular';
-}
-
-.SubText {
   text-transform: capitalize;
   color: var(--light-purple-color);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-family: 'Open Sans Regular';
 }
 

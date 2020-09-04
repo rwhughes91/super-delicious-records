@@ -1,13 +1,13 @@
-import { useState, useEffect, useContext } from 'react'
+import { useContext } from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
 import { UserContext } from '../context/UserProvider'
 import { GraphQLClient } from 'graphql-request'
 import * as genTypes from '@generated/graphql'
 
-import { CREATE_ORDER, GET_ORDERS } from '@queries/index'
+import { GET_ORDERS, CREATE_ORDER } from '@queries/index'
 
-import { getUsersDataWithShopItem } from '@services/firebase/admin'
+// import { getUsersCartItemsWithShopItem } from '@services/firebase/admin'
 
 const HomePage: React.FC = () => {
   const { user } = useContext(UserContext)
@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
       client.setHeader('authorization', `Bearer ${user.idToken}`)
     }
     const variables = {
-      data: orders[1],
+      data: orders[0],
     }
     client
       .request(CREATE_ORDER, variables)
@@ -64,45 +64,28 @@ export default HomePage
 const orders = [
   {
     date: '8/12/2020',
-    amount: 100,
     currency: 'USD',
+    amount: 100,
     items: [
       {
-        shopPid: '-MFsqTYbk87ugUC3_ZRg',
+        shopPid: '',
         qty: 2,
         purchasePrice: 14.99,
-      },
-      {
-        shopPid: '-MFsqTYbk87ugUC3_ZRg',
-        qty: 1,
-        purchasePrice: 14.99,
-      },
-    ],
-  },
-  {
-    date: '7/15/2020',
-    amount: 100,
-    currency: 'USD',
-    items: [
-      {
-        shopPid: '-MFsqTYbk87ugUC3_ZRg',
-        qty: 2,
-        purchasePrice: 14.99,
-      },
-      {
-        shopPid: '-MFsqTYbk87ugUC3_ZRg',
-        qty: 1,
-        purchasePrice: 14.99,
+        color: 'black',
+        size: genTypes.Size.Small,
+        shopItem: {
+          name: 'Super Delicious T Shirt',
+          price: 14.99,
+          images: [
+            {
+              imageUrl: '',
+              imageSetUrl: '',
+              alt: '',
+              color: 'black',
+            },
+          ],
+        },
       },
     ],
   },
 ]
-
-export const getStaticProps = async (context) => {
-  return {
-    props: {
-      test: true,
-    },
-    revalidate: 1,
-  }
-}

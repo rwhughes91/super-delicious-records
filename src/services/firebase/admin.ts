@@ -1,7 +1,6 @@
 import * as admin from 'firebase-admin'
 import firebaseServiceAccount from '../../../serviceAccount.json'
 import { shaveObject } from '@utils/helpers'
-import * as typeDefs from '@generated/graphql'
 import { Order as OrderType } from '@resolvers/shop/order'
 import { ShopItem as ShopItemType } from '@resolvers/shop/shop'
 
@@ -45,6 +44,53 @@ export async function createDataItem<T>(location: string, data: T): Promise<stri
   const shavedInput = shaveObject(data)
   const newPid = await pushDataToDatabase<T>(location, shavedInput)
   return newPid || ''
+}
+
+export async function createDataItemWithPid<T extends { pid: string }>(
+  location: string,
+  data: T
+): Promise<true | string> {
+  const shavedInput = shaveObject(data)
+  const pid = shavedInput.pid
+  delete shavedInput.pid
+  try {
+    await database.ref(location + '/' + pid).set(shavedInput)
+    return true
+  } catch (error) {
+    return error.message
+  }
+}
+
+export async function setListOfData<T>(location: string, data: T[]): Promise<true | string> {
+  const ref = database.ref(location)
+  const shavedData = []
+  for (const dataObj of data) {
+    shavedData.push(shaveObject(dataObj))
+  }
+  try {
+    await ref.set(shavedData)
+    return true
+  } catch (error) {
+    return error.message
+  }
+}
+
+export async function mergeListOfData<T>(location: string, data: T[]): Promise<true | string> {
+  const ref = database.ref(location)
+  const shavedData = []
+  for (const dataObj of data) {
+    shavedData.push(shaveObject(dataObj))
+  }
+  try {
+    const currentCart = await resolveOnValue<T[]>(ref)
+    for (const currentCartItem of currentCart) {
+      shavedData.unshift(currentCartItem)
+    }
+    await ref.set(shavedData)
+    return true
+  } catch (error) {
+    return error.message
+  }
 }
 
 export async function getDataArray<T>(location: string): Promise<T[]> {
@@ -104,7 +150,7 @@ export async function getChildrenEqualTo<T>(
   return data
 }
 
-export async function getUsersDataWithShopItem(uid: string): Promise<OrderType[]> {
+export async function getUsersOrdersWithShopItem(uid: string): Promise<OrderType[]> {
   const userOrders = database.ref('/orders').orderByChild('uid').equalTo(uid)
   const shopRef = database.ref('/shop')
   const userOrdersData = await resolveOnValue<OrderType[]>(userOrders)
@@ -124,4 +170,13 @@ export async function getUsersDataWithShopItem(uid: string): Promise<OrderType[]
     })
   }
   return ordersWithShopData
+}
+
+export async function removeDataItemFromList(location: string): Promise<true | string> {
+  try {
+    await database.ref(location).remove()
+    return true
+  } catch (error) {
+    return error.message
+  }
 }

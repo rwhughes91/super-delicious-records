@@ -10,8 +10,9 @@ import {
   registerEnumType,
   Query,
 } from 'type-graphql'
-import { isAdmin } from '../../middleware/resolver/isAdmin'
-import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
+import { isAdmin } from '@middleware/resolver/isAdmin'
+import { getDataArray, getDataItem, createDataItem } from '@services/firebase/admin'
+import { ShopImage, ShopImageInput } from '@resolvers/types'
 
 enum Tag {
   SHIRT = 'SHIRT',
@@ -22,20 +23,6 @@ enum Tag {
 registerEnumType(Tag, { name: 'Tag' })
 
 // Object Types
-@ObjectType()
-class ShopImage {
-  @Field()
-  imageUrl!: string
-
-  @Field()
-  imageSetUrl!: string
-
-  @Field()
-  alt!: string
-
-  @Field({ nullable: true })
-  color?: string
-}
 
 @ObjectType()
 export class ShopItem {
@@ -71,21 +58,6 @@ export class ShopItem {
 }
 
 // Input Types
-@InputType()
-class ShopImageInput implements Partial<ShopImage> {
-  @Field()
-  imageUrl!: string
-
-  @Field()
-  imageSetUrl!: string
-
-  @Field()
-  alt!: string
-
-  @Field({ nullable: true })
-  color?: string
-}
-
 @InputType()
 class ShopItemInput implements Partial<ShopItem> {
   @Field()

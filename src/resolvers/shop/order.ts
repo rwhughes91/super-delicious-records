@@ -13,9 +13,9 @@ import {
 import { AuthenticationError } from 'apollo-server-micro'
 import { isAuthenticated } from '@middleware/resolver/isAuthenticated'
 import { isAdmin } from '@middleware/resolver/isAdmin'
-import { createDataItem, getUsersDataWithShopItem } from '@services/firebase/admin'
-import { ShopItem } from './shop'
+import { createDataItem, getChildrenEqualTo } from '@services/firebase/admin'
 import { ResolverContext } from '../../types/resolver'
+import { ShopItemTrimmed, ShopItemTrimmedInput, Size } from '@resolvers/types'
 
 @ObjectType()
 class OrderShopItem {
@@ -28,14 +28,14 @@ class OrderShopItem {
   @Field()
   purchasePrice!: number
 
-  @Field(() => ShopItem)
-  shopItem!: ShopItem
-
   @Field({ nullable: true })
   color?: string
 
-  @Field({ nullable: true })
-  size?: string
+  @Field(() => Size, { nullable: true })
+  size?: Size
+
+  @Field(() => ShopItemTrimmed)
+  shopItem!: ShopItemTrimmed
 }
 
 @ObjectType()
@@ -61,6 +61,9 @@ class OrderShopItemInput {
   @Field()
   shopPid!: string
 
+  @Field(() => ShopItemTrimmedInput)
+  shopItem!: ShopItemTrimmedInput
+
   @Field(() => Int)
   qty!: number
 
@@ -70,8 +73,8 @@ class OrderShopItemInput {
   @Field({ nullable: true })
   color?: string
 
-  @Field({ nullable: true })
-  size?: string
+  @Field(() => Size, { nullable: true })
+  size?: Size
 }
 
 @InputType()
@@ -98,7 +101,7 @@ export default class OrdersResolver {
     if (!uid) {
       throw new AuthenticationError('No UID with user')
     }
-    return await getUsersDataWithShopItem(uid)
+    return await getChildrenEqualTo('/orders', 'uid', uid)
   }
 
   @Mutation(() => String)

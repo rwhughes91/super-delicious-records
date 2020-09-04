@@ -1,3 +1,5 @@
+$green: rgb(89, 167, 85);
+
 .FormButton {
   width: 100%;
   outline: none;
@@ -6,11 +8,12 @@
   margin: 1rem auto;
   border-radius: 3px;
   height: 4rem;
-  padding: 1rem 0.5rem;
   color: var(--tan-white-color);
   font-size: 1.2rem;
   cursor: pointer;
   text-transform: uppercase;
+  position: relative;
+  transition: background-color 0.2s;
 
   &:disabled {
     cursor: not-allowed;
@@ -22,5 +25,108 @@
   }
   &:active {
     transform: scale(1);
+  }
+}
+
+.Success {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  & span {
+    margin-left: 0.75rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-40%);
+    animation: show 0.2s ease-in-out 1.4s backwards;
+  }
+}
+
+.Error {
+  // background-color: var(--bright-red-color) !important;
+}
+
+.Loading {
+  border: 2px solid var(--light-purple-color);
+  border-top-color: var(--light-gray-color);
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  animation: spin 0.85s linear infinite;
+}
+
+.CheckMarkCircle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 10;
+  stroke-miterlimit: 10;
+  stroke: $green;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  transition: transform 0.2s;
+}
+
+.CheckMark {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px $green;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.6s ease-in-out 0.9s both;
+}
+
+.CheckMarkCheck {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0% {
+    transform: none;
+  }
+  30% {
+    transform: scale3d(1, 1, 1) translateX(0);
+  }
+  100% {
+    transform: scale3d(1, 1, 1) translateX(-5rem);
+  }
+  15% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px $green;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

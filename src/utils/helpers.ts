@@ -53,3 +53,11 @@ export function convertFieldsToParams<T, K extends keyof T>(columns: K[], data: 
   }
   return paths
 }
+
+export function sliceArray(arr: any[], index: number): any[] {
+  return arr.slice(0, index).concat(arr.slice(index + 1))
+}
+
+export function round(value: number, decimals = 2) {
+  return parseFloat(value.toFixed(decimals))
+}

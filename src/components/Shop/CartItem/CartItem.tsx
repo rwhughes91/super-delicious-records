@@ -21,6 +21,7 @@ interface State extends FormControls {
 type ShopItem = Pick<genTypes.ShopItem, 'name' | 'images'>
 
 interface Props extends Pick<genTypes.OrderShopItem, 'qty' | 'purchasePrice' | 'color' | 'size'> {
+  pid?: string
   shopItem: ShopItem
   styles?: React.CSSProperties
   order?: boolean
@@ -28,7 +29,7 @@ interface Props extends Pick<genTypes.OrderShopItem, 'qty' | 'purchasePrice' | '
 }
 
 const CartItem: React.FC<Props> = (props) => {
-  const { cart, editCartItemHandler, removeFromCart } = useContext(CartContext)
+  const { cart, addToCartHandler, removeFromCart } = useContext(CartContext)
   const inputControls = cloneDeep(formControls)
   const initialState: State = {
     qty: {
@@ -47,34 +48,22 @@ const CartItem: React.FC<Props> = (props) => {
   const onChangeHandler = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       dispatchFormData({ type: 'change', key: 'qty', value: event?.target.value })
+      const fullCartItems = cart.cart.local.concat(cart.cart.user)
       if (event?.target.value !== qtyState.qty.value) {
-        const itemToUpdate = cart.cart.find(
-          (cartItem) =>
-            cartItem.shopPid === props.shopPid &&
-            cartItem.color === props.color &&
-            cartItem.size === props.size
-        )
+        const itemToUpdate = fullCartItems.find((cartItem) => cartItem.pid === props.pid)
         if (itemToUpdate) {
-          editCartItemHandler(itemToUpdate, parseInt(event?.target.value))
+          addToCartHandler(itemToUpdate, 'edit', parseInt(event?.target.value))
         }
       }
     },
-    [
-      dispatchFormData,
-      cart.cart,
-      editCartItemHandler,
-      props.color,
-      props.shopPid,
-      props.size,
-      qtyState.qty.value,
-    ]
+    [dispatchFormData, cart.cart, addToCartHandler, qtyState.qty.value, props.pid]
   )
 
   const removeCartItemHandler = useCallback(() => {
-    if (props.shopPid) {
-      removeFromCart(props.shopPid)
+    if (props.pid) {
+      removeFromCart(props.pid)
     }
-  }, [props.shopPid, removeFromCart])
+  }, [props.pid, removeFromCart])
 
   const sizeAndColor = (
     <div className={classes.Row}>
@@ -87,7 +76,9 @@ const CartItem: React.FC<Props> = (props) => {
       {props.size && (
         <div>
           <span className={classes.SubTextHeader}>Size: </span>
-          <span className={classes.SubText}>{props.size}</span>
+          <span className={classes.SubText}>
+            {props.size[0] + props.size.slice(1).toLowerCase()}
+          </span>
         </div>
       )}
     </div>
@@ -115,7 +106,9 @@ const CartItem: React.FC<Props> = (props) => {
           {props.size || props.color ? sizeAndColor : null}
         </div>
         <div className={classes.QtyContainer}>
-          <span className={classes.QtyTitle}>Qty</span>
+          <span style={{ top: props.order ? '-2rem' : '-1.25rem' }} className={classes.QtyTitle}>
+            Qty
+          </span>
           {props.order ? (
             <span
               className={classes.Qty}

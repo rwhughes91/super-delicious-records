@@ -42,15 +42,17 @@ const Cart: React.FC = () => {
     router.push('/shop/checkout')
   }, [router])
 
-  let cartItems
+  const fullCartItems = cart.cart.local.concat(cart.cart.user)
 
-  if (cart.cart.length > 0) {
+  let cartItems
+  if (fullCartItems.length > 0) {
     cartItems = (
       <div className={classes.Cart}>
-        {cart.cart.map((item, i) => {
+        {fullCartItems.map((item) => {
           return (
             <CartItem
-              key={i}
+              key={item.pid}
+              pid={item.pid}
               qty={item.qty}
               purchasePrice={item.shopItem.price}
               shopItem={item.shopItem}
@@ -121,7 +123,7 @@ const Cart: React.FC = () => {
             left="0"
             show
             onClick={toggleAuthForm}
-            styles={{ backgroundColor: 'rgba(0, 0, 0, .6)' }}
+            styles={{ backgroundColor: 'rgba(0, 0, 0, .15)' }}
             modalStyles={{ padding: '2rem 1rem', width: '95%', maxWidth: '50rem' }}
           >
             {loading ? (
