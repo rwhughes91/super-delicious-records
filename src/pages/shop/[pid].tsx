@@ -65,7 +65,7 @@ const ShopItemDetail: React.FC<Props> = (props) => {
     if (submitted) {
       const timer = setTimeout(() => {
         setSubmitted(false)
-      }, 2500)
+      }, 3000)
       return () => clearTimeout(timer)
     }
   }, [submitted])
@@ -110,8 +110,6 @@ const ShopItemDetail: React.FC<Props> = (props) => {
   )
 
   const size = 425
-
-  console.log(editingState, submitted)
 
   return (
     <>

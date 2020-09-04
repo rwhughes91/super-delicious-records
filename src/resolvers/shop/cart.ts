@@ -16,6 +16,7 @@ import {
   getDataArray,
   createDataItemWithPid,
   removeDataItemFromList,
+  setListOfData,
 } from '@services/firebase/admin'
 import { AuthenticationError } from 'apollo-server-micro'
 import { ShopItemTrimmed, ShopItemTrimmedInput, Size } from '@resolvers/types'
@@ -85,6 +86,19 @@ export default class CartResolver {
       throw new AuthenticationError('No UID with user')
     }
     return createDataItemWithPid<CartItemInput>(`/users/${uid}/cart`, data)
+  }
+
+  @Mutation(() => String)
+  @UseMiddleware(isAuthenticated)
+  async setCart(
+    @Arg('data', () => [CartItemInput]) data: CartItemInput[],
+    @Ctx() ctx: ResolverContext
+  ): Promise<true | string> {
+    const uid = ctx.me && ctx.me.uid
+    if (!uid) {
+      throw new AuthenticationError('No UID with user')
+    }
+    return setListOfData<CartItemInput>(`/users/${uid}/cart`, data)
   }
 
   @Mutation(() => String)
