@@ -14,6 +14,7 @@ import * as typeDefs from '@generated/graphql'
 import { isKey } from '@utils/helpers'
 import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
 import { Authenticator } from '@utils/helpers'
+import { VideoInput } from '../NewsForm/NewsForm'
 
 interface Props {
   data?: typeDefs.Artist
@@ -28,6 +29,36 @@ enum sectionHeaders {
   LINKS = 'Album Links',
   ALBUM = 'Album',
   VIDEO = 'Video',
+}
+
+enum introHeaders {
+  HEADER = 'Header',
+  BODY = 'Body',
+}
+
+enum bandMemberHeaders {
+  NAME = 'Name',
+  IMAGE = 'Image',
+  INSTRUMENT = 'Instrument',
+}
+
+enum videoHeaders {
+  SRC = 'Video Src',
+  HEADER = 'Title',
+}
+
+enum albumHeaders {
+  NAME = 'Name',
+  YEAR = 'Year',
+  IMAGE = 'Image',
+}
+
+enum albumLinksHeaders {
+  APPLE = 'Apple Music',
+  SOUND = 'Sound Cloud',
+  SPOTIFY = 'Spotify',
+  WEBSITE = 'Website',
+  YOUTUBE = 'Youtube',
 }
 
 const ArtistsForm: React.FC<Props> = (props) => {
@@ -153,19 +184,161 @@ const ArtistsForm: React.FC<Props> = (props) => {
   }
 
   const { inputs: singleInputs, formState: singleInputsState } = useForm(singleInputState)
-  const { inputs: bandMemberInputs, dispatch: bandMemberDispatch } = useForm({
+  const {
+    inputs: bandMemberInputs,
+    dispatch: bandMemberDispatch,
+    formState: bandMembersState,
+  } = useForm({
     bandMember: { value: bandMemberInputState },
   })
 
-  console.log(singleInputsState)
-
-  const { inputs: introInputs } = useForm({ introduction: { value: introInputState } })
-  const { inputs: albumInputs, dispatch: albumDispatch } = useForm({
+  const { inputs: introInputs, formState: introductionState } = useForm({
+    introduction: { value: introInputState },
+  })
+  const { inputs: albumInputs, dispatch: albumDispatch, formState: albumsState } = useForm({
     albums: { value: albumInputState },
   })
-  const { inputs: videoInputs, dispatch: videoDispatch } = useForm({
+  const { inputs: videoInputs, dispatch: videoDispatch, formState: videosState } = useForm({
     videos: { value: videoInputState },
   })
+
+  const onSubmitHandler = () => {
+    let introduction: typeDefs.IntroInput = { header: '', body: '' }
+    for (const introductionContainer of introductionState.introduction.value as Field[]) {
+      const introductionData = (introductionContainer as Field).value as Field[]
+      const header = introductionData.find((item) => item.label === introHeaders.HEADER)
+      const body = introductionData.find((item) => item.label === introHeaders.BODY)
+      if (header && body) {
+        if (header.value || body.value) {
+          introduction = { header: header.value as string, body: body.value as string }
+        }
+      } else {
+        throw new Error('Body and header field are required for the introduction section')
+      }
+    }
+
+    const bandMembers = []
+    for (const bandMemberContainer of bandMembersState.bandMember.value as Field[]) {
+      const name = (bandMemberContainer.value as Field[]).find(
+        (item) => item.label === bandMemberHeaders.NAME
+      )
+      const imageUrl = (bandMemberContainer.value as Field[]).find(
+        (item) => item.label === bandMemberHeaders.IMAGE
+      )
+      const instrument = (bandMemberContainer.value as Field[]).find(
+        (item) => item.label === bandMemberHeaders.INSTRUMENT
+      )
+      if (name && imageUrl && instrument) {
+        if (name.value || imageUrl.value || instrument?.value) {
+          const bandMemberInput = new BandMemberInput(
+            name.value as string,
+            imageUrl.value as string,
+            instrument?.value as string
+          )
+          bandMemberInput.authenticate()
+          bandMembers.push({
+            name: bandMemberInput.name,
+            imageUrl: bandMemberInput.imageUrl,
+            instrument: bandMemberInput.instrument,
+          })
+        }
+      }
+    }
+
+    const albums = []
+    for (const albumContainer of albumsState.albums.value as Field[]) {
+      const name = (albumContainer.value as Field[]).find(
+        (item) => item.label === albumHeaders.NAME
+      )
+      const year = (albumContainer.value as Field[]).find(
+        (item) => item.label === albumHeaders.YEAR
+      )
+      const imageUrl = (albumContainer.value as Field[]).find(
+        (item) => item.label === albumHeaders.IMAGE
+      )
+      const albumLinks = (albumContainer.value as Field[]).find(
+        (item) => item.sectionHeader === 'Album Links'
+      )
+      let albumLinkInput
+      const albumLinksPayload: { data: any; filledValues: boolean } = {
+        data: {},
+        filledValues: false,
+      }
+      if (albumLinks) {
+        for (const albumLink of albumLinks.value as Field[]) {
+          if (albumLink.label) {
+            if (albumLink.value) {
+              albumLinksPayload.filledValues = true
+            }
+            albumLinksPayload.data[albumLink.label] = albumLink.value
+          }
+        }
+        if (
+          albumLinksPayload.data[albumLinksHeaders.WEBSITE] ||
+          albumLinksPayload.data[albumLinksHeaders.YOUTUBE] ||
+          albumLinksPayload.data[albumLinksHeaders.SPOTIFY]
+        ) {
+          albumLinkInput = new AlbumLinkInput(
+            albumLinksPayload.data[albumLinksHeaders.WEBSITE],
+            albumLinksPayload.data[albumLinksHeaders.YOUTUBE],
+            albumLinksPayload.data[albumLinksHeaders.SPOTIFY],
+            albumLinksPayload.data[albumLinksHeaders.APPLE],
+            albumLinksPayload.data[albumLinksHeaders.SOUND]
+          )
+        }
+      }
+      if (name && year && imageUrl && albumLinkInput) {
+        if (name.value || year.value || imageUrl.value || albumLinksPayload.filledValues) {
+          albumLinkInput?.authenticate()
+          const albumInput = new AlbumInput(
+            name.value as string,
+            parseFloat(year.value as string),
+            imageUrl.value as string,
+            albumLinkInput
+          )
+          albumInput.authenticate()
+          albums.push({
+            name: albumInput.name,
+            year: albumInput.year,
+            imageUrl: albumInput.imageUrl,
+            links: {
+              website: albumInput.links.website,
+              spotify: albumInput.links.spotify,
+              youtube: albumInput.links.youtube,
+              soundCloud: albumInput.links.soundCloud,
+              appleMusic: albumInput.links.appleMusic,
+            },
+          })
+        }
+      }
+    }
+
+    const videos = []
+    for (const videoContainer of videosState.videos.value as Field[]) {
+      const src = (videoContainer.value as Field[]).find((item) => item.label === videoHeaders.SRC)
+      const header = (videoContainer.value as Field[]).find(
+        (item) => item.label === videoHeaders.HEADER
+      )
+      if (src && header) {
+        if (src.value || header.value) {
+          const videoInput = new VideoInput(src.value as string, header.value as string)
+          videoInput.authenticate()
+          videos.push({ src: videoInput.src, title: videoInput.title })
+        }
+      }
+    }
+    const artistInput: typeDefs.ArtistInput = {
+      name: singleInputsState.name.value as string,
+      website: singleInputsState.website.value as string,
+      imageUrl: singleInputsState.imageUrl.value as string,
+      labelSide: singleInputsState.labelSide.value as typeDefs.LabelSide,
+      introduction,
+      bandMembers: bandMembers,
+      albums,
+      videos,
+    }
+    return artistInput
+  }
 
   const appendBandMemberHandler = useCallback(() => {
     bandMemberDispatch({
@@ -217,7 +390,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
   }, [videoDispatch])
 
   return (
-    <AdminForm title="Artist Form">
+    <AdminForm title="Artist Form" onSubmit={onSubmitHandler}>
       <AdminFieldSet inputs={singleInputs} />
       <AdminFieldSet title="Introduction" inputs={introInputs} />
       <AdminFieldSet
@@ -251,7 +424,7 @@ const albumLinkConfig: State<Required<typeDefs.AlbumLinkInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Website',
+    label: albumLinksHeaders.WEBSITE,
     warning: 'Field required if adding album',
     elementConfig: {
       placeholder: 'Website',
@@ -264,7 +437,7 @@ const albumLinkConfig: State<Required<typeDefs.AlbumLinkInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Youtube',
+    label: albumLinksHeaders.YOUTUBE,
     warning: 'Field required if adding album',
     elementConfig: {
       placeholder: 'Youtube',
@@ -277,7 +450,7 @@ const albumLinkConfig: State<Required<typeDefs.AlbumLinkInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Spotify',
+    label: albumLinksHeaders.SPOTIFY,
     warning: 'Field required if adding album',
     elementConfig: {
       placeholder: 'Spotify',
@@ -290,7 +463,7 @@ const albumLinkConfig: State<Required<typeDefs.AlbumLinkInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Sound Cloud',
+    label: albumLinksHeaders.SOUND,
     elementConfig: {
       placeholder: 'Sound Cloud',
       type: 'text',
@@ -302,7 +475,7 @@ const albumLinkConfig: State<Required<typeDefs.AlbumLinkInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Apple Music',
+    label: albumLinksHeaders.APPLE,
     elementConfig: {
       placeholder: 'Apple Music',
       type: 'text',
@@ -317,7 +490,7 @@ const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Name',
+    label: albumHeaders.NAME,
     warning: 'Field required if adding album',
     elementConfig: {
       placeholder: 'Name',
@@ -330,7 +503,7 @@ const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Year',
+    label: albumHeaders.YEAR,
     elementConfig: {
       placeholder: 'Year',
       type: 'number',
@@ -342,7 +515,7 @@ const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Image',
+    label: albumHeaders.IMAGE,
     elementConfig: {
       placeholder: 'Image',
       type: 'text',
@@ -386,7 +559,7 @@ const introConfig: State<typeDefs.IntroInput> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Header',
+    label: introHeaders.HEADER,
     required: true,
     elementConfig: {
       placeholder: 'Header',
@@ -399,7 +572,7 @@ const introConfig: State<typeDefs.IntroInput> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Body',
+    label: introHeaders.BODY,
     required: true,
     elementConfig: {
       placeholder: 'Body',
@@ -415,7 +588,7 @@ const bandMemberConfig: State<Required<typeDefs.BandMemberInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Name',
+    label: bandMemberHeaders.NAME,
     warning: 'Field required if adding band member',
     elementConfig: {
       placeholder: 'Name',
@@ -428,7 +601,8 @@ const bandMemberConfig: State<Required<typeDefs.BandMemberInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Image',
+    warning: 'Field required if adding band member',
+    label: bandMemberHeaders.IMAGE,
     elementConfig: {
       placeholder: 'Image',
       type: 'text',
@@ -440,8 +614,7 @@ const bandMemberConfig: State<Required<typeDefs.BandMemberInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Instrument',
-    warning: 'Field required if adding band member',
+    label: bandMemberHeaders.INSTRUMENT,
     elementConfig: {
       placeholder: 'Instrument',
       type: 'text',
@@ -453,7 +626,7 @@ const mainInputsConfig = {
   name: {
     value: '',
     type: types.INPUT,
-    invalid: true,
+    invalid: false,
     touched: false,
     errorMessage: '',
     label: 'Name',
@@ -466,7 +639,7 @@ const mainInputsConfig = {
   website: {
     value: '',
     type: types.INPUT,
-    invalid: true,
+    invalid: false,
     touched: false,
     errorMessage: '',
     label: 'Website',
@@ -479,7 +652,7 @@ const mainInputsConfig = {
   imageUrl: {
     value: '',
     type: types.INPUT,
-    invalid: true,
+    invalid: false,
     touched: false,
     errorMessage: '',
     label: 'Image',
@@ -492,17 +665,53 @@ const mainInputsConfig = {
   labelSide: {
     value: '',
     type: types.SELECT,
-    invalid: true,
+    invalid: false,
     touched: false,
     errorMessage: '',
     label: 'Label',
+    required: true,
     elementConfig: {
       placeholder: 'Label',
       type: 'text',
       options: [
-        { value: 'left', displayValue: 'Left' },
-        { value: 'right', displayValue: 'Right' },
+        { value: typeDefs.LabelSide.Left, displayValue: 'Left' },
+        { value: typeDefs.LabelSide.Right, displayValue: 'Right' },
       ],
     },
   },
+}
+
+class BandMemberInput extends Authenticator implements typeDefs.BandMemberInput {
+  NAME = 'Band Member'
+  requiredKeys = ['name', 'imageUrl']
+  constructor(public name: string, public imageUrl: string, public instrument?: string) {
+    super()
+  }
+}
+
+class AlbumInput extends Authenticator implements typeDefs.AlbumInput {
+  NAME = 'Album'
+  requiredKeys = ['name', 'year', 'imageUrl', 'links']
+  constructor(
+    public name: string,
+    public year: number,
+    public imageUrl: string,
+    public links: typeDefs.AlbumLink
+  ) {
+    super()
+  }
+}
+
+class AlbumLinkInput extends Authenticator implements typeDefs.AlbumLinkInput {
+  requiredKeys = ['website', 'youtube', 'spotify']
+  NAME = 'Album Link'
+  constructor(
+    public website: string,
+    public youtube: string,
+    public spotify: string,
+    public soundCloud?: string,
+    public appleMusic?: string
+  ) {
+    super()
+  }
 }

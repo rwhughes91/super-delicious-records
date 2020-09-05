@@ -58,16 +58,19 @@ export function sliceArray(arr: any[], index: number): any[] {
   return arr.slice(0, index).concat(arr.slice(index + 1))
 }
 
-export function round(value: number, decimals = 2) {
+export function round(value: number, decimals = 2): number {
   return parseFloat(value.toFixed(decimals))
 }
 
 export abstract class Authenticator {
   abstract NAME: string
+  abstract requiredKeys: string[]
   authenticate(): void {
-    for (const key in this) {
-      if (!this[key]) {
-        throw new Error(`${key} is required for ${this.NAME}`)
+    for (const key of this.requiredKeys) {
+      if (isKey(key, this)) {
+        if (!this[key]) {
+          throw new Error(`${key} is required for ${this.NAME}`)
+        }
       }
     }
   }

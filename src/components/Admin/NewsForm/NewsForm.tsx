@@ -13,8 +13,6 @@ import AdminFieldSet from '../AdminFieldSet/AdminFieldSet'
 import AdminForm from '../AdminForm/AdminForm'
 import * as typeDefs from '@generated/graphql'
 import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
-import { LinkInput as LinkInputResolver } from '@resolvers/news/'
-import { VideoInput as VideoInputResolver } from '@resolvers/types'
 import { Authenticator } from '@utils/helpers'
 
 interface Props {
@@ -352,15 +350,17 @@ const mainInputsConfig: State<Pick<typeDefs.NewsItem, SingleInputs>> = {
     },
   },
 }
-class VideoInput extends Authenticator implements VideoInputResolver {
-  NAME = 'VIDEO'
+export class VideoInput extends Authenticator implements typeDefs.VideoInput {
+  NAME = 'Video'
+  requiredKeys = ['src', 'title']
   constructor(public src: string, public title: string) {
     super()
   }
 }
 
-class LinkInput extends Authenticator implements LinkInputResolver {
+class LinkInput extends Authenticator implements typeDefs.LinkInput {
   NAME = 'Link'
+  requiredKeys = ['header', 'src', 'buttonText']
   constructor(public header: string, public src: string, public buttonText: string) {
     super()
   }

@@ -11,6 +11,7 @@ import * as typeDefs from '@generated/graphql'
 import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
 import { cloneDeep } from 'lodash'
 import { useCallback } from 'react'
+import { Authenticator } from '@utils/helpers'
 
 interface Props {
   data?: typeDefs.ShopItem
@@ -38,6 +39,13 @@ const singleInputKeys: SingleInputs[] = [
   'qtyAvailable',
   'tag',
 ]
+
+enum shopImageInputHeaders {
+  IMAGE = 'Image URL',
+  IMAGESET = 'Image Set URL',
+  ALT = 'Alt',
+  COLOR = 'Color',
+}
 
 const ShopForm: React.FC<Props> = (props) => {
   const singleInputState = cloneDeep(mainInputsConfig)
@@ -67,10 +75,61 @@ const ShopForm: React.FC<Props> = (props) => {
     }
   }
 
-  const { inputs: singleInputs } = useForm(singleInputState)
-  const { inputs: imageInputs, dispatch: imageDispatch } = useForm({
+  const { inputs: singleInputs, formState: singleInputsState } = useForm(singleInputState)
+  const { inputs: imageInputs, dispatch: imageDispatch, formState: shopImagesState } = useForm({
     images: { value: imageInputState },
   })
+
+  const onSubmitHandler = () => {
+    const images = []
+    const colors: string[] = []
+    for (const imageContainer of shopImagesState.images.value as Field[]) {
+      const imageUrl = (imageContainer.value as Field[]).find(
+        (item) => item.label === shopImageInputHeaders.IMAGE
+      )
+      const imageSetUrl = (imageContainer.value as Field[]).find(
+        (item) => item.label === shopImageInputHeaders.IMAGESET
+      )
+      const alt = (imageContainer.value as Field[]).find(
+        (item) => item.label === shopImageInputHeaders.ALT
+      )
+      const color = (imageContainer.value as Field[]).find(
+        (item) => item.label === shopImageInputHeaders.COLOR
+      )
+      if (imageUrl && imageSetUrl && alt && color) {
+        if (color.value) {
+          colors.push(color.value as string)
+        }
+        if (imageUrl.value || imageSetUrl.value || alt.value || color?.value) {
+          const shopImageInput = new ShopImageInput(
+            imageUrl.value as string,
+            imageSetUrl.value as string,
+            alt.value as string,
+            color?.value as string
+          )
+          shopImageInput.authenticate()
+          images.push({
+            imageUrl: shopImageInput.imageUrl,
+            imageSetUrl: shopImageInput.imageSetUrl,
+            alt: shopImageInput.alt,
+            color: shopImageInput.color,
+          })
+        }
+      }
+    }
+    const shopItemInput: typeDefs.ShopItemInput = {
+      name: singleInputsState.name.value as string,
+      price: parseFloat(singleInputsState.price.value as string),
+      description: singleInputsState.description.value as string,
+      qtyAvailable: parseFloat(singleInputsState.qtyAvailable.value as string),
+      tag: singleInputsState.tag.value as typeDefs.Tag,
+      moreInfo: singleInputsState.moreInfo.value as string,
+      weight: singleInputsState.weight.value as string,
+      colors: colors.length > 0 ? colors : [''],
+      images,
+    }
+    return shopItemInput
+  }
 
   const appendImageHandler = useCallback(() => {
     imageDispatch({
@@ -89,7 +148,7 @@ const ShopForm: React.FC<Props> = (props) => {
   }, [imageDispatch])
 
   return (
-    <AdminForm title="Shop Form">
+    <AdminForm title="Shop Form" onSubmit={onSubmitHandler}>
       <>
         <AdminFieldSet inputs={singleInputs} />
         <AdminFieldSet title="Images" inputs={imageInputs} buttonOnClick={appendImageHandler} />
@@ -107,7 +166,7 @@ const imageConfig: State<Required<typeDefs.ShopImageInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Image URL',
+    label: shopImageInputHeaders.IMAGE,
     warning: 'true',
     elementConfig: {
       placeholder: 'Src',
@@ -120,7 +179,7 @@ const imageConfig: State<Required<typeDefs.ShopImageInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Image Set URL',
+    label: shopImageInputHeaders.IMAGESET,
     warning: 'true',
     elementConfig: {
       placeholder: 'Src',
@@ -133,7 +192,7 @@ const imageConfig: State<Required<typeDefs.ShopImageInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Alt',
+    label: shopImageInputHeaders.ALT,
     warning: 'true',
     elementConfig: {
       placeholder: 'Alt',
@@ -146,8 +205,7 @@ const imageConfig: State<Required<typeDefs.ShopImageInput>> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Color',
-    warning: 'true',
+    label: shopImageInputHeaders.COLOR,
     elementConfig: {
       placeholder: 'Color',
       type: 'text',
@@ -250,4 +308,17 @@ const mainInputsConfig: State<Pick<Required<typeDefs.ShopItemInput>, SingleInput
       ],
     },
   },
+}
+
+export class ShopImageInput extends Authenticator implements typeDefs.ShopImageInput {
+  NAME = 'Image'
+  requiredKeys = ['imageUrl', 'imageSetUrl', 'alt']
+  constructor(
+    public imageUrl: string,
+    public imageSetUrl: string,
+    public alt: string,
+    public color?: string
+  ) {
+    super()
+  }
 }

@@ -83,15 +83,15 @@ const ArtistDetail: React.FC<Props> = (props) => {
                       date={album.year}
                       icons={[
                         <a key="spotify" href={album.links.spotify}>
-                          <SpotifyIcon size={3.2} styles={{ color: 'var(--bright-blue-color)' }} />
+                          <SpotifyIcon size={3} styles={{ color: 'var(--bright-blue-color)' }} />
                         </a>,
                         <a key="youtube" href={album.links.youtube}>
-                          <YoutubeIcon size={3.5} styles={{ color: 'var(--bright-blue-color)' }} />
+                          <YoutubeIcon size={3} styles={{ color: 'var(--bright-blue-color)' }} />
                         </a>,
                         <a key="apple" href={album.links.appleMusic || undefined}>
                           <AppleIcon
                             key="apple"
-                            size={3.5}
+                            size={3}
                             styles={{ color: 'var(--bright-blue-color)' }}
                           />
                         </a>,
