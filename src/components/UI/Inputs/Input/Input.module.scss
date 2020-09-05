@@ -20,3 +20,23 @@
 .Invalid {
   color: var(--bright-red-color);
 }
+
+.DropdownContainer {
+  position: relative;
+}
+
+.DropdownCaret {
+  position: absolute;
+  top: 53%;
+  right: 0.7rem;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--dark-purple-color);
+}
+
+.Dropdown {
+  cursor: pointer;
+}

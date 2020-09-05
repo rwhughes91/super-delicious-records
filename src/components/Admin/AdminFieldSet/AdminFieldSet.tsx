@@ -1,20 +1,18 @@
+import React from 'react'
 import classes from './AdminFieldSet.module.scss'
 
 interface Props {
   inputs: JSX.Element[]
   title?: string
   buttonOnClick?: () => void
-  relative?: boolean
   optional?: boolean
+  flex?: boolean
 }
 
 const AdminField: React.FC<Props> = (props) => {
   const classNames = [classes.AppendButton]
-  if (props.relative) {
-    classNames.push(classes.Relative)
-  }
   return (
-    <div className={classes.AdminFieldSet}>
+    <div>
       {props.title && (
         <div className={classes.AdminFieldSetHeader}>
           <p className={classes.Title}>
@@ -33,9 +31,9 @@ const AdminField: React.FC<Props> = (props) => {
           )}
         </div>
       )}
-      {props.inputs}
+      <div className={classes.AdminFieldSet}>{props.inputs}</div>
     </div>
   )
 }
 
-export default AdminField
+export default React.memo(AdminField)

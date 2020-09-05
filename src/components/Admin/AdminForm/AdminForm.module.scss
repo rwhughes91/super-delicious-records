@@ -12,12 +12,10 @@
 .AdminForm {
   & fieldset {
     border: none;
-    border-radius: 3px;
-    & legend {
-      font-size: 1.6rem;
-      color: var(--light-purple-color);
-      margin-bottom: 0.5rem;
-    }
+  }
+  & legend {
+    font-size: 1.6rem;
+    color: var(--light-purple-color);
   }
 }
 
@@ -25,4 +23,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+@media (min-width: 112.5em) {
+  .AdminForm {
+    & span[data-container-header='true'] {
+      font-size: 1.6rem;
+    }
+  }
 }

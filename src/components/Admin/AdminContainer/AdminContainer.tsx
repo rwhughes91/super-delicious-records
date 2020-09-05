@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import classes from './AdminContainer.module.scss'
 import NewsForm from '../NewsForm/NewsForm'
 import ArtistsForm from '../ArtistsForm/ArtistsForm'
@@ -6,17 +6,14 @@ import EventsForm from '../EventsForm/EventsForm'
 import ShopForm from '../ShopForm/ShopForm'
 import AdminListItem from '../AdminListItem/AdminListItem'
 import FormButton from '../../UI/Buttons/FormButton/FormButton'
-import { Props as NewsProps } from '../../../pages/news/[pid]'
-import { Props as ArtistProps } from '../../../pages/artists/[pid]'
-import { Props as EventProps } from '../../../pages/events'
-import { Props as ShopProps } from '../../../pages/shop/[pid]'
+import * as typeDefs from '@generated/graphql'
 
 interface Props {
   type: 'news' | 'artists' | 'events' | 'shop'
-  newsData?: NewsProps[]
-  artistsData?: ArtistProps[]
-  eventsData?: EventProps[]
-  shopData?: ShopProps[]
+  newsData?: typeDefs.NewsItem[]
+  artistsData?: typeDefs.Artist[]
+  eventsData?: typeDefs.Event[]
+  shopData?: typeDefs.ShopItem[]
 }
 
 const AdminContainer: React.FC<Props> = (props) => {
@@ -113,4 +110,4 @@ const AdminContainer: React.FC<Props> = (props) => {
   )
 }
 
-export default AdminContainer
+export default React.memo(AdminContainer)

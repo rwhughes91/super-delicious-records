@@ -54,7 +54,7 @@ class NewsItem {
 
 // Input Types
 @InputType()
-class LinkInput implements Partial<Link> {
+export class LinkInput implements Partial<Link> {
   @Field()
   header!: string
 

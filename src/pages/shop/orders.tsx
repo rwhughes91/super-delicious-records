@@ -23,7 +23,12 @@ const OrdersList: React.FC = () => {
   const { user, logoutHandler } = useContext(UserContext)
   const [loading, setLoading] = useState(false)
 
-  const [{ data, error }, cancelFn] = useCancellableSWR<Order>(GET_ORDERS, user.idToken, user.user)
+  const [{ data, error }, cancelFn] = useCancellableSWR<Order>(
+    GET_ORDERS,
+    user.idToken,
+    user.user,
+    { revalidateOnFocus: false, revalidateOnReconnect: false, revalidateOnMount: true }
+  )
 
   useEffect(() => {
     if (data && loading) {

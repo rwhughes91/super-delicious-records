@@ -57,7 +57,7 @@ export async function createDataItemWithPid<T extends { pid: string }>(
     await database.ref(location + '/' + pid).set(shavedInput)
     return true
   } catch (error) {
-    return error.message
+    throw new Error(error.message)
   }
 }
 
@@ -71,7 +71,7 @@ export async function setListOfData<T>(location: string, data: T[]): Promise<tru
     await ref.set(shavedData)
     return true
   } catch (error) {
-    return error.message
+    throw new Error(error.message)
   }
 }
 
@@ -89,7 +89,7 @@ export async function mergeListOfData<T>(location: string, data: T[]): Promise<t
     await ref.set(shavedData)
     return true
   } catch (error) {
-    return error.message
+    throw new Error(error.message)
   }
 }
 
@@ -177,6 +177,6 @@ export async function removeDataItemFromList(location: string): Promise<true | s
     await database.ref(location).remove()
     return true
   } catch (error) {
-    return error.message
+    throw new Error(error.message)
   }
 }

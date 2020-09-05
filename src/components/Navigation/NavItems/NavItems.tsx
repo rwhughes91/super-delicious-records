@@ -69,7 +69,9 @@ const NavItems: React.FC<Props> = (props) => {
             <NavItem location="/shop/cart">
               <NavCartIcon />
             </NavItem>
-            <NavSearchBar />
+            <NavItem location="/shop/orders">
+              <ProfileIcon size={2} />
+            </NavItem>
           </>
         )}
       </>

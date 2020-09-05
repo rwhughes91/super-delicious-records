@@ -1,3 +1,4 @@
+import React from 'react'
 import { useCallback } from 'react'
 import useForm, {
   createFormStateArrayOfObjects,
@@ -5,22 +6,35 @@ import useForm, {
   convertDate,
   Field,
   State,
-  types,
   actions,
 } from '../hooks/useAdminForm'
 import { cloneDeep } from 'lodash'
 import AdminFieldSet from '../AdminFieldSet/AdminFieldSet'
 import AdminForm from '../AdminForm/AdminForm'
-
-// import { Props as NewsProps, Video as VideoProps, Link as LinkProps } from '@pages/news/[pid]'
+import * as typeDefs from '@generated/graphql'
+import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
+import { LinkInput as LinkInputResolver } from '@resolvers/news/'
+import { VideoInput as VideoInputResolver } from '@resolvers/types'
+import { Authenticator } from '@utils/helpers'
 
 interface Props {
-  data?: NewsProps
+  data?: typeDefs.NewsItem
 }
 
 enum sectionHeaders {
   LINKS = 'Link',
   VIDEO = 'Video',
+}
+
+enum videoHeaders {
+  SRC = 'Video Src',
+  HEADER = 'Header',
+}
+
+enum linkHeaders {
+  SRC = 'Source',
+  HEADER = 'Header',
+  BTNTEXT = 'Button Text',
 }
 
 type SingleInputs = 'title' | 'shortTitle' | 'imageUrl' | 'date'
@@ -32,7 +46,7 @@ const NewsForm: React.FC<Props> = (props) => {
   let descriptionInput = [{ ...descriptionConfig }]
   let videoInputState: { value: Field[]; sectionHeader?: string }[] = [
     {
-      value: [{ ...videoConfig.src }, { ...videoConfig.header }],
+      value: [{ ...videoConfig.src }, { ...videoConfig.title }],
       sectionHeader: sectionHeaders.VIDEO,
     },
   ]
@@ -75,16 +89,80 @@ const NewsForm: React.FC<Props> = (props) => {
     }
   }
 
-  const { inputs: singleInputs } = useForm(singleInputState)
-  const { inputs: descriptionInputs, dispatch: descriptionDispatch } = useForm({
+  const { inputs: singleInputs, formState: singleInputsState } = useForm(singleInputState)
+  const {
+    inputs: descriptionInputs,
+    dispatch: descriptionDispatch,
+    formState: descriptionsState,
+  } = useForm({
     description: { value: descriptionInput },
   })
-  const { inputs: videoInputs, dispatch: videoDispatch } = useForm({
+  const { inputs: videoInputs, dispatch: videoDispatch, formState: videosState } = useForm({
     videos: { value: videoInputState },
   })
-  const { inputs: linkInputs, dispatch: linkDispatch } = useForm({
+  const { inputs: linkInputs, dispatch: linkDispatch, formState: linksState } = useForm({
     links: { value: linkInputState },
   })
+
+  const onSubmitHandler = () => {
+    const descriptions: string[] = []
+    for (const description of descriptionsState.description.value as Field[]) {
+      if (description.value) {
+        descriptions.push(description.value as string)
+      }
+    }
+
+    const videos = []
+    for (const videoContainer of videosState.videos.value as Field[]) {
+      const src = (videoContainer.value as Field[]).find((item) => item.label === videoHeaders.SRC)
+      const header = (videoContainer.value as Field[]).find(
+        (item) => item.label === videoHeaders.HEADER
+      )
+      if (src && header) {
+        if (src.value || header.value) {
+          const videoInput = new VideoInput(src.value as string, header.value as string)
+          videoInput.authenticate()
+          videos.push({ src: videoInput.src, title: videoInput.title })
+        }
+      }
+    }
+
+    const links = []
+    for (const linkContainer of linksState.links.value as Field[]) {
+      const source = (linkContainer.value as Field[]).find((item) => item.label === linkHeaders.SRC)
+      const header = (linkContainer.value as Field[]).find(
+        (item) => item.label === linkHeaders.HEADER
+      )
+      const buttonText = (linkContainer.value as Field[]).find(
+        (item) => item.label === linkHeaders.BTNTEXT
+      )
+      if (source && header && buttonText) {
+        if (source.value || header.value || buttonText.value) {
+          const linkInput = new LinkInput(
+            header.value as string,
+            source.value as string,
+            buttonText.value as string
+          )
+          linkInput.authenticate()
+          links.push({
+            header: linkInput.header,
+            src: linkInput.src,
+            buttonText: linkInput.buttonText,
+          })
+        }
+      }
+    }
+    const newsInput: typeDefs.NewsInput = {
+      title: singleInputsState.title.value as string,
+      shortTitle: singleInputsState.shortTitle.value as string,
+      imageUrl: singleInputsState.imageUrl.value as string,
+      date: singleInputsState.date.value as string,
+      description: descriptions,
+      videos,
+      links,
+    }
+    return newsInput
+  }
 
   const appendDescriptionHandler = useCallback(() => {
     descriptionDispatch({
@@ -98,7 +176,7 @@ const NewsForm: React.FC<Props> = (props) => {
       type: actions.APPEND,
       key: 'videos',
       value: {
-        value: [{ ...videoConfig.src }, { ...videoConfig.header }],
+        value: [{ ...videoConfig.src }, { ...videoConfig.title }],
         sectionHeader: sectionHeaders.VIDEO,
       },
     })
@@ -115,34 +193,25 @@ const NewsForm: React.FC<Props> = (props) => {
   }, [linkDispatch])
 
   return (
-    <AdminForm title="News Form">
-      <>
-        <AdminFieldSet inputs={singleInputs} />
-        <AdminFieldSet
-          title="Descriptions"
-          inputs={descriptionInputs}
-          buttonOnClick={appendDescriptionHandler}
-        />
-        <AdminFieldSet
-          title="Links"
-          relative
-          inputs={linkInputs}
-          buttonOnClick={appendLinkHandler}
-          optional
-        />
-        <AdminFieldSet
-          title="Videos"
-          relative
-          inputs={videoInputs}
-          buttonOnClick={appendVideoHandler}
-          optional
-        />
-      </>
+    <AdminForm title="News Form" onSubmit={onSubmitHandler}>
+      <AdminFieldSet inputs={singleInputs} />
+      <AdminFieldSet
+        title="Descriptions"
+        inputs={descriptionInputs}
+        buttonOnClick={appendDescriptionHandler}
+      />
+      <AdminFieldSet title="Links" inputs={linkInputs} buttonOnClick={appendLinkHandler} optional />
+      <AdminFieldSet
+        title="Videos"
+        inputs={videoInputs}
+        buttonOnClick={appendVideoHandler}
+        optional
+      />
     </AdminForm>
   )
 }
 
-export default NewsForm
+export default React.memo(NewsForm)
 
 const descriptionConfig: Field = {
   value: '',
@@ -158,27 +227,27 @@ const descriptionConfig: Field = {
   },
 }
 
-const videoConfig: State<VideoProps> = {
+const videoConfig: State<typeDefs.VideoInput> = {
   src: {
     value: '',
     type: types.INPUT,
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Video Src',
+    label: videoHeaders.SRC,
     warning: 'Field required if adding video',
     elementConfig: {
       placeholder: 'Src',
       type: 'text',
     },
   },
-  header: {
+  title: {
     value: '',
     type: types.INPUT,
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Header',
+    label: videoHeaders.HEADER,
     warning: 'Field required if adding video',
     elementConfig: {
       placeholder: 'Header',
@@ -187,14 +256,14 @@ const videoConfig: State<VideoProps> = {
   },
 }
 
-const linkConfig: State<LinkProps> = {
+const linkConfig: State<typeDefs.LinkInput> = {
   src: {
     value: '',
     type: types.INPUT,
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Source',
+    label: linkHeaders.SRC,
     warning: 'Field required if adding link',
     elementConfig: {
       placeholder: 'URL',
@@ -207,7 +276,7 @@ const linkConfig: State<LinkProps> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Header',
+    label: linkHeaders.HEADER,
     warning: 'Field required if adding link',
     elementConfig: {
       placeholder: 'Header',
@@ -220,7 +289,7 @@ const linkConfig: State<LinkProps> = {
     invalid: false,
     touched: false,
     errorMessage: '',
-    label: 'Button Text',
+    label: linkHeaders.BTNTEXT,
     warning: 'Field required if adding link',
     elementConfig: {
       placeholder: 'Button Text',
@@ -229,7 +298,7 @@ const linkConfig: State<LinkProps> = {
   },
 }
 
-const mainInputsConfig: State<Pick<NewsProps, SingleInputs>> = {
+const mainInputsConfig: State<Pick<typeDefs.NewsItem, SingleInputs>> = {
   title: {
     value: '',
     type: types.INPUT,
@@ -282,4 +351,17 @@ const mainInputsConfig: State<Pick<NewsProps, SingleInputs>> = {
       type: 'date',
     },
   },
+}
+class VideoInput extends Authenticator implements VideoInputResolver {
+  NAME = 'VIDEO'
+  constructor(public src: string, public title: string) {
+    super()
+  }
+}
+
+class LinkInput extends Authenticator implements LinkInputResolver {
+  NAME = 'Link'
+  constructor(public header: string, public src: string, public buttonText: string) {
+    super()
+  }
 }

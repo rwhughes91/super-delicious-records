@@ -1,3 +1,5 @@
+import React, { useCallback } from 'react'
+
 export interface Props {
   size: string
   imageUrl: string
@@ -8,6 +10,9 @@ export interface Props {
 }
 
 const ShopImage: React.FC<Props> = (props) => {
+  const addDefaultSrc = useCallback((event) => {
+    event.target.src = '/images/sdr-logo-primary.png'
+  }, [])
   return (
     <img
       src={props.imageUrl}
@@ -15,8 +20,9 @@ const ShopImage: React.FC<Props> = (props) => {
       alt={props.alt}
       style={props.styles}
       sizes={props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`}
+      onError={addDefaultSrc}
     />
   )
 }
 
-export default ShopImage
+export default React.memo(ShopImage)

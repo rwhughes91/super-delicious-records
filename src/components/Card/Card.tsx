@@ -15,8 +15,9 @@ const Card: React.FC<Props> = (props) => {
   return (
     <div className={classes.Card}>
       <div className={classes.CardTitle}>
-        <TertiaryHeader>{props.title}</TertiaryHeader>
-        <span className={classes.Date}>{props.date}</span>
+        <TertiaryHeader>
+          {props.title} {props.date && `(${props.date})`}
+        </TertiaryHeader>
       </div>
       <div
         className={classes.CardImage}

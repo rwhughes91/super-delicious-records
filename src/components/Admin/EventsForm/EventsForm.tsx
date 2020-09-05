@@ -1,11 +1,14 @@
-import useForm, { convertDate, isKey, types } from '../hooks/useAdminForm'
-import { Props as EventProps } from '../../../pages/events'
+import React, { useCallback } from 'react'
+import useForm, { convertDate } from '../hooks/useAdminForm'
 import { cloneDeep } from 'lodash'
 import AdminFieldSet from '../AdminFieldSet/AdminFieldSet'
 import AdminForm from '../AdminForm/AdminForm'
+import * as typeDefs from '@generated/graphql'
+import { isKey } from '@utils/helpers'
+import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
 
 interface Props {
-  data?: EventProps
+  data?: typeDefs.Event
 }
 
 const EventsForm: React.FC<Props> = (props) => {
@@ -23,16 +26,28 @@ const EventsForm: React.FC<Props> = (props) => {
     }
   }
 
-  const { inputs } = useForm(initialFormState)
+  const { inputs, formState } = useForm(initialFormState)
+
+  const onSubmitHandler = () => {
+    const eventInput: typeDefs.EventInput = {
+      date: formState.date.value as string,
+      title: formState.title.value as string,
+      description: formState.description.value as string,
+      url: formState.description.value as string,
+      endDate: formState.endDate.value as string,
+      location: formState.location.value as string,
+    }
+    return eventInput
+  }
 
   return (
-    <AdminForm title="Events Form">
+    <AdminForm title="Events Form" onSubmit={onSubmitHandler}>
       <AdminFieldSet inputs={inputs} />
     </AdminForm>
   )
 }
 
-export default EventsForm
+export default React.memo(EventsForm)
 
 const initialState = {
   date: {

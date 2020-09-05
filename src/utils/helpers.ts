@@ -61,3 +61,14 @@ export function sliceArray(arr: any[], index: number): any[] {
 export function round(value: number, decimals = 2) {
   return parseFloat(value.toFixed(decimals))
 }
+
+export abstract class Authenticator {
+  abstract NAME: string
+  authenticate(): void {
+    for (const key in this) {
+      if (!this[key]) {
+        throw new Error(`${key} is required for ${this.NAME}`)
+      }
+    }
+  }
+}

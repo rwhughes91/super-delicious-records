@@ -9,6 +9,7 @@ const Dropdown: React.FC<Props> = (props) => {
       containerClassName={classes.DropdownContainer}
       className={classes.Dropdown}
       label={<div className={classes.DropdownCaret} />}
+      noCaret
     />
   )
 }

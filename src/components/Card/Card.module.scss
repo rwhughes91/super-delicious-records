@@ -27,6 +27,7 @@ $card-height: 40rem;
 .CardImage {
   width: $card-width * 2/3;
   height: $card-width * 2/3;
+  background-image: url('/images/sdr-logo-primary.png');
   border-radius: 100%;
   background-position: center;
   background-repeat: no-repeat;

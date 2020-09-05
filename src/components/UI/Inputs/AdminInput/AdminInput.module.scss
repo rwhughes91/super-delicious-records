@@ -31,7 +31,7 @@
 
 .Label {
   font-size: 1.4rem;
-  text-transform: uppercase;
+  text-transform: capitalize;
   color: var(--dark-gray-color);
   margin-bottom: 3px;
 }
@@ -56,4 +56,13 @@
 
 .WarningMessage {
   color: var(--light-gray-color);
+}
+
+@media (min-width: 112.5em) {
+  .Input {
+    font-size: 1.2rem;
+  }
+  .Label {
+    font-size: 1.4rem;
+  }
 }

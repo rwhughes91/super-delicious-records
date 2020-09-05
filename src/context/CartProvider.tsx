@@ -230,6 +230,16 @@ const CartProvider: React.FC = (props) => {
               subTotal: round(prevCart.subTotal - itemFiltered.qty * itemFiltered.shopItem.price),
               lastUpdatedUserCartItem: { item: itemFiltered, type: 'delete' },
             }
+          } else {
+            const { filteredCart, itemFiltered } = filterCartItems(prevCart.cart.local, pid, 'edit')
+            if (itemFiltered) {
+              return {
+                cart: { local: filteredCart, user: prevCart.cart.user },
+                qty: prevCart.qty - itemFiltered.qty,
+                subTotal: round(prevCart.subTotal - itemFiltered.qty * itemFiltered.shopItem.price),
+                lastUpdatedUserCartItem: null,
+              }
+            }
           }
           return prevCart
         })

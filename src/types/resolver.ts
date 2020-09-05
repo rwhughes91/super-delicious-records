@@ -1,7 +1,7 @@
 import { ServerResponse, ServerRequest } from './server'
 import { User } from './user'
 
-import AdminConnector from '../connectors/admin'
+import AdminConnector from '@connectors/admin'
 
 export type ResolverContext = {
   res: ServerResponse

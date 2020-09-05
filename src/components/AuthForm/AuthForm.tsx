@@ -5,7 +5,6 @@ import ContactInput from '../UI/Inputs/ContactInput/ContactInput'
 import { Props as InputProps, inputTypes } from '../UI/Inputs/Input/Input'
 import FormButton from '../UI/Buttons/FormButton/FormButton'
 import { cloneDeep } from 'lodash'
-import { auth } from '@services/firebase/client'
 import useForm from '@hooks/useForm'
 import { UserContext } from '@context/UserProvider'
 
@@ -21,7 +20,7 @@ interface Props {
 }
 
 const AuthForm: React.FC<Props> = (props) => {
-  const { user, setError } = useContext(UserContext)
+  const { user, setError, login, signUp } = useContext(UserContext)
   const inputControls = cloneDeep(formControls)
   const initialState = { ...inputControls, formIsInvalid: true }
   const [formData, dispatchFormData] = useForm(initialState)
@@ -38,26 +37,20 @@ const AuthForm: React.FC<Props> = (props) => {
       event.preventDefault()
       onSubmit && onSubmit()
       if (isSignUp) {
-        auth
-          .createUserWithEmailAndPassword(
-            formData.email.value.toString(),
-            formData.password.value.toString()
-          )
-          .catch((error) => {
+        signUp(formData.email.value.toString(), formData.password.value.toString()).catch(
+          (error) => {
             setError(error.message)
-          })
+          }
+        )
       } else {
-        auth
-          .signInWithEmailAndPassword(
-            formData.email.value.toString(),
-            formData.password.value.toString()
-          )
-          .catch((error) => {
+        login(formData.email.value.toString(), formData.password.value.toString()).catch(
+          (error) => {
             setError(error.message)
-          })
+          }
+        )
       }
     },
-    [formData.email.value, formData.password.value, onSubmit, isSignUp, setError]
+    [formData.email.value, formData.password.value, onSubmit, isSignUp, setError, login, signUp]
   )
 
   const onChangeHandler = useCallback(

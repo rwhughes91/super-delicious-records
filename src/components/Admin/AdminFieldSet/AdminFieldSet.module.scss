@@ -23,3 +23,12 @@
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
+
+@media (min-width: 112.5em) {
+  .Title {
+    font-size: 1.6rem;
+  }
+  .AppendButton {
+    font-size: 1.4rem;
+  }
+}

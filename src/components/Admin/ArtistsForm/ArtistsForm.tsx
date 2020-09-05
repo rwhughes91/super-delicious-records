@@ -1,27 +1,22 @@
+import React from 'react'
 import useForm, {
   createFormStateArrayOfObjects,
   appendMissingConfigKeys,
-  isKey,
-  types,
   State,
   Field,
   actions,
 } from '../hooks/useAdminForm'
-import {
-  Props as ArtistProps,
-  Intro as IntroProps,
-  BandMember as BandMemberProps,
-  AlbumLink as AlbumLinkProps,
-  Album as AlbumProps,
-  Video as VideoProps,
-} from '../../../pages/artists/[pid]'
 import { cloneDeep } from 'lodash'
 import AdminFieldSet from '../AdminFieldSet/AdminFieldSet'
 import AdminForm from '../AdminForm/AdminForm'
 import { useCallback } from 'react'
+import * as typeDefs from '@generated/graphql'
+import { isKey } from '@utils/helpers'
+import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
+import { Authenticator } from '@utils/helpers'
 
 interface Props {
-  data?: ArtistProps
+  data?: typeDefs.Artist
 }
 
 type SingleInputs = 'name' | 'website' | 'imageUrl' | 'labelSide'
@@ -83,6 +78,10 @@ const ArtistsForm: React.FC<Props> = (props) => {
 
     for (const key of singleInputKeys) {
       singleInputState[key].value = props.data[key] ?? ''
+      if (props.data[key]) {
+        singleInputState[key].touched = true
+        singleInputState[key].invalid = false
+      }
     }
 
     if (props.data.bandMembers) {
@@ -117,7 +116,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
           if (isKey(albumKey, albumConfig)) {
             albumObj.value.push({
               ...albumConfig[albumKey],
-              value: album[albumKey],
+              value: album[albumKey].toString(),
             })
           } else if (albumKey === 'links') {
             const linkObj: { value: Field[]; sectionHeader?: string } = {
@@ -153,10 +152,13 @@ const ArtistsForm: React.FC<Props> = (props) => {
     }
   }
 
-  const { inputs: singleInputs } = useForm(singleInputState)
+  const { inputs: singleInputs, formState: singleInputsState } = useForm(singleInputState)
   const { inputs: bandMemberInputs, dispatch: bandMemberDispatch } = useForm({
     bandMember: { value: bandMemberInputState },
   })
+
+  console.log(singleInputsState)
+
   const { inputs: introInputs } = useForm({ introduction: { value: introInputState } })
   const { inputs: albumInputs, dispatch: albumDispatch } = useForm({
     albums: { value: albumInputState },
@@ -216,38 +218,33 @@ const ArtistsForm: React.FC<Props> = (props) => {
 
   return (
     <AdminForm title="Artist Form">
-      <>
-        <AdminFieldSet inputs={singleInputs} />
-        <AdminFieldSet title="Introduction" inputs={introInputs} />
-        <AdminFieldSet
-          title="Band Members"
-          inputs={bandMemberInputs}
-          buttonOnClick={appendBandMemberHandler}
-          relative
-          optional
-        />
-        <AdminFieldSet
-          title="Albums"
-          inputs={albumInputs}
-          buttonOnClick={appendAlbumHandler}
-          relative
-          optional
-        />
-        <AdminFieldSet
-          title="Videos"
-          inputs={videoInputs}
-          buttonOnClick={appendVideoHandler}
-          relative
-          optional
-        />
-      </>
+      <AdminFieldSet inputs={singleInputs} />
+      <AdminFieldSet title="Introduction" inputs={introInputs} />
+      <AdminFieldSet
+        title="Band Members"
+        inputs={bandMemberInputs}
+        buttonOnClick={appendBandMemberHandler}
+        optional
+      />
+      <AdminFieldSet
+        title="Albums"
+        inputs={albumInputs}
+        buttonOnClick={appendAlbumHandler}
+        optional
+      />
+      <AdminFieldSet
+        title="Videos"
+        inputs={videoInputs}
+        buttonOnClick={appendVideoHandler}
+        optional
+      />
     </AdminForm>
   )
 }
 
-export default ArtistsForm
+export default React.memo(ArtistsForm)
 
-const albumLinkConfig: State<Required<AlbumLinkProps>> = {
+const albumLinkConfig: State<Required<typeDefs.AlbumLinkInput>> = {
   website: {
     value: '',
     type: types.INPUT,
@@ -313,7 +310,7 @@ const albumLinkConfig: State<Required<AlbumLinkProps>> = {
   },
 }
 
-const albumConfig: State<Omit<AlbumProps, 'links'>> = {
+const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
   name: {
     value: '',
     type: types.INPUT,
@@ -353,7 +350,7 @@ const albumConfig: State<Omit<AlbumProps, 'links'>> = {
   },
 }
 
-const videoConfig: State<VideoProps> = {
+const videoConfig: State<typeDefs.VideoInput> = {
   title: {
     value: '',
     type: types.INPUT,
@@ -382,7 +379,7 @@ const videoConfig: State<VideoProps> = {
   },
 }
 
-const introConfig: State<IntroProps> = {
+const introConfig: State<typeDefs.IntroInput> = {
   header: {
     value: '',
     type: types.TEXT,
@@ -411,7 +408,7 @@ const introConfig: State<IntroProps> = {
   },
 }
 
-const bandMemberConfig: State<Required<BandMemberProps>> = {
+const bandMemberConfig: State<Required<typeDefs.BandMemberInput>> = {
   name: {
     value: '',
     type: types.INPUT,
@@ -456,7 +453,7 @@ const mainInputsConfig = {
   name: {
     value: '',
     type: types.INPUT,
-    invalid: false,
+    invalid: true,
     touched: false,
     errorMessage: '',
     label: 'Name',
@@ -469,7 +466,7 @@ const mainInputsConfig = {
   website: {
     value: '',
     type: types.INPUT,
-    invalid: false,
+    invalid: true,
     touched: false,
     errorMessage: '',
     label: 'Website',
@@ -482,7 +479,7 @@ const mainInputsConfig = {
   imageUrl: {
     value: '',
     type: types.INPUT,
-    invalid: false,
+    invalid: true,
     touched: false,
     errorMessage: '',
     label: 'Image',
@@ -495,7 +492,7 @@ const mainInputsConfig = {
   labelSide: {
     value: '',
     type: types.SELECT,
-    invalid: false,
+    invalid: true,
     touched: false,
     errorMessage: '',
     label: 'Label',

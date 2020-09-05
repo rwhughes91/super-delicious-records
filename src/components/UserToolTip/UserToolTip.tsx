@@ -5,8 +5,7 @@ import { useRouter } from 'next/router'
 import ProfileIcon from '../UI/Icons/ProfileIcon/ProfileIcon'
 import Backdrop from '../UI/Backdrop/Backdrop'
 import { FormButtonClass } from '../UI/Buttons/FormButton/FormButton'
-import { UserContext } from '../../context/UserProvider'
-import { auth } from '../../services/firebase/client'
+import { UserContext } from '@context/UserProvider'
 
 interface Props {
   size: number
@@ -14,7 +13,7 @@ interface Props {
 }
 
 const UserToolTip: React.FC<Props> = (props) => {
-  const { user } = useContext(UserContext)
+  const { user, logoutHandler } = useContext(UserContext)
   const router = useRouter()
   const [showToolTip, setShowToolTip] = useState(false)
 
@@ -36,10 +35,8 @@ const UserToolTip: React.FC<Props> = (props) => {
   )
 
   const logout = useCallback(() => {
-    if (user.user) {
-      auth.signOut()
-    }
-  }, [user.user])
+    logoutHandler()
+  }, [logoutHandler])
 
   const header = <p className={classes.Header}>Account</p>
   const signIn = <Link href="/shop/orders">{formButton('Sign In')}</Link>

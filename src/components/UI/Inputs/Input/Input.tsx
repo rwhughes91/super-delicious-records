@@ -1,6 +1,7 @@
 import { memo, ChangeEvent } from 'react'
 import classes from './input.module.scss'
 import { Rules } from '../../../../utils/formValidation'
+import { types } from 'util'
 
 export interface ElemConfig {
   placeholder: string
@@ -50,6 +51,7 @@ export interface Props {
   labelClassName?: string
   errorMessageClassName?: string
   invalidClassName?: string
+  noCaret?: boolean
 }
 
 const Input: React.FC<Props> = (props) => {
@@ -92,6 +94,8 @@ const Input: React.FC<Props> = (props) => {
       )
       break
     case inputTypes.SELECT:
+      inputContainerClasses.push(classes.DropdownContainer)
+      inputClasses.push(classes.Dropdown)
       inputElement = (
         <select
           style={props.styles}
@@ -161,7 +165,9 @@ const Input: React.FC<Props> = (props) => {
   return (
     <div className={inputContainerClasses.join(' ')} style={props.containerStyles}>
       {label}
-      {props.type === inputTypes.SELECT ? <div className={classes.DropdownCaret} /> : null}
+      {props.type === inputTypes.SELECT && !props.noCaret ? (
+        <div className={classes.DropdownCaret} />
+      ) : null}
       {inputElement}
       {error}
     </div>
