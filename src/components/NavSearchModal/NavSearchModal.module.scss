@@ -5,6 +5,7 @@
   transform: translate(-50%, -50%);
   width: 100%;
   max-width: 40rem;
+  min-height: 20rem;
   z-index: 99999;
   background-color: var(--tan-white-color);
   border-radius: 3px;
@@ -18,9 +19,9 @@
   display: flex;
   align-items: center;
   border: 1px solid var(--light-gray-color);
-  height: 4rem;
-  border-radius: 3px;
+  padding: 1.5rem;
   padding-left: 1rem;
+  border-radius: 3px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -35,8 +36,10 @@
   appearance: none;
   padding-left: 1rem;
   text-transform: uppercase;
+  font-family: 'Open Sans Regular';
+  font-size: 1.6rem;
   &::placeholder {
-    font-family: 'Open Sans Regular';
+    font-size: 1.6rem;
     color: var(--light-gray-color);
   }
 }
@@ -47,13 +50,12 @@
   border-top: none;
 
   & li {
-    font-family: 'Open Sans Regular';
-    font-size: 1.6rem;
-    padding: 1rem;
-    padding-left: 1.5rem;
-    text-transform: uppercase;
+    padding: 1.5rem;
 
     & button {
+      font-family: 'Open Sans Regular';
+      text-transform: uppercase;
+      font-size: 1.6rem;
       text-decoration: none;
       color: var(--light-purple-color);
       width: 100%;
@@ -73,7 +75,7 @@
 }
 
 .Filler {
-  margin-top: 3rem;
+  margin-top: 5rem;
   margin-bottom: 3rem;
   font-family: 'Open Sans Regular';
   font-size: 1.6rem;

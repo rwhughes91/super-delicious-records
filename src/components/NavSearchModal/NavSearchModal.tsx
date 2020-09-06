@@ -68,14 +68,19 @@ const NavSearchModal: React.FC<Props> = (props) => {
     </div>
   )
   if (data && data.getArtistsList) {
-    const liItems = data.getArtistsList.map((datum) => {
-      return (
-        <li key={datum.pid}>
-          <button onClick={() => redirect(datum.pid)}>{datum.name}</button>
-        </li>
-      )
-    })
-    output = <ul className={classes.ArtistList}>{liItems}</ul>
+    const filteredItems = data.getArtistsList.filter((artist) => artist.name.startsWith(input))
+    if (filteredItems.length > 0) {
+      const liItems = filteredItems.map((datum) => {
+        return (
+          <li key={datum.pid}>
+            <button onClick={() => redirect(datum.pid)}>{datum.name}</button>
+          </li>
+        )
+      })
+      output = <ul className={classes.ArtistList}>{liItems}</ul>
+    } else {
+      output = <div className={classes.Filler}>we got nothing here</div>
+    }
   }
   if (error) {
     output = (
