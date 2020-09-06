@@ -46,7 +46,9 @@ const OrdersList: React.FC = () => {
     cancelFn('Operation Canceled')
   }, [logoutHandler, cancelFn])
 
-  const noOrders = <TextBody styles={{ marginBottom: '1rem' }}>No orders...yet</TextBody>
+  const noOrders = (
+    <TextBody styles={{ marginBottom: '1rem', fontSize: '1.8rem' }}>No orders...yet</TextBody>
+  )
 
   const loggedIn = (
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>

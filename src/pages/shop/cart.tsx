@@ -100,7 +100,7 @@ const Cart: React.FC = () => {
       </div>
     )
   } else {
-    cartItems = <TextBody>No items in your cart</TextBody>
+    cartItems = <TextBody styles={{ fontSize: '1.8rem' }}>No items in your cart</TextBody>
   }
 
   return (

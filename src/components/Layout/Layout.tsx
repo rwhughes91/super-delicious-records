@@ -24,19 +24,19 @@ const Layout: React.FC<Props> = (props) => {
     props.pageType === 'home' ? (
       <main>{props.children}</main>
     ) : (
-      <>
-        <main className={classes.Main}>
+      <div className={classes.Main}>
+        <main className={classes.Content}>
           <div>
             <BreadCrumb currentPage={props.currentPage} />
           </div>
           {props.children}
         </main>
         {!props.noFooter && (
-          <footer>
+          <footer className={classes.Footer}>
             <Footer />
           </footer>
         )}
-      </>
+      </div>
     )
   return (
     <>

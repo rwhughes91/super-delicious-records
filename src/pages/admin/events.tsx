@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
-import Layout from '@components/Layout/Layout'
+import AdminLayout from '@components/Layout/AdminLayout'
 import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import AdminContainer from '@components/Admin/AdminContainer/AdminContainer'
 import * as typeDefs from '@generated/graphql'
@@ -16,10 +16,10 @@ const EventsAdminDetail: React.FC<Props> = (props) => {
       <Head>
         <title>Admin - Events | Super Delicious Records</title>
       </Head>
-      <Layout pageType="main" currentPage="Events" noFooter>
+      <AdminLayout currentPage="Events">
         <PrimaryHeader>Events</PrimaryHeader>
         <AdminContainer type="events" eventsData={props.events} />
-      </Layout>
+      </AdminLayout>
     </>
   )
 }

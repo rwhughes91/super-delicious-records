@@ -1,9 +1,22 @@
 .Main {
   margin-top: 6rem;
+  min-height: calc(100vh - 6rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.Content {
+  flex: 1;
+  padding-bottom: 10rem;
+}
+
+.Footer {
+  flex: -1;
 }
 
 @media (min-width: 56.25em) {
   .Main {
     margin-top: 10rem;
+    min-height: calc(100vh - 10rem);
   }
 }

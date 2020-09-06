@@ -1,8 +1,9 @@
+import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import classes from '../../styles/pages/admin/Admin.module.scss'
-import Layout from '../../components/Layout/Layout'
-import PrimaryHeader from '../../components/UI/Headers/PrimaryHeader/PrimaryHeader'
+import classes from '@styles/pages/admin/Admin.module.scss'
+import AdminLayout from '@components/Layout/AdminLayout'
+import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
 
 const Admin: React.FC = () => {
   const forms = (
@@ -34,12 +35,12 @@ const Admin: React.FC = () => {
       <Head>
         <title>Admin | Super Delicious Records</title>
       </Head>
-      <Layout pageType="main" noFooter>
+      <AdminLayout>
         <PrimaryHeader>Admin</PrimaryHeader>
         {forms}
-      </Layout>
+      </AdminLayout>
     </>
   )
 }
 
-export default Admin
+export default React.memo(Admin)
