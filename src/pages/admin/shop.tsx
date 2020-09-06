@@ -16,7 +16,7 @@ const EventsAdminDetail: React.FC<Props> = (props) => {
       <Head>
         <title>Admin - Shop | Super Delicious Records</title>
       </Head>
-      <Layout pageType="main" currentPage="Artists">
+      <Layout pageType="main" currentPage="Artists" noFooter>
         <PrimaryHeader>Shop</PrimaryHeader>
         <AdminContainer type="shop" shopData={props.shop} />
       </Layout>

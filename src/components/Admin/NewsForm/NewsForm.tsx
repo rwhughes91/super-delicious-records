@@ -14,6 +14,7 @@ import AdminForm from '../AdminForm/AdminForm'
 import * as typeDefs from '@generated/graphql'
 import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
 import { Authenticator } from '@utils/helpers'
+import { CREATE_NEWS_ITEM, MUTATE_NEWS_ITEM } from '@queries/index'
 
 interface Props {
   data?: typeDefs.NewsItem
@@ -191,7 +192,12 @@ const NewsForm: React.FC<Props> = (props) => {
   }, [linkDispatch])
 
   return (
-    <AdminForm title="News Form" onSubmit={onSubmitHandler}>
+    <AdminForm
+      title="News Form"
+      onSubmit={onSubmitHandler}
+      query={props.data ? MUTATE_NEWS_ITEM : CREATE_NEWS_ITEM}
+      pid={props.data && props.data.pid}
+    >
       <AdminFieldSet inputs={singleInputs} />
       <AdminFieldSet
         title="Descriptions"

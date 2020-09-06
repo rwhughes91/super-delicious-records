@@ -16,7 +16,7 @@ const NewsAdminDetail: React.FC<Props> = (props) => {
       <Head>
         <title>Admin - News | Super Delicious Records</title>
       </Head>
-      <Layout pageType="main" currentPage="News">
+      <Layout pageType="main" currentPage="News" noFooter>
         <PrimaryHeader>News</PrimaryHeader>
         <AdminContainer type="news" newsData={props.newsData} />
       </Layout>

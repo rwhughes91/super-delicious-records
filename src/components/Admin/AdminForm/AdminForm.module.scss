@@ -25,6 +25,19 @@
   align-items: flex-start;
 }
 
+.LoaderContainer {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media (min-width: 112.5em) {
   .AdminForm {
     & span[data-container-header='true'] {

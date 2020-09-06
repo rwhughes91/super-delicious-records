@@ -49,3 +49,8 @@ export const CREATE_SHOP_ITEM = gql`
     createShopItem(data: $data)
   }
 `
+export const MUTATE_SHOP_ITEM = gql`
+  mutation MutateShopItem($data: ShopItemInput!, $pid: String!) {
+    mutateShopItem(data: $data, pid: $pid)
+  }
+`

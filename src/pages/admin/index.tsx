@@ -34,7 +34,7 @@ const Admin: React.FC = () => {
       <Head>
         <title>Admin | Super Delicious Records</title>
       </Head>
-      <Layout pageType="main">
+      <Layout pageType="main" noFooter>
         <PrimaryHeader>Admin</PrimaryHeader>
         {forms}
       </Layout>

@@ -15,6 +15,7 @@ import { isKey } from '@utils/helpers'
 import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
 import { Authenticator } from '@utils/helpers'
 import { VideoInput } from '../NewsForm/NewsForm'
+import { CREATE_ARTIST, MUTATE_ARTIST } from '@queries/index'
 
 interface Props {
   data?: typeDefs.Artist
@@ -390,7 +391,12 @@ const ArtistsForm: React.FC<Props> = (props) => {
   }, [videoDispatch])
 
   return (
-    <AdminForm title="Artist Form" onSubmit={onSubmitHandler}>
+    <AdminForm
+      title="Artist Form"
+      onSubmit={onSubmitHandler}
+      query={props.data ? MUTATE_ARTIST : CREATE_ARTIST}
+      pid={props.data && props.data.pid}
+    >
       <AdminFieldSet inputs={singleInputs} />
       <AdminFieldSet title="Introduction" inputs={introInputs} />
       <AdminFieldSet

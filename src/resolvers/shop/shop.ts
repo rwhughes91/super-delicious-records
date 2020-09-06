@@ -11,7 +11,12 @@ import {
   Query,
 } from 'type-graphql'
 import { isAdmin } from '@middleware/resolver/isAdmin'
-import { getDataArray, getDataItem, createDataItem } from '@services/firebase/admin'
+import {
+  getDataArray,
+  getDataItem,
+  createDataItem,
+  createDataItemWithPid,
+} from '@services/firebase/admin'
 import { ShopImage, ShopImageInput } from '@resolvers/types'
 
 enum Tag {
@@ -105,5 +110,14 @@ export default class ShopItemResolver {
   @UseMiddleware(isAdmin)
   async createShopItem(@Arg('data') data: ShopItemInput): Promise<string> {
     return createDataItem('/shop', data)
+  }
+
+  @Mutation(() => String)
+  @UseMiddleware(isAdmin)
+  async mutateShopItem(
+    @Arg('data') data: ShopItemInput,
+    @Arg('pid') pid: string
+  ): Promise<true | string> {
+    return createDataItemWithPid<ShopItem>('shop', { ...data, pid })
   }
 }

@@ -11,6 +11,7 @@ interface Props {
   pageType: 'home' | 'main'
   currentPage?: string
   children: children | children[]
+  noFooter?: boolean
 }
 
 const Layout: React.FC<Props> = (props) => {
@@ -30,9 +31,11 @@ const Layout: React.FC<Props> = (props) => {
           </div>
           {props.children}
         </main>
-        <footer>
-          <Footer />
-        </footer>
+        {!props.noFooter && (
+          <footer>
+            <Footer />
+          </footer>
+        )}
       </>
     )
   return (

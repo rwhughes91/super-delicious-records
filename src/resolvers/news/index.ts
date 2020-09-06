@@ -8,9 +8,14 @@ import {
   UseMiddleware,
   Query,
 } from 'type-graphql'
-import { isAdmin } from '../../middleware/resolver/isAdmin'
+import { isAdmin } from '@middleware/resolver/isAdmin'
 import { Video, VideoInput } from '../types'
-import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
+import {
+  getDataArray,
+  getDataItem,
+  createDataItem,
+  createDataItemWithPid,
+} from '@services/firebase/admin'
 
 // Object Types
 @ObjectType()
@@ -106,5 +111,13 @@ export default class NewsResolver {
   @UseMiddleware(isAdmin)
   async createNewsItem(@Arg('data') data: NewsInput): Promise<string> {
     return createDataItem('news', data)
+  }
+  @Mutation(() => String)
+  @UseMiddleware(isAdmin)
+  async mutateNewsItem(
+    @Arg('data') data: NewsInput,
+    @Arg('pid') pid: string
+  ): Promise<true | string> {
+    return createDataItemWithPid<NewsItem>('news', { ...data, pid })
   }
 }

@@ -49,3 +49,8 @@ export const CREATE_NEWS_ITEM = gql`
     createNewsItem(data: $data)
   }
 `
+export const MUTATE_NEWS_ITEM = gql`
+  mutation MutateNewsItem($data: NewsInput!, $pid: String!) {
+    mutateNewsItem(data: $data, pid: $pid)
+  }
+`

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import useForm, { convertDate } from '../hooks/useAdminForm'
 import { cloneDeep } from 'lodash'
 import AdminFieldSet from '../AdminFieldSet/AdminFieldSet'
@@ -6,6 +6,7 @@ import AdminForm from '../AdminForm/AdminForm'
 import * as typeDefs from '@generated/graphql'
 import { isKey } from '@utils/helpers'
 import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
+import { CREATE_EVENT, MUTATE_EVENT } from '@queries/index'
 
 interface Props {
   data?: typeDefs.Event
@@ -41,7 +42,12 @@ const EventsForm: React.FC<Props> = (props) => {
   }
 
   return (
-    <AdminForm title="Events Form" onSubmit={onSubmitHandler}>
+    <AdminForm
+      title="Events Form"
+      onSubmit={onSubmitHandler}
+      query={props.data ? MUTATE_EVENT : CREATE_EVENT}
+      pid={props.data && props.data.pid}
+    >
       <AdminFieldSet inputs={inputs} />
     </AdminForm>
   )

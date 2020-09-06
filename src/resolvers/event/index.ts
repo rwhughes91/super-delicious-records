@@ -9,7 +9,12 @@ import {
   Query,
 } from 'type-graphql'
 import { isAdmin } from '../../middleware/resolver/isAdmin'
-import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
+import {
+  getDataArray,
+  getDataItem,
+  createDataItem,
+  createDataItemWithPid,
+} from '../../services/firebase/admin'
 
 @ObjectType()
 class Event {
@@ -72,5 +77,14 @@ export default class EventsResolver {
   @UseMiddleware(isAdmin)
   async createEvent(@Arg('data') data: EventInput): Promise<string> {
     return createDataItem('/events', data)
+  }
+
+  @Mutation(() => String)
+  @UseMiddleware(isAdmin)
+  async mutateEvent(
+    @Arg('data') data: EventInput,
+    @Arg('pid') pid: string
+  ): Promise<true | string> {
+    return createDataItemWithPid<Event>('events', { ...data, pid })
   }
 }

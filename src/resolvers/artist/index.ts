@@ -10,9 +10,14 @@ import {
   Query,
   Int,
 } from 'type-graphql'
-import { isAdmin } from '../../middleware/resolver/isAdmin'
+import { isAdmin } from '@middleware/resolver/isAdmin'
 import { Video, VideoInput } from '../types'
-import { getDataArray, getDataItem, createDataItem } from '../../services/firebase/admin'
+import {
+  getDataArray,
+  getDataItem,
+  createDataItem,
+  createDataItemWithPid,
+} from '@services/firebase/admin'
 
 enum LabelSide {
   LEFT = 'LEFT',
@@ -205,5 +210,13 @@ export default class ArtistsResolver {
   @UseMiddleware(isAdmin)
   async createArtist(@Arg('data') data: ArtistInput): Promise<string> {
     return createDataItem('/artists', data)
+  }
+  @Mutation(() => String)
+  @UseMiddleware(isAdmin)
+  async mutateArtist(
+    @Arg('data') data: ArtistInput,
+    @Arg('pid') pid: string
+  ): Promise<true | string> {
+    return createDataItemWithPid<Artist>('artists', { ...data, pid })
   }
 }

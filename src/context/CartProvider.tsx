@@ -3,7 +3,8 @@ import * as typeDefs from '@generated/graphql'
 import { UserContext } from '@context/UserProvider'
 import { sliceArray, round } from '@utils/helpers'
 import { GET_CART, SET_CART } from '@queries/index'
-import axios, { CancelTokenSource } from 'axios'
+import sendAxiosRequest from '@utils/sendAxios'
+import { CancelTokenSource } from 'axios'
 
 interface Cart {
   cart: { local: typeDefs.CartItem[]; user: typeDefs.CartItem[] }
@@ -72,7 +73,7 @@ const CartProvider: React.FC = (props) => {
     } else {
       addItemToStorage(cart.cart.local)
       if (user.user && cart.lastUpdatedUserCartItem) {
-        const [request, cancelFn] = sendAxiosRequest(SET_CART, user.user, cart.cart.user)
+        const [request, cancelFn] = sendAxiosRequest(SET_CART, user.user, { data: cart.cart.user })
         lastRequestCancelFn.current?.cancel()
         lastRequestCancelFn.current = cancelFn
         request()
@@ -317,24 +318,4 @@ const filterCartItems = (
     return { filteredCart: cart, itemFiltered: null }
   }
   return { filteredCart: sliceArray(cart, itemToFilter), itemFiltered: cart[itemToFilter] }
-}
-
-const sendAxiosRequest = (
-  query: string,
-  user: firebase.User,
-  variables?: typeDefs.CartItemInput[]
-): [() => Promise<any>, CancelTokenSource] => {
-  const source = axios.CancelToken.source()
-  return [
-    async () => {
-      const idToken = await user.getIdToken()
-      const res = await axios.post(
-        '/api/graphql',
-        { query, variables: { data: variables } },
-        { cancelToken: source.token, headers: { authorization: `Bearer ${idToken}` } }
-      )
-      return res.data.data
-    },
-    source,
-  ]
 }

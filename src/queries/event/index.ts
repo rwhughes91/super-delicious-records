@@ -32,3 +32,9 @@ export const CREATE_EVENT = gql`
     createEvent(data: $data)
   }
 `
+
+export const MUTATE_EVENT = gql`
+  mutation MutateEvent($data: EventInput!, $pid: String!) {
+    mutateEvent(data: $data, pid: $pid)
+  }
+`

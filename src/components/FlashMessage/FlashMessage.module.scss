@@ -1,19 +1,15 @@
 $green: rgb(89, 167, 85);
 
 .FlashMessage {
-  position: fixed;
-  top: 10rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 85%;
-  max-width: 33rem;
-  text-align: center;
+  margin: 0 auto;
+  width: 100%;
   font-size: 1.6rem;
-  padding: 1rem;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 2rem;
+  border-radius: 3px;
+  z-index: 99999;
+  text-align: left;
+  margin-bottom: 1rem;
+  border: 1px solid #eee;
 }
 
 .FlashMessageText {
@@ -21,8 +17,27 @@ $green: rgb(89, 167, 85);
 }
 
 .Success {
-  border: 1px solid $green;
-  color: $green;
+  border-left-width: 5px;
+  background-color: rgba(43, 84, 44, 0.1);
+  border-left-color: $green;
+  display: flex;
+  align-items: center;
+
+  & span {
+    margin-left: 2rem;
+  }
+}
+
+.Error {
+  border-left-width: 5px;
+  background-color: rgba(217, 83, 79, 0.1);
+  border-left-color: #d9534f;
+
+  & span::before {
+    content: 'Error:';
+    color: var(--bright-red-color);
+    margin-right: 1rem;
+  }
 }
 
 .CheckMarkCircle {
@@ -53,6 +68,12 @@ $green: rgb(89, 167, 85);
   stroke-dasharray: 48;
   stroke-dashoffset: 48;
   animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@media (min-width: 56.25em) {
+  .FlashMessage {
+    top: 25rem;
+  }
 }
 
 @keyframes stroke {

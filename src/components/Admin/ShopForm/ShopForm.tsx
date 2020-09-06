@@ -12,6 +12,7 @@ import { inputTypes as types } from '@components/UI/Inputs/Input/Input'
 import { cloneDeep } from 'lodash'
 import { useCallback } from 'react'
 import { Authenticator } from '@utils/helpers'
+import { CREATE_SHOP_ITEM, MUTATE_SHOP_ITEM } from '@queries/index'
 
 interface Props {
   data?: typeDefs.ShopItem
@@ -148,7 +149,12 @@ const ShopForm: React.FC<Props> = (props) => {
   }, [imageDispatch])
 
   return (
-    <AdminForm title="Shop Form" onSubmit={onSubmitHandler}>
+    <AdminForm
+      title="Shop Form"
+      onSubmit={onSubmitHandler}
+      query={props.data ? MUTATE_SHOP_ITEM : CREATE_SHOP_ITEM}
+      pid={props.data && props.data.pid}
+    >
       <>
         <AdminFieldSet inputs={singleInputs} />
         <AdminFieldSet title="Images" inputs={imageInputs} buttonOnClick={appendImageHandler} />

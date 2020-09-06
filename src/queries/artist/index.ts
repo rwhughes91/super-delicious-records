@@ -78,3 +78,8 @@ export const CREATE_ARTIST = gql`
     createArtist(data: $data)
   }
 `
+export const MUTATE_ARTIST = gql`
+  mutation MutateArtist($data: ArtistInput!, $pid: String!) {
+    mutateArtist(data: $data, pid: $pid)
+  }
+`

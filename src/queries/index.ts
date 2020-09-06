@@ -1,6 +1,6 @@
-export { GET_NEWS_ITEM, GET_NEWS, CREATE_NEWS_ITEM } from './news/'
+export { GET_NEWS_ITEM, GET_NEWS, CREATE_NEWS_ITEM, MUTATE_NEWS_ITEM } from './news/'
 export { GET_ME } from './user/'
-export { GET_ARTIST, GET_ARTISTS, CREATE_ARTIST } from './artist/'
+export { GET_ARTIST, GET_ARTISTS, CREATE_ARTIST, MUTATE_ARTIST } from './artist/'
 export {
   GET_SHOP,
   GET_SHOP_ITEM,
@@ -11,5 +11,6 @@ export {
   REMOVE_FROM_CART,
   GET_ORDERS,
   CREATE_ORDER,
+  MUTATE_SHOP_ITEM,
 } from './shop/'
-export { GET_EVENT, GET_EVENTS, CREATE_EVENT } from './event/'
+export { GET_EVENT, GET_EVENTS, CREATE_EVENT, MUTATE_EVENT } from './event/'
