@@ -15,6 +15,7 @@ export type Query = {
   getNews: Array<NewsItem>
   getNewsItem: NewsItem
   getArtists: Array<Artist>
+  getArtistsList: Array<ArtistName>
   getArtist: Artist
   getEvents: Array<Event>
   getEvent: Event
@@ -121,6 +122,12 @@ export type AlbumLink = {
   appleMusic?: Maybe<Scalars['String']>
 }
 
+export type ArtistName = {
+  __typename?: 'ArtistName'
+  pid: Scalars['String']
+  name: Scalars['String']
+}
+
 export type Event = {
   __typename?: 'Event'
   pid: Scalars['String']
@@ -175,8 +182,16 @@ export type OrderShopItem = {
   qty: Scalars['Int']
   purchasePrice: Scalars['Float']
   color?: Maybe<Scalars['String']>
-  size?: Maybe<Scalars['String']>
+  size?: Maybe<Size>
   shopItem: ShopItemTrimmed
+}
+
+export enum Size {
+  Xsmall = 'XSMALL',
+  Small = 'SMALL',
+  Medium = 'MEDIUM',
+  Large = 'LARGE',
+  Xlarge = 'XLARGE',
 }
 
 export type ShopItemTrimmed = {
@@ -190,28 +205,25 @@ export type CartItem = {
   __typename?: 'CartItem'
   pid: Scalars['String']
   shopPid: Scalars['String']
-  size: Size
-  color: Scalars['String']
+  size?: Maybe<Size>
+  color?: Maybe<Scalars['String']>
   qty: Scalars['Int']
   shopItem: ShopItemTrimmed
-}
-
-export enum Size {
-  Xsmall = 'XSMALL',
-  Small = 'SMALL',
-  Medium = 'MEDIUM',
-  Large = 'LARGE',
-  Xlarge = 'XLARGE',
 }
 
 export type Mutation = {
   __typename?: 'Mutation'
   createNewsItem: Scalars['String']
+  mutateNewsItem: Scalars['String']
   createArtist: Scalars['String']
+  mutateArtist: Scalars['String']
   createEvent: Scalars['String']
+  mutateEvent: Scalars['String']
   createShopItem: Scalars['String']
+  mutateShopItem: Scalars['String']
   createOrder: Scalars['String']
   addToCart: Scalars['String']
+  setCart: Scalars['String']
   removeFromCart: Scalars['String']
 }
 
@@ -219,7 +231,17 @@ export type MutationCreateNewsItemArgs = {
   data: NewsInput
 }
 
+export type MutationMutateNewsItemArgs = {
+  pid: Scalars['String']
+  data: NewsInput
+}
+
 export type MutationCreateArtistArgs = {
+  data: ArtistInput
+}
+
+export type MutationMutateArtistArgs = {
+  pid: Scalars['String']
   data: ArtistInput
 }
 
@@ -227,7 +249,17 @@ export type MutationCreateEventArgs = {
   data: EventInput
 }
 
+export type MutationMutateEventArgs = {
+  pid: Scalars['String']
+  data: EventInput
+}
+
 export type MutationCreateShopItemArgs = {
+  data: ShopItemInput
+}
+
+export type MutationMutateShopItemArgs = {
+  pid: Scalars['String']
   data: ShopItemInput
 }
 
@@ -237,6 +269,10 @@ export type MutationCreateOrderArgs = {
 
 export type MutationAddToCartArgs = {
   data: CartItemInput
+}
+
+export type MutationSetCartArgs = {
+  data: Array<CartItemInput>
 }
 
 export type MutationRemoveFromCartArgs = {
@@ -342,7 +378,7 @@ export type OrderShopItemInput = {
   qty: Scalars['Int']
   purchasePrice: Scalars['Float']
   color?: Maybe<Scalars['String']>
-  size?: Maybe<Scalars['String']>
+  size?: Maybe<Size>
 }
 
 export type ShopItemTrimmedInput = {
@@ -355,8 +391,8 @@ export type CartItemInput = {
   pid: Scalars['String']
   shopPid: Scalars['String']
   qty: Scalars['Int']
-  size: Size
-  color: Scalars['String']
+  size?: Maybe<Size>
+  color?: Maybe<Scalars['String']>
   shopItem: ShopItemTrimmedInput
 }
 
@@ -385,6 +421,12 @@ export type GetArtistQuery = { __typename?: 'Query' } & {
       >
       videos?: Maybe<Array<{ __typename?: 'Video' } & Pick<Video, 'src' | 'title'>>>
     }
+}
+
+export type GetArtistSListQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetArtistSListQuery = { __typename?: 'Query' } & {
+  getArtistsList: Array<{ __typename?: 'ArtistName' } & Pick<ArtistName, 'pid' | 'name'>>
 }
 
 export type GetArtistsQueryVariables = Exact<{ [key: string]: never }>
@@ -422,6 +464,13 @@ export type CreateArtistMutationVariables = Exact<{
 
 export type CreateArtistMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'createArtist'>
 
+export type MutateArtistMutationVariables = Exact<{
+  data: ArtistInput
+  pid: Scalars['String']
+}>
+
+export type MutateArtistMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'mutateArtist'>
+
 export type GetEventQueryVariables = Exact<{
   pid: Scalars['String']
 }>
@@ -449,6 +498,13 @@ export type CreateEventMutationVariables = Exact<{
 }>
 
 export type CreateEventMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'createEvent'>
+
+export type MutateEventMutationVariables = Exact<{
+  data: EventInput
+  pid: Scalars['String']
+}>
+
+export type MutateEventMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'mutateEvent'>
 
 export type GetNewsItemQueryVariables = Exact<{
   pid: Scalars['String']
@@ -484,6 +540,13 @@ export type CreateNewsItemMutationVariables = Exact<{
 
 export type CreateNewsItemMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'createNewsItem'>
 
+export type MutateNewsItemMutationVariables = Exact<{
+  data: NewsInput
+  pid: Scalars['String']
+}>
+
+export type MutateNewsItemMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'mutateNewsItem'>
+
 export type GetCartQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetCartQuery = { __typename?: 'Query' } & {
@@ -506,6 +569,12 @@ export type AddToCartMutationVariables = Exact<{
 }>
 
 export type AddToCartMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'addToCart'>
+
+export type SetCartMutationVariables = Exact<{
+  data: Array<CartItemInput>
+}>
+
+export type SetCartMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'setCart'>
 
 export type RemoveFromCartMutationVariables = Exact<{
   data: Scalars['String']
@@ -597,6 +666,13 @@ export type CreateShopItemMutationVariables = Exact<{
 }>
 
 export type CreateShopItemMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'createShopItem'>
+
+export type MutateShopItemMutationVariables = Exact<{
+  data: ShopItemInput
+  pid: Scalars['String']
+}>
+
+export type MutateShopItemMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'mutateShopItem'>
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never }>
 

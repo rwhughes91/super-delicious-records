@@ -18,6 +18,7 @@ import {
   createDataItemWithPid,
 } from '@services/firebase/admin'
 import { ShopImage, ShopImageInput } from '@resolvers/types'
+import { isAuthenticated } from '@middleware/resolver/isAuthenticated'
 
 enum Tag {
   SHIRT = 'SHIRT',
@@ -97,11 +98,13 @@ class ShopItemInput implements Partial<ShopItem> {
 @Resolver(() => ShopItem)
 export default class ShopItemResolver {
   @Query(() => [ShopItem])
+  @UseMiddleware(isAuthenticated)
   async getShop(): Promise<ShopItem[]> {
     return getDataArray<ShopItem>('/shop')
   }
 
   @Query(() => ShopItem)
+  @UseMiddleware(isAuthenticated)
   async getShopItem(@Arg('pid') pid: string): Promise<ShopItem> {
     return getDataItem<ShopItem>(`/shop/${pid}`)
   }

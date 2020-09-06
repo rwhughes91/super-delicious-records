@@ -1,14 +1,18 @@
+import React from 'react'
 import classes from './NavSearchInput.module.scss'
-import Input, { Props } from '../Input/Input'
+
+interface Props {
+  toggleModal?: () => void
+}
 
 const NavSearchInput: React.FC<Props> = (props) => {
   return (
-    <Input
-      {...props}
-      className={classes.NavSearchInput}
-      containerClassName={classes.NavContainer}
-    />
+    <div className={classes.NavContainer}>
+      <button className={classes.NavSearchInput} onClick={props.toggleModal}>
+        search for a band
+      </button>
+    </div>
   )
 }
 
-export default NavSearchInput
+export default React.memo(NavSearchInput)

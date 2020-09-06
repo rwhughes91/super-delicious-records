@@ -37,6 +37,15 @@ export const GET_ARTIST = gql`
   }
 `
 
+export const GET_ARTISTS_LIST = gql`
+  query GetArtistSList {
+    getArtistsList {
+      pid
+      name
+    }
+  }
+`
+
 export const GET_ARTISTS = gql`
   query GetArtists {
     getArtists {

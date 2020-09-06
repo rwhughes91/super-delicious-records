@@ -8,7 +8,8 @@ import {
   UseMiddleware,
   Query,
 } from 'type-graphql'
-import { isAdmin } from '../../middleware/resolver/isAdmin'
+import { isAuthenticated } from '@middleware/resolver/isAuthenticated'
+import { isAdmin } from '@middleware/resolver/isAdmin'
 import {
   getDataArray,
   getDataItem,
@@ -64,11 +65,13 @@ class EventInput implements Partial<Event> {
 @Resolver()
 export default class EventsResolver {
   @Query(() => [Event])
+  @UseMiddleware(isAuthenticated)
   async getEvents(): Promise<Event[]> {
     return getDataArray<Event>('/events')
   }
 
   @Query(() => Event)
+  @UseMiddleware(isAuthenticated)
   async getEvent(@Arg('pid') pid: string): Promise<Event> {
     return getDataItem<Event>(`/events/${pid}`)
   }

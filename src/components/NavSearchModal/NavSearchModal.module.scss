@@ -1,0 +1,84 @@
+.NavSearchModal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 40rem;
+  z-index: 99999;
+  background-color: var(--tan-white-color);
+  border-radius: 3px;
+  color: var(--dark-purple-color);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.InputWrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--light-gray-color);
+  height: 4rem;
+  border-radius: 3px;
+  padding-left: 1rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.Input {
+  border: none;
+  flex: 1;
+  align-self: stretch;
+  background: none;
+  border: none;
+  outline: none;
+  appearance: none;
+  padding-left: 1rem;
+  text-transform: uppercase;
+  &::placeholder {
+    font-family: 'Open Sans Regular';
+    color: var(--light-gray-color);
+  }
+}
+
+.ArtistList {
+  list-style-type: none;
+  border: 1px solid var(--light-gray-color);
+  border-top: none;
+
+  & li {
+    font-family: 'Open Sans Regular';
+    font-size: 1.6rem;
+    padding: 1rem;
+    padding-left: 1.5rem;
+    text-transform: uppercase;
+
+    & button {
+      text-decoration: none;
+      color: var(--light-purple-color);
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+      border: none;
+      background: none;
+      outline: none;
+      text-align: left;
+      cursor: pointer;
+    }
+  }
+
+  & li:not(:last-child) {
+    border-bottom: 1px solid var(--light-gray-color);
+  }
+}
+
+.Filler {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  font-family: 'Open Sans Regular';
+  font-size: 1.6rem;
+  color: var(--light-gray-color);
+  padding: 1rem;
+  text-transform: uppercase;
+  align-self: center;
+}

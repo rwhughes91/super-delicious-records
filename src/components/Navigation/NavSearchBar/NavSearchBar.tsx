@@ -2,10 +2,10 @@ import { useState, useCallback } from 'react'
 import classes from './NavSearchBar.module.scss'
 import SearchIcon from '../../UI/Icons/SearchIcon/SearchIcon'
 import NavSearchInput from '../../UI/Inputs/NavSearchInput/NavSearchInput'
-import { inputTypes } from '../../UI/Inputs/Input/Input'
 
 interface Props {
   slide?: true
+  toggleModal?: () => void
 }
 
 const NavSearchBar: React.FC<Props> = (props) => {
@@ -34,11 +34,7 @@ const NavSearchBar: React.FC<Props> = (props) => {
       </span>
       {showInput && (
         <div className={classes.InputContainer}>
-          <NavSearchInput
-            value=""
-            type={inputTypes.INPUT}
-            elementConfig={{ type: 'text', placeholder: 'search for a band' }}
-          />
+          <NavSearchInput toggleModal={props.toggleModal} />
         </div>
       )}
     </div>

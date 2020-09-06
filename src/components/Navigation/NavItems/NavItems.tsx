@@ -11,6 +11,7 @@ interface Props {
   home?: boolean
   ripple?: true
   styles?: React.CSSProperties
+  toggleModal?: () => void
 }
 
 const NavItems: React.FC<Props> = (props) => {
@@ -18,7 +19,7 @@ const NavItems: React.FC<Props> = (props) => {
   if (props.icons === 'only') {
     navItems = (
       <>
-        <NavSearchBar slide />
+        <NavSearchBar slide toggleModal={props.toggleModal} />
         <NavItem location="/shop/orders">
           <ProfileIcon size={2} />
         </NavItem>

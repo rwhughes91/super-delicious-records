@@ -10,6 +10,7 @@ import {
   Query,
   Int,
 } from 'type-graphql'
+import { isAuthenticated } from '@middleware/resolver/isAuthenticated'
 import { isAdmin } from '@middleware/resolver/isAdmin'
 import { Video, VideoInput } from '../types'
 import {
@@ -111,6 +112,15 @@ class Artist {
   videos?: Video[]
 }
 
+@ObjectType()
+class ArtistName {
+  @Field()
+  pid!: string
+
+  @Field()
+  name!: string
+}
+
 // Input Types
 @InputType()
 class IntroInput implements Partial<Intro> {
@@ -197,11 +207,26 @@ class ArtistInput implements Partial<Artist> {
 @Resolver()
 export default class ArtistsResolver {
   @Query(() => [Artist])
+  @UseMiddleware(isAuthenticated)
   async getArtists(): Promise<Artist[]> {
     return getDataArray<Artist>('/artists')
   }
 
+  @Query(() => [ArtistName])
+  async getArtistsList(): Promise<ArtistName[]> {
+    const artists = await getDataArray<Artist>('/artists')
+    const listOfArtists = []
+    for (const artist of artists) {
+      listOfArtists.push({
+        name: artist.name,
+        pid: artist.pid,
+      })
+    }
+    return listOfArtists
+  }
+
   @Query(() => Artist)
+  @UseMiddleware(isAuthenticated)
   async getArtist(@Arg('pid') pid: string): Promise<Artist> {
     return getDataItem<Artist>(`/artists/${pid}`)
   }

@@ -9,6 +9,7 @@ import {
   Query,
 } from 'type-graphql'
 import { isAdmin } from '@middleware/resolver/isAdmin'
+import { isAuthenticated } from '@middleware/resolver/isAuthenticated'
 import { Video, VideoInput } from '../types'
 import {
   getDataArray,
@@ -98,11 +99,13 @@ export class NewsInput implements Partial<NewsItem> {
 @Resolver(() => NewsItem)
 export default class NewsResolver {
   @Query(() => [NewsItem])
+  @UseMiddleware(isAuthenticated)
   async getNews(): Promise<NewsItem[]> {
     return getDataArray<NewsItem>('/news')
   }
 
   @Query(() => NewsItem)
+  @UseMiddleware(isAuthenticated)
   async getNewsItem(@Arg('pid') pid: string): Promise<NewsItem> {
     return getDataItem<NewsItem>(`/news/${pid}`)
   }
