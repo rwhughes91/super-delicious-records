@@ -119,7 +119,6 @@ const OrdersList: React.FC = () => {
       }
       output = (
         <>
-          <PrimaryHeader>Orders</PrimaryHeader>
           <div>{orders}</div>
           {loggedIn}
         </>
@@ -131,7 +130,10 @@ const OrdersList: React.FC = () => {
       <Head>
         <title>Profile | Super Delicious Records</title>
       </Head>
-      <Layout pageType="main">{output}</Layout>
+      <Layout pageType="main">
+        <PrimaryHeader>Orders</PrimaryHeader>
+        {output}
+      </Layout>
     </>
   )
 }

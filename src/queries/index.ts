@@ -14,3 +14,4 @@ export {
   MUTATE_SHOP_ITEM,
 } from './shop/'
 export { GET_EVENT, GET_EVENTS, CREATE_EVENT, MUTATE_EVENT } from './event/'
+export { STRIPE_CREATE_ORDER } from './stripe/'

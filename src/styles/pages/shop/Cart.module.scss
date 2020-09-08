@@ -22,7 +22,8 @@ $max-width: 100rem;
 }
 
 .CheckoutSummaryContainer {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
 
   align-self: flex-end;
   & > div {
@@ -45,6 +46,7 @@ $max-width: 100rem;
 
 .Light {
   font-family: 'Open Sans Regular', sans-serif;
+  font-weight: 400;
 }
 
 .AuthContainer {
@@ -87,9 +89,9 @@ $max-width: 100rem;
 
 .FormButtonContainer {
   width: 90%;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
-  margin: 0 auto;
   & div {
     width: 100%;
     max-width: 30rem;
@@ -101,7 +103,7 @@ $max-width: 100rem;
     align-self: flex-end;
   }
   .FormButtonContainer {
-    width: 100%;
+    width: 90%;
     justify-content: flex-end;
   }
 }
@@ -109,5 +111,10 @@ $max-width: 100rem;
 @media (min-width: 50em) {
   .CheckoutSummaryContainer {
     width: 55rem;
+    margin: 0;
+  }
+  .FormButtonContainer {
+    width: 100%;
+    align-self: flex-end;
   }
 }

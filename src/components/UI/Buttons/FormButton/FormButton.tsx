@@ -37,7 +37,11 @@ const FormButton: React.FC<Props> = (props) => {
     )
   }
   if (props.loading) {
-    output = <div className={classes.Loading} />
+    output = (
+      <div style={{ position: 'relative' }}>
+        <div className={classes.Loading} />
+      </div>
+    )
   }
   return (
     <button

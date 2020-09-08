@@ -21,10 +21,6 @@ $green: rgb(89, 167, 85);
   &:hover,
   &:focus {
     background-color: rgba(123, 105, 145, 0.9);
-    transform: scale(1.02);
-  }
-  &:active {
-    transform: scale(1);
   }
 }
 
@@ -47,10 +43,10 @@ $green: rgb(89, 167, 85);
 }
 
 .Loading {
-  border: 2px solid var(--light-purple-color);
-  border-top-color: var(--light-gray-color);
-  height: 2.5rem;
-  width: 2.5rem;
+  border: 2px solid var(--light-purple-color) !important;
+  border-top-color: var(--light-gray-color) !important;
+  height: 2.5rem !important;
+  width: 2.5rem !important;
   border-radius: 100%;
   position: absolute;
   top: 50%;

@@ -43,7 +43,7 @@ export class CartItem {
 }
 
 @InputType()
-class CartItemInput {
+export class CartItemInput {
   @Field()
   pid!: string
 

@@ -12,6 +12,7 @@ interface Props {
   currentPage?: string
   children: children | children[]
   noFooter?: boolean
+  noCrumb?: boolean
 }
 
 const Layout: React.FC<Props> = (props) => {
@@ -26,9 +27,7 @@ const Layout: React.FC<Props> = (props) => {
     ) : (
       <div className={classes.Main}>
         <main className={classes.Content}>
-          <div>
-            <BreadCrumb currentPage={props.currentPage} />
-          </div>
+          <div>{!props.noCrumb && <BreadCrumb currentPage={props.currentPage} />}</div>
           {props.children}
         </main>
         {!props.noFooter && (

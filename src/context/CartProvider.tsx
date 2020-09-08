@@ -18,6 +18,7 @@ interface ContextState {
   addToCartHandler: (cartItem: typeDefs.CartItem, type: 'create' | 'edit', qty?: number) => void
   removeFromCart: (pid: string) => void
   editingState: { error: null | string; loading: boolean }
+  loading: boolean
 }
 
 export const CartContext = React.createContext<ContextState>({
@@ -30,6 +31,7 @@ export const CartContext = React.createContext<ContextState>({
   addToCartHandler: () => null,
   removeFromCart: () => null,
   editingState: { error: null, loading: false },
+  loading: false,
 })
 
 const CartProvider: React.FC = (props) => {
@@ -40,6 +42,7 @@ const CartProvider: React.FC = (props) => {
     subTotal: 0,
     lastUpdatedUserCartItem: null,
   })
+  const [loading, setLoading] = useState(false)
   const lastRequestCancelFn = useRef<CancelTokenSource | null>()
   const mounting = useRef<boolean>(true)
   const [editingState, setEditingState] = useState<{ error: null | string; loading: boolean }>({
@@ -98,6 +101,7 @@ const CartProvider: React.FC = (props) => {
   useEffect(() => {
     if (user.user) {
       const [request] = sendAxiosRequest(GET_CART, user.user)
+      setLoading(true)
       request()
         .then((result) => {
           const cartItemsToAdd = (result as { getCart: typeDefs.CartItem[] }).getCart
@@ -107,6 +111,7 @@ const CartProvider: React.FC = (props) => {
             qty += cartItem.qty
             subTotal += round(cartItem.qty * cartItem.shopItem.price)
           }
+          setLoading(false)
           setCart((prevCart) => {
             let localQty = 0
             let localSubTotal = 0
@@ -123,7 +128,7 @@ const CartProvider: React.FC = (props) => {
           })
         })
         .catch(() => {
-          return
+          setLoading(false)
         })
     } else {
       setCart((prevCart) => {
@@ -250,8 +255,8 @@ const CartProvider: React.FC = (props) => {
   )
 
   const cartPackage = useMemo(() => {
-    return { cart, addToCartHandler, removeFromCart, editingState }
-  }, [cart, addToCartHandler, removeFromCart, editingState])
+    return { cart, addToCartHandler, removeFromCart, editingState, loading }
+  }, [cart, addToCartHandler, removeFromCart, editingState, loading])
 
   return <CartContext.Provider value={cartPackage}>{props.children}</CartContext.Provider>
 }

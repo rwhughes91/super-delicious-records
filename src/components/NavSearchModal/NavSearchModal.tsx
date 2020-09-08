@@ -105,10 +105,9 @@ const NavSearchModal: React.FC<Props> = (props) => {
         top="0"
         onClick={props.onClick}
         styles={{
-          backgroundColor: 'rgba(0, 0, 0 ,.7)',
+          backgroundColor: 'rgba(0, 0, 0 ,.6)',
           width: '100vw',
           height: '100vh',
-          backdropFilter: 'blur(5px)',
         }}
       />
       <div className={classes.NavSearchModal}>
