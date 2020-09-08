@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import getRawBody from 'raw-body'
 import * as typeDefs from '@generated/graphql'
 import { round } from '@utils/helpers'
-import { createDataItem } from '@services/firebase/admin'
+import { createDataItem, removeDataItemFromList } from '@services/firebase/admin'
 import { emailNewOrderNotice, emailNewOrderNoticeError } from '@services/sendgrid/'
 
 interface Session {
@@ -41,17 +41,17 @@ export default async function (request: NextApiRequest, response: NextApiRespons
           order.items.push({
             shopPid: product.metadata.shopPid,
             qty: lineItem.quantity as number,
-            purchasePrice: lineItem.price.unit_amount as number,
+            purchasePrice: round((lineItem.price.unit_amount as number) / 100, 2),
             color: product.metadata.color,
             size: typeDefs.Size.Medium,
             shopItem: {
               name: lineItem.description,
-              price: lineItem.price.unit_amount as number,
+              price: round((lineItem.price.unit_amount as number) / 100, 2),
               images: [
                 {
                   imageUrl: '',
                   imageSetUrl: '',
-                  alt: 'alt',
+                  alt: '',
                   color: product.metadata.color,
                 },
               ],
@@ -63,6 +63,7 @@ export default async function (request: NextApiRequest, response: NextApiRespons
           uid: session.client_reference_id,
         })
         await emailNewOrderNotice(newPid, session.client_reference_id)
+        await removeDataItemFromList(`/users/${session.client_reference_id}/cart`)
       } else {
         await emailNewOrderNotice(session.id)
       }

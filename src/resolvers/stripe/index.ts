@@ -50,7 +50,7 @@ export default class StripeResolvers {
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: `${ctx.req.headers.origin}/shop/orders/success`,
+        success_url: `${ctx.req.headers.origin}/shop/success`,
         cancel_url: `${ctx.req.headers.origin}/shop/cart?cancelled=true`,
       })
     } catch (error) {
