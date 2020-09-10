@@ -7,6 +7,7 @@ import * as typeDefs from '@generated/graphql'
 interface Props extends Pick<typeDefs.ShopItem, 'pid' | 'name' | 'price'> {
   image: typeDefs.ShopImage
   size?: string
+  fixed?: boolean
 }
 
 const ShopItem: React.FC<Props> = (props) => {
@@ -19,6 +20,7 @@ const ShopItem: React.FC<Props> = (props) => {
           imageSetUrl={props.image.imageSetUrl}
           size={size}
           alt={props.image.alt}
+          fixed={props.fixed}
         />
         <div className={classes.DetailsContainer}>
           <div className={classes.Title}>{props.name}</div>

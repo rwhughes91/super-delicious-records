@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Head from 'next/head'
 import classes from '@styles/pages/shop/Success.module.scss'
 import Layout from '@components/Layout/Layout'
@@ -6,6 +7,9 @@ import FlashMessage from '@components/FlashMessage/FlashMessage'
 import Text from '@components/UI/Text/Text'
 
 const Success: React.FC = () => {
+  useEffect(() => {
+    localStorage.clear()
+  }, [])
   return (
     <>
       <Head>

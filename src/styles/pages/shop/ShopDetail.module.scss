@@ -29,8 +29,7 @@ $width: 100%;
 
 .Title {
   color: var(--dark-purple-color);
-  font-size: 2.2rem;
-  white-space: nowrap;
+  font-size: 2rem;
   margin-bottom: 2rem;
   text-transform: uppercase;
 }
@@ -112,8 +111,15 @@ $width: 100%;
     max-width: 33rem;
   }
   .RelatedProducts {
-    overflow: scroll;
+    overflow-x: scroll;
     justify-content: flex-start;
+  }
+  .Center {
+    overflow: hidden !important;
+    justify-content: center !important;
+  }
+  .Title {
+    font-size: 2.2rem;
   }
 }
 

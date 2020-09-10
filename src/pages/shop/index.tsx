@@ -10,6 +10,7 @@ import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Inpu
 import { cloneDeep } from 'lodash'
 import { getDataArray } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
+import Text from '@components/UI/Text/Text'
 
 interface FormControls {
   category: InputProps
@@ -33,7 +34,7 @@ const Shop: React.FC<Props> = (props) => {
     setSort(event.target.value)
   }, [])
 
-  let items: Item[] | JSX.Element[] = [...props.items]
+  let items: Item[] | JSX.Element[] | JSX.Element = [...props.items]
 
   if (category) {
     items = items.filter((shopItem) => shopItem.tag === category)
@@ -112,7 +113,15 @@ const Shop: React.FC<Props> = (props) => {
             ></Dropdown>
           </div>
         </div>
-        <div className={classes.Shop}>{items}</div>
+        {items.length > 0 ? (
+          <div className={classes.Shop}>{items}</div>
+        ) : (
+          <div style={{ textAlign: 'center', margin: '3rem auto' }}>
+            <Text styles={{ fontSize: '2rem', color: 'var(--light-gray-color)' }}>
+              More items coming soon!
+            </Text>
+          </div>
+        )}
       </Layout>
     </>
   )
@@ -132,7 +141,6 @@ const formControls: FormControls = {
       placeholder: 'Category',
       type: 'text',
       options: [
-        { value: typeDefs.Tag.Hat, displayValue: 'Hats' },
         { value: typeDefs.Tag.Shirt, displayValue: 'Shirts' },
         { value: typeDefs.Tag.Swag, displayValue: 'Swag' },
       ],

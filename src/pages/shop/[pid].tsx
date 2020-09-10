@@ -118,7 +118,7 @@ const ShopItemDetail: React.FC<Props> = (props) => {
       </Head>
       <Layout pageType="main" currentPage={props.item.name}>
         <div className={classes.PhoneHeader}>
-          <PrimaryHeader>{props.item.name}</PrimaryHeader>
+          <PrimaryHeader styles={{ fontSize: '2rem' }}>{props.item.name}</PrimaryHeader>
         </div>
         <div className={classes.ShopItemDetail}>
           <ShopCarousel size={size} images={props.item.images} />
@@ -171,10 +171,15 @@ const ShopItemDetail: React.FC<Props> = (props) => {
         <ProductDescription
           onClickModalHandler={onClickModalHandler}
           description={props.item.description}
-          moreInfo={props.item.weight}
+          moreInfo={props.item.moreInfo || props.item.weight || 'None'}
         />
         <PrimaryHeader>Related Products</PrimaryHeader>
-        <div className={classes.RelatedProducts}>
+        <div
+          className={[
+            classes.RelatedProducts,
+            props.relatedProducts.length < 3 ? classes.Center : '',
+          ].join(' ')}
+        >
           {props.relatedProducts.map((relatedImage, i) => {
             return (
               <ShopItem
@@ -184,6 +189,7 @@ const ShopItemDetail: React.FC<Props> = (props) => {
                 price={relatedImage.price}
                 image={relatedImage.images[0]}
                 size="200px"
+                fixed
               />
             )
           })}
@@ -280,7 +286,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       item: shopItem,
-      relatedProducts: relatedProductsTrimmed,
+      relatedProducts: relatedProductsTrimmed.slice(0, 3),
     },
     revalidate: 1,
   }

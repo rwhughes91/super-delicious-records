@@ -46,7 +46,7 @@ const ShopCarousel: React.FC<Props> = (props) => {
           })}
         </div>
       </div>
-      <div className={classes.ImagePreview} style={{ width: '80vw', maxWidth: `${props.size}px` }}>
+      <div className={classes.ImagePreview} style={{ width: '30rem' }}>
         {props.images.map((image, i) => {
           return (
             <button
@@ -54,10 +54,11 @@ const ShopCarousel: React.FC<Props> = (props) => {
               className={[classes.Button, i === activeButton ? classes.Active : ''].join(' ')}
               style={{
                 cursor: 'pointer',
+                width: '4.5rem',
               }}
               onClick={() => onClickHandler(i)}
             >
-              <ShopImage {...image} size="3rem" />
+              <ShopImage {...image} size="4rem" fixed />
             </button>
           )
         })}

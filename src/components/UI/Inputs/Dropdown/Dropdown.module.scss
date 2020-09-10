@@ -38,3 +38,9 @@ $width: 100%;
   border-right: 5px solid transparent;
   border-top: 6px solid var(--dark-purple-color);
 }
+
+@media (max-width: 56.25em) {
+  .Dropdown {
+    font-size: 1.6rem;
+  }
+}

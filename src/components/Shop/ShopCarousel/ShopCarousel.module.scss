@@ -33,12 +33,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 21em) {
-  .ImagePreview {
-    overflow: scroll;
-    justify-content: flex-start;
-  }
-}
+// @media (max-width: 21em) {
+//   .ImagePreview {
+//     overflow-x: scroll;
+//     flex-wrap: nowrap;
+//     justify-content: flex-start;
+//   }
+// }
