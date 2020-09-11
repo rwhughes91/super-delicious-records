@@ -65,7 +65,7 @@ const ShopItemDetail: React.FC<Props> = (props) => {
     if (submitted) {
       const timer = setTimeout(() => {
         setSubmitted(false)
-      }, 3000)
+      }, 3500)
       return () => clearTimeout(timer)
     }
   }, [submitted])

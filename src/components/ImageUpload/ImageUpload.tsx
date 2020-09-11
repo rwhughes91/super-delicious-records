@@ -8,12 +8,14 @@ import axios from 'axios'
 const MyDropzone: React.FC = () => {
   const { user } = useContext(UserContext)
   const [files, setFiles] = useState<File[]>([])
+  const [imageSetUrl, setImageSetUrl] = useState<string[]>([])
 
   const onDrop = useCallback((acceptedFiles) => {
     setFiles((prevFiles) => prevFiles.concat(acceptedFiles))
   }, [])
 
   const submitFilesHandler = useCallback(async () => {
+    setImageSetUrl([])
     const data = new FormData()
     for (const file of files) {
       data.append('files', file)
@@ -26,9 +28,11 @@ const MyDropzone: React.FC = () => {
         data,
         headers: { 'Content-Type': 'multipart/form-data', authorization: `Bearer ${idToken}` },
       })
-      console.log(res)
+      setFiles([])
+      setImageSetUrl(res.data.imageSetUrl.join(', '))
     } catch (error) {
-      console.log(error)
+      setFiles([])
+      console.log('there was an error')
     }
   }, [files, user.user?.getIdToken])
 
@@ -55,13 +59,26 @@ const MyDropzone: React.FC = () => {
       </div>
       <span className={classes.UploadWarning}>1000 x 1000 images will yield the best results</span>
       <div {...getRootProps()} className={classes.ImageUpload}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} multiple={false} />
         {isDragActive ? (
           <p>Drop the files here ...</p>
         ) : (
           <div className={classes.Files}>{readyToLoadFiles}</div>
         )}
       </div>
+      {imageSetUrl.length > 0 ? (
+        <div
+          style={{
+            marginTop: '1rem',
+            paddingTop: '.5rem',
+            borderTop: '1px solid var(--dark-purple-color)',
+            color: 'var(--dark-purple-color)',
+            fontSize: '1.6rem',
+          }}
+        >
+          {imageSetUrl}
+        </div>
+      ) : null}
     </div>
   )
 }
