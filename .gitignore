@@ -32,3 +32,6 @@ yarn-error.log*
 
 # firebase
 serviceAccount.json
+
+# public (save time on pushes)
+/public
