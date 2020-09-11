@@ -7,6 +7,7 @@ import ShopForm from '../ShopForm/ShopForm'
 import AdminListItem from '../AdminListItem/AdminListItem'
 import FormButton from '../../UI/Buttons/FormButton/FormButton'
 import * as typeDefs from '@generated/graphql'
+import ImageUpload from '@components/ImageUpload/ImageUpload'
 
 interface Props {
   type: 'news' | 'artists' | 'events' | 'shop'
@@ -94,19 +95,27 @@ const AdminContainer: React.FC<Props> = (props) => {
   }
 
   return (
-    <div className={classes.AdminContainer}>
-      <div className={classes.HeaderContainer}>
-        <div className={classes.ButtonContainer}>
-          <FormButton styles={{ width: '10rem' }} onClick={onShowFormHandler}>
-            {showForm ? 'Close Form' : 'Add Item'}
-          </FormButton>
+    <>
+      {showForm && (
+        <div className={classes.UploadContainer}>
+          <p className={classes.UploadTitle}>Upload your images</p>
+          <ImageUpload />
+        </div>
+      )}
+      <div className={classes.AdminContainer}>
+        <div className={classes.HeaderContainer}>
+          <div className={classes.ButtonContainer}>
+            <FormButton styles={{ width: '10rem' }} onClick={onShowFormHandler}>
+              {showForm ? 'Close Form' : 'Add Item'}
+            </FormButton>
+          </div>
+        </div>
+        <div className={classes.FormContainer}>
+          {!showForm && <div style={{ marginTop: '1.5rem' }}>{formItems}</div>}
+          {showForm && adminForm}
         </div>
       </div>
-      <div className={classes.FormContainer}>
-        {!showForm && <div style={{ marginTop: '1.5rem' }}>{formItems}</div>}
-        {showForm && adminForm}
-      </div>
-    </div>
+    </>
   )
 }
 

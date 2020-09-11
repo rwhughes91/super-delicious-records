@@ -1,14 +1,15 @@
-import axios, { CancelTokenSource, CancelToken } from 'axios'
+import axios, { CancelTokenSource, AxiosRequestConfig } from 'axios'
 
 const sendAxiosRequest = (
   query: string,
   user?: firebase.User,
-  variables?: any
+  variables?: any,
+  header?: AxiosRequestConfig
 ): [() => Promise<any>, CancelTokenSource] => {
   const source = axios.CancelToken.source()
   return [
     async () => {
-      const headers: { cancelToken: CancelToken; headers?: { authorization: string } } = {
+      const headers: AxiosRequestConfig = header || {
         cancelToken: source.token,
       }
       let idToken

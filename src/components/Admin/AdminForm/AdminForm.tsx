@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, useRef, useCallback, FormEvent } from 'react'
+import React, { useState, useEffect, useContext, useRef, FormEvent } from 'react'
 import classes from './AdminForm.module.scss'
-import FormButton from '../../UI/Buttons/FormButton/FormButton'
+import FormButton from '@components/UI/Buttons/FormButton/FormButton'
 import Loader from '@components/UI/Loader/Loader'
 import FlashMessage from '@components/FlashMessage/FlashMessage'
 import * as typeDefs from '@generated/graphql'
@@ -13,6 +13,7 @@ interface Props {
   children: JSX.Element | JSX.Element[]
   query: string
   pid?: string
+  upload?: boolean
   onSubmit: () =>
     | typeDefs.NewsInput
     | typeDefs.ArtistInput

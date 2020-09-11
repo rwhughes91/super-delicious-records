@@ -76,7 +76,7 @@ const OrdersList: React.FC = () => {
           <div className={classes.LoaderWrapper}>
             <Loader />
           </div>
-          <TextBody styles={{ marginTop: '5rem' }}>
+          <TextBody styles={{ marginTop: '5rem', fontSize: '1.8rem' }}>
             Hold tight while we grab your orders for you
           </TextBody>
           {user.user && loggedIn}

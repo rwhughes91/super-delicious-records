@@ -1,0 +1,24 @@
+.ImageUpload {
+  border: 1px solid var(--light-gray-color);
+  border-radius: 3px;
+  padding: 3rem;
+  color: var(--light-gray-color);
+  font-size: 1.4rem;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+
+  &:focus {
+    border: 1px solid var(--light-purple-color);
+  }
+}
+
+.UploadWarning {
+  color: var(--light-gray-color);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.Files {
+  color: var(--light-purple-color);
+}

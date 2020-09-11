@@ -7,6 +7,13 @@
   align-items: flex-end;
 }
 
+.UploadContainer {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 125rem;
+  margin-bottom: 2rem;
+}
+
 .HeaderContainer {
   display: flex;
   justify-content: space-between;
@@ -15,4 +22,11 @@
 
 .FormContainer {
   width: 100%;
+}
+
+.UploadTitle {
+  font-size: 2.5rem;
+  border-bottom: 1px solid var(--light-purple-color);
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
 }

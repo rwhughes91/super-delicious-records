@@ -20,7 +20,7 @@ const NewsItemDetail: React.FC<Props> = (props) => {
       </Head>
       <Layout pageType="main" currentPage={props.shortTitle}>
         <div className={classes.NewsItemDetail}>
-          <div className={classes.Date}>{props.date}</div>
+          <div className={classes.Date}>{new Date(props.date).toLocaleDateString()}</div>
           <div className={classes.ContentContainer}>
             <div
               className={classes.ImageContainer}

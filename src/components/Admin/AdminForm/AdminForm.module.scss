@@ -32,10 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 0 auto;
 }
 
 @media (min-width: 112.5em) {
