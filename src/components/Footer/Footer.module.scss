@@ -59,7 +59,7 @@
 
 @media (max-width: 56.25em) {
   .Footer {
-    height: 35rem;
+    height: 40rem;
     justify-content: center;
   }
   .FormContainer {
@@ -78,10 +78,12 @@
   }
   .ButtonGroup {
     position: static;
+    margin-top: 1.5rem;
   }
 
   .FooterFormTitle {
     font-size: 1.6rem;
+    margin-bottom: 0;
   }
 
   .IconContainerLarge {

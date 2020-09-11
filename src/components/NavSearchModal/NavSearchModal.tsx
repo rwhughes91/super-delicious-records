@@ -59,7 +59,7 @@ const NavSearchModal: React.FC<Props> = (props) => {
   )
 
   const onInputChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setInput(event?.target.value)
+    setInput(event?.target.value.toLowerCase())
   }, [])
 
   let output = (
@@ -68,7 +68,9 @@ const NavSearchModal: React.FC<Props> = (props) => {
     </div>
   )
   if (data && data.getArtistsList) {
-    const filteredItems = data.getArtistsList.filter((artist) => artist.name.startsWith(input))
+    const filteredItems = data.getArtistsList.filter((artist) =>
+      artist.name.toLowerCase().startsWith(input)
+    )
     if (filteredItems.length > 0) {
       const liItems = filteredItems.map((datum) => {
         return (

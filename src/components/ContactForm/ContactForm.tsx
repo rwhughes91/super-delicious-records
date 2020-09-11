@@ -92,7 +92,7 @@ const formControls: FormControls = {
     },
     elementConfig: {
       placeholder: 'Phone Number',
-      type: 'text',
+      type: 'number',
     },
   },
   message: {

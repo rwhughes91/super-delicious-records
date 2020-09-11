@@ -17,7 +17,6 @@
   text-align: center;
   width: 100%;
   margin: 1rem 0;
-  margin-bottom: 0;
   height: 5rem;
   display: flex;
   flex-direction: column;
@@ -26,16 +25,25 @@
 
 .Title {
   color: var(--dark-purple-color);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   text-transform: uppercase;
   transition: color 0.2s;
 }
 
 .Price {
   color: var(--dark-purple-color);
-  font-size: 1.4rem;
+  font-size: 1.8rem;
 
   &::before {
     content: '$';
+  }
+}
+
+@media (min-width: 56.25em) {
+  .Title {
+    font-size: 1.6rem;
+  }
+  .Price {
+    font-size: 1.6rem;
   }
 }

@@ -5,12 +5,13 @@ import Triangle from '../../Triangle/Triangle'
 
 interface Props {
   color: 'purple' | 'white'
-  size: 'small' | 'medium' | 'large'
+  size: 'small' | 'medium' | 'large' | 'xlarge'
   href?: string
   as?: string
   onClick?: (e?: React.SyntheticEvent) => void
   styles?: React.CSSProperties
   children: string
+  disabled?: boolean
 }
 
 const Button: React.FC<Props> = (props) => {
@@ -20,7 +21,7 @@ const Button: React.FC<Props> = (props) => {
   } else {
     classNames.push(classes.White)
   }
-  let size: 'small' | 'medium' | 'large' = 'large'
+  let size: 'small' | 'medium' | 'large' | 'xlarge' = 'large'
   switch (props.size) {
     case 'small':
       classNames.push(classes.Small)
@@ -34,10 +35,18 @@ const Button: React.FC<Props> = (props) => {
       classNames.push(classes.Large)
       size = 'large'
       break
+    case 'xlarge':
+      classNames.push(classes.XLarge)
+      size = 'xlarge'
+      break
     default:
       break
   }
-  let childButton = <button className={classNames.join(' ')}>{props.children}</button>
+  let childButton = (
+    <button className={classNames.join(' ')} disabled={props.disabled}>
+      {props.children}
+    </button>
+  )
   if (props.href) {
     childButton = (
       <Link href={props.href} as={props.as}>

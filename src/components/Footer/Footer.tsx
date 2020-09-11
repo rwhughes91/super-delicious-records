@@ -26,6 +26,7 @@ const Footer: React.FC = () => {
     instagram: 'https://www.instagram.com/accounts/login/?next=/superdeliciousrecords/',
     twitter: 'https://twitter.com/SuperDeliciousR',
   })
+  const [submitted, setSubmitted] = useState(false)
   const icons = (type: 'small' | 'large') => (
     <>
       <a href={urls.facebook} rel="noreferrer" target="_blank">
@@ -47,19 +48,27 @@ const Footer: React.FC = () => {
     [dispatchFormData]
   )
 
+  const onSubmitHandler = useCallback(
+    (event: React.SyntheticEvent) => {
+      event.preventDefault()
+      dispatchFormData({ type: 'reset', key: '', value: '' })
+      setSubmitted(true)
+    },
+    [dispatchFormData]
+  )
+
   return (
     <div className={classes.FooterContainer}>
       <div className={classes.Footer}>
         <Logo width="6rem" height="5rem" />
         <div className={classes.FormContainer}>
-          <p className={classes.FooterFormTitle}>Sign up for updates</p>
-          <form
-            className={classes.FooterForm}
-            id="footer-form"
-            onSubmit={(e: React.SyntheticEvent) => {
-              e.preventDefault()
-            }}
+          <p
+            className={classes.FooterFormTitle}
+            style={{ color: submitted ? 'var(--bright-blue-color)' : 'var(tan-white-color)' }}
           >
+            {submitted ? "Thanks! You won't regret it" : 'Sign up for updates'}
+          </p>
+          <form className={classes.FooterForm} id="footer-form" onSubmit={onSubmitHandler}>
             <FooterInput
               {...formData.name}
               onChange={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler('name', event)}
@@ -69,7 +78,7 @@ const Footer: React.FC = () => {
               onChange={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler('email', event)}
             />
             <div className={classes.ButtonGroup}>
-              <Button size="large" color="white">
+              <Button size="large" color="white" disabled={formData.formIsInvalid}>
                 Sign Up
               </Button>
             </div>

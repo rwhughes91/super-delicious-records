@@ -18,6 +18,9 @@
 }
 
 .ArrowLeft {
+  &.XLarge {
+    @include arrow-rules('left', 1.2rem);
+  }
   &.Large {
     @include arrow-rules('left', 1rem);
   }
@@ -29,6 +32,9 @@
   }
 }
 .ArrowRight {
+  &.XLarge {
+    @include arrow-rules('right', 1.2rem);
+  }
   &.Large {
     @include arrow-rules('right', 1rem);
   }
@@ -40,6 +46,9 @@
   }
 }
 .ArrowDown {
+  &.XLarge {
+    @include arrow-rules('down', 1.2rem);
+  }
   &.Large {
     @include arrow-rules('down', 1rem);
   }

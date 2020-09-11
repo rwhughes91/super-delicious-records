@@ -1,5 +1,6 @@
 .ContainerInput {
   position: relative;
+  margin: 1rem 0;
 }
 
 .FooterInput {
@@ -24,16 +25,18 @@
 .ErrorMessage {
   color: var(--bright-red-color);
   position: absolute;
-  top: 110%;
+  top: 105%;
   left: 0.5rem;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .Invalid {
+  color: var(--tan-white-color);
 }
 
 @media (max-width: 56.25em) {
   .FooterInput {
-    height: 4rem;
+    font-size: 1.6rem;
+    height: 5rem;
   }
 }

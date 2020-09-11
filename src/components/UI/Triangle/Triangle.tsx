@@ -3,7 +3,7 @@ import classes from './Triangle.module.scss'
 
 interface Props {
   direction: 'left' | 'right' | 'down'
-  size: 'small' | 'medium' | 'large'
+  size: 'small' | 'medium' | 'large' | 'xlarge'
   styles?: React.CSSProperties
 }
 
@@ -25,6 +25,9 @@ const Triangle: React.FC<Props> = (props) => {
       break
     case 'large':
       classNames.push(classes.Large)
+      break
+    case 'xlarge':
+      classNames.push(classes.XLarge)
       break
     default:
       break
