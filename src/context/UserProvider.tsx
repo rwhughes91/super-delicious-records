@@ -15,6 +15,7 @@ interface ContextState {
   logoutHandler: () => void
   login: (email: string, password: string) => Promise<firebase.auth.UserCredential | null>
   signUp: (email: string, password: string) => Promise<firebase.auth.UserCredential | null>
+  sendResetToken: (email: string) => Promise<boolean | string>
 }
 
 export const UserContext = React.createContext<ContextState>({
@@ -29,6 +30,7 @@ export const UserContext = React.createContext<ContextState>({
   logoutHandler: () => null,
   login: async () => null,
   signUp: async () => null,
+  sendResetToken: async () => true,
 })
 
 const UserProvider: React.FC = (props) => {
@@ -75,9 +77,22 @@ const UserProvider: React.FC = (props) => {
     }
   }, [])
 
+  const sendResetToken = useCallback(
+    async (email: string) => {
+      try {
+        await auth.sendPasswordResetEmail(email)
+        return true
+      } catch (error) {
+        setError(error.message)
+        throw new Error(error.message)
+      }
+    },
+    [setError]
+  )
+
   const userPackage = useMemo(() => {
-    return { user, setError, logoutHandler, login, signUp }
-  }, [user, setError, logoutHandler, login, signUp])
+    return { user, setError, logoutHandler, login, signUp, sendResetToken }
+  }, [user, setError, logoutHandler, login, signUp, sendResetToken])
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(function (user) {

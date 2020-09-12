@@ -7,6 +7,7 @@ import FormButton from '../UI/Buttons/FormButton/FormButton'
 import { cloneDeep } from 'lodash'
 import useForm from '@hooks/useForm'
 import { UserContext } from '@context/UserProvider'
+import ResetPassword from '../ResetPassword/ResetPassword'
 
 interface FormControls {
   email: InputProps
@@ -25,11 +26,16 @@ const AuthForm: React.FC<Props> = (props) => {
   const initialState = { ...inputControls, formIsInvalid: true }
   const [formData, dispatchFormData] = useForm(initialState)
   const [isSignUp, setIsSignUp] = useState(false)
+  const [showResetForm, setShowResetForm] = useState(false)
 
   const onIsSignUpClickHandler = useCallback(() => {
     dispatchFormData({ type: 'toggleInvalid', key: 'confirmPassword', value: '' })
     setIsSignUp((prevState) => !prevState)
   }, [dispatchFormData])
+
+  const toggleResetPasswordHandler = useCallback(() => {
+    setShowResetForm((prevState) => !prevState)
+  }, [])
 
   const { onSubmit } = props
   const onSubmitHandler = useCallback(
@@ -60,15 +66,39 @@ const AuthForm: React.FC<Props> = (props) => {
     [dispatchFormData]
   )
 
-  return (
+  const authForm = (
     <div className={classes.Profile} style={props.styles}>
       <h6 className={classes.Title}>{isSignUp ? 'Sign Up' : 'Sign In'}</h6>
       {user.errorMessage && <div className={classes.AuthErrorMessage}>{user.errorMessage}</div>}
-      <form className={classes.AuthForm} onSubmit={onSubmitHandler}>
+      <form
+        className={classes.AuthForm}
+        onSubmit={onSubmitHandler}
+        style={{ position: 'relative' }}
+      >
         <ContactInput
           {...formData.email}
           onChange={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler('email', event)}
         />
+        {!isSignUp && (
+          <button
+            style={{
+              color: 'var(--light-gray-color)',
+              fontSize: '1.3rem',
+              outline: 'none',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '30%',
+              right: '5%',
+              zIndex: 10,
+            }}
+            type="button"
+            onClick={toggleResetPasswordHandler}
+          >
+            Forgot password?
+          </button>
+        )}
         <ContactInput
           {...formData.password}
           onChange={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler('password', event)}
@@ -100,6 +130,12 @@ const AuthForm: React.FC<Props> = (props) => {
         {isSignUp ? 'Log In' : 'Sign Up'}
       </button>
     </div>
+  )
+
+  return showResetForm ? (
+    <ResetPassword close={toggleResetPasswordHandler} email={formData.email.value.toString()} />
+  ) : (
+    authForm
   )
 }
 
