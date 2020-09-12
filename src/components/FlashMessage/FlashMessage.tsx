@@ -3,6 +3,7 @@ import classes from './FlashMessage.module.scss'
 interface Props {
   error?: boolean
   success?: boolean
+  styles?: React.CSSProperties
 }
 
 const FlashMessage: React.FC<Props> = (props) => {
@@ -14,7 +15,7 @@ const FlashMessage: React.FC<Props> = (props) => {
     className.push(classes.Success)
   }
   return (
-    <div className={className.join(' ')}>
+    <div className={className.join(' ')} style={props.styles}>
       {props.success && (
         <svg className={classes.CheckMark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
           <circle className={classes.CheckMarkCircle} cx="26" cy="26" r="25" fill="none" />

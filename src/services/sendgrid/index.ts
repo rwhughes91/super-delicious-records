@@ -33,3 +33,18 @@ export async function emailNewOrderNoticeError(): Promise<void> {
     throw new Error('Could not send order email')
   }
 }
+
+export async function contactAdmin(email: string, message: string): Promise<void> {
+  try {
+    await sgMail.send({
+      to: process.env.ADMIN_EMAIL,
+      from: email,
+      subject: 'Contact Inquiry',
+      html: `
+        <p>${message}</p> 
+      `,
+    })
+  } catch (error) {
+    throw new Error('Could not send email')
+  }
+}

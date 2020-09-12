@@ -24,6 +24,9 @@ export default async function (request: NextApiRequest, response: NextApiRespons
   } catch (error) {
     return response.status(403).json({ message: 'Not admin' })
   }
+  if (request.method !== 'POST') {
+    return response.status(405).json({ message: 'Method must be POST' })
+  }
   const data: { fields: Fields; files: Files } = await new Promise((resolve, reject) => {
     const form = new IncomingForm()
     form.parse(request, (err, fields, files) => {
