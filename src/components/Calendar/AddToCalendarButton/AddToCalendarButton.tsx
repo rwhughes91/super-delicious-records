@@ -1,3 +1,4 @@
+import React from 'react'
 import { SyntheticEvent } from 'react'
 import classes from './AddToCalendarButton.module.scss'
 import AppleIcon from '../../UI/Icons/AppleIcon/AppleIcon'
@@ -81,4 +82,4 @@ const AddToCalendarButton: React.FC<Props> = (props) => {
   )
 }
 
-export default AddToCalendarButton
+export default React.memo(AddToCalendarButton)

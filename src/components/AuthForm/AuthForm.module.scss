@@ -4,7 +4,6 @@
   border-radius: 10px;
   width: 95%;
   max-width: 55rem;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +22,7 @@
 }
 
 .Title {
-  font-size: 1.8rem;
+  font-size: 2rem;
   width: 90%;
   text-align: center;
   text-transform: uppercase;
@@ -34,4 +33,34 @@
   color: var(--bright-red-color);
   font-size: 1.2rem;
   width: 90%;
+}
+
+.ToggleAuthForm {
+  font-size: 1.8rem;
+}
+
+.Reset {
+  font-size: 1.8rem;
+  color: var(--light-purple-color);
+}
+
+@media (min-width: 56.25em) {
+  .ToggleAuthForm {
+    font-size: 1.6rem;
+  }
+  .Reset {
+    font-size: 1.5rem;
+  }
+  .Title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (min-width: 112.5em) {
+  .ToggleAuthForm {
+    font-size: 1.4rem;
+  }
+  .Title {
+    font-size: 1.7rem;
+  }
 }

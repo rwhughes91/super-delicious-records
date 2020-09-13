@@ -43,7 +43,7 @@ const Artists: React.FC<Props> = (props) => {
           })}
         </div>
         <div className={classes.Interested}>
-          <TertiaryHeader styles={{ fontSize: '1.6rem' }}>
+          <TertiaryHeader styles={{ marginBottom: '2rem' }}>
             Interested in joining our label?
           </TertiaryHeader>
           <Button color="purple" size="large" href="/about-us">

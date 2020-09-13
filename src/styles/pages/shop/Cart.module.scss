@@ -56,7 +56,7 @@ $max-width: 100rem;
 
 .AuthText {
   color: var(--dark-purple-color);
-  font-size: 1.6rem;
+  font-size: 2rem;
 
   & button {
     outline: none;
@@ -64,7 +64,7 @@ $max-width: 100rem;
     background: none;
     color: var(--light-purple-color);
     cursor: pointer;
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
 }
 
@@ -116,5 +116,23 @@ $max-width: 100rem;
   .FormButtonContainer {
     width: 100%;
     align-self: flex-end;
+  }
+}
+
+@media (min-width: 56.25em) {
+  .AuthText {
+    font-size: 1.8rem;
+    & button {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+@media (min-width: 112.5em) {
+  .AuthText {
+    font-size: 1.6rem;
+    & button {
+      font-size: 1.6rem;
+    }
   }
 }

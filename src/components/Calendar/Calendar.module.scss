@@ -71,7 +71,7 @@ $width: 125rem;
 
 .Header {
   color: var(--dark-purple-color);
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin: 1rem;
   text-transform: uppercase;
   line-height: 3rem;
@@ -79,7 +79,7 @@ $width: 125rem;
 
 .NoEventsHeader {
   color: var(--dark-purple-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin: 1rem 0;
   font-family: 'Open Sans Regular';
 }
@@ -93,5 +93,19 @@ $width: 125rem;
   }
   .Date {
     font-size: 2.2rem;
+  }
+}
+
+@media (min-width: 56.25em) {
+  .NoEventsHeader {
+    font-size: 1.8rem;
+  }
+}
+@media (min-width: 112.5em) {
+  .NoEventsHeader {
+    font-size: 1.6rem;
+  }
+  .Header {
+    font-size: 1rem;
   }
 }

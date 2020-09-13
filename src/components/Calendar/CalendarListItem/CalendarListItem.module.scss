@@ -63,7 +63,7 @@
 
 .Year {
   color: var(--light-gray-color);
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
 
 .Title {
@@ -72,7 +72,7 @@
 
 .Time {
   color: var(--light-gray-color);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
 
 .AddListItem {
@@ -87,4 +87,18 @@
   width: 2.5rem;
   border: none;
   font-size: 1.4rem;
+}
+
+@media (min-width: 56.25em) {
+  .Year {
+    font-size: 1.2rem;
+  }
+  .Time {
+    font-size: 1.6rem;
+  }
+}
+@media (min-width: 112.5em) {
+  .Time {
+    font-size: 1.4rem;
+  }
 }

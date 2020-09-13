@@ -47,7 +47,9 @@ const OrdersList: React.FC = () => {
   }, [logoutHandler, cancelFn])
 
   const noOrders = (
-    <TextBody styles={{ marginBottom: '1rem', fontSize: '1.8rem' }}>No orders...yet</TextBody>
+    <TextBody large styles={{ marginBottom: '1rem' }}>
+      No orders...yet
+    </TextBody>
   )
 
   const loggedIn = (
@@ -76,7 +78,7 @@ const OrdersList: React.FC = () => {
           <div className={classes.LoaderWrapper}>
             <Loader />
           </div>
-          <TextBody styles={{ marginTop: '5rem', fontSize: '1.8rem' }}>
+          <TextBody large center styles={{ marginTop: '5rem' }}>
             Hold tight while we grab your orders for you
           </TextBody>
           {user.user && loggedIn}
@@ -92,29 +94,35 @@ const OrdersList: React.FC = () => {
         if (data.getOrders.length === 0) {
           orders = noOrders
         } else {
-          orders = data.getOrders.map((order: typeDefs.Order, i: number) => {
-            let style = {}
-            if (i !== 0) {
-              style = { borderTop: 'none' }
-            }
-            return (
-              <ToggleListItem
-                key={i}
-                title={order.date}
-                secondaryHeader={`$${order.amount}`}
-                styles={{ marginTop: 0, width: '100%' }}
-                buttonStyles={style}
-              >
-                {order.items.map((item: typeDefs.OrderShopItem, i) => {
-                  let style = {}
-                  if (i + 1 === order.items.length) {
-                    style = { borderBottom: 'none' }
-                  }
-                  return <CartItem key={i} {...item} styles={{ ...style }} order />
-                })}
-              </ToggleListItem>
-            )
-          })
+          orders = (
+            <div style={{ maxWidth: '100rem', width: '90%', margin: '0 auto' }}>
+              {data.getOrders.map((order: typeDefs.Order, i: number) => {
+                let style = {}
+                if (i !== 0) {
+                  style = { borderTop: 'none' }
+                }
+                return (
+                  <ToggleListItem
+                    key={i}
+                    title={order.date}
+                    secondaryHeader={`$${order.amount}`}
+                    styles={{ marginTop: 0, width: '100%' }}
+                    buttonStyles={style}
+                  >
+                    {order.items.map((item: typeDefs.OrderShopItem, i) => {
+                      let style = {}
+                      if (i + 1 === order.items.length) {
+                        style = { borderBottom: 'none' }
+                      }
+                      return (
+                        <CartItem key={i} {...item} styles={{ ...style, paddingTop: 0 }} order />
+                      )
+                    })}
+                  </ToggleListItem>
+                )
+              })}
+            </div>
+          )
         }
       }
       output = (

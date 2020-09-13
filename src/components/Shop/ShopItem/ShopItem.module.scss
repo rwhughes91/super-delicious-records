@@ -40,10 +40,15 @@
 }
 
 @media (min-width: 56.25em) {
-  .Title {
-    font-size: 1.6rem;
-  }
+  .Title,
   .Price {
     font-size: 1.6rem;
+  }
+}
+
+@media (min-width: 112.5em) {
+  .Title,
+  .Price {
+    font-size: 1.4rem;
   }
 }

@@ -80,18 +80,19 @@ const ArtistDetail: React.FC<Props> = (props) => {
                       key={i}
                       title={album.name}
                       imageUrl={album.imageUrl}
-                      date={album.year}
+                      date={album.year.toString()}
+                      styles={{ height: '35rem' }}
                       icons={[
                         <a key="spotify" href={album.links.spotify}>
-                          <SpotifyIcon size={3} styles={{ color: 'var(--bright-blue-color)' }} />
+                          <SpotifyIcon size={3.2} styles={{ color: 'var(--bright-blue-color)' }} />
                         </a>,
                         <a key="youtube" href={album.links.youtube}>
-                          <YoutubeIcon size={3} styles={{ color: 'var(--bright-blue-color)' }} />
+                          <YoutubeIcon size={3.5} styles={{ color: 'var(--bright-blue-color)' }} />
                         </a>,
                         <a key="apple" href={album.links.appleMusic || undefined}>
                           <AppleIcon
                             key="apple"
-                            size={3}
+                            size={3.5}
                             styles={{ color: 'var(--bright-blue-color)' }}
                           />
                         </a>,

@@ -11,7 +11,7 @@
   text-transform: uppercase;
   border-radius: 3px;
   margin: 0 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   appearance: none;
   transition: all 0.2s;
 
@@ -38,5 +38,11 @@
   .FooterInput {
     font-size: 1.6rem;
     height: 5rem;
+  }
+}
+
+@media (min-width: 112.5em) {
+  .FooterInput {
+    font-size: 1.2rem;
   }
 }

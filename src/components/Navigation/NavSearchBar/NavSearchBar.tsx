@@ -30,7 +30,7 @@ const NavSearchBar: React.FC<Props> = (props) => {
         tabIndex={0}
         className={classes.Button}
       >
-        <SearchIcon />
+        <SearchIcon size={2} />
       </span>
       {showInput && (
         <div className={classes.InputContainer}>

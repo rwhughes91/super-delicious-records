@@ -21,7 +21,7 @@ const Success: React.FC = () => {
         </PrimaryHeader>
         <div className={classes.Container}>
           <FlashMessage success>Your order has been placed!</FlashMessage>
-          <Text styles={{ fontSize: '1.6rem', marginTop: '3rem' }}>
+          <Text styles={{ marginTop: '3rem' }}>
             We appreciate your business! If you have any questions, please email
             <a
               href="mailto:orders@example.com"

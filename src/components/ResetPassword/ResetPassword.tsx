@@ -14,6 +14,7 @@ interface FormControls {
 interface Props {
   styles?: React.CSSProperties
   close: () => void
+  noShadow?: boolean
 }
 
 const ResetForm: React.FC<Props> = (props) => {
@@ -51,8 +52,13 @@ const ResetForm: React.FC<Props> = (props) => {
     [dispatchFormData]
   )
 
+  let styles = { ...props.styles }
+  if (props.noShadow) {
+    styles = { ...props.styles, boxShadow: 'none' }
+  }
+
   return (
-    <div className={classes.Profile} style={props.styles}>
+    <div className={classes.Profile} style={styles}>
       <h6 className={classes.Title}>Reset your password</h6>
       {user.errorMessage && <div className={classes.AuthErrorMessage}>{user.errorMessage}</div>}
       <form
@@ -75,9 +81,9 @@ const ResetForm: React.FC<Props> = (props) => {
         </FormButton>
       </form>
       <button
+        className={classes.ToggleAuthForm}
         style={{
           color: 'var(--light-purple-color)',
-          fontSize: '1.4rem',
           outline: 'none',
           background: 'none',
           border: 'none',

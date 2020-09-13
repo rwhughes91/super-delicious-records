@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react'
 import classes from './CalendarEventItem.module.scss'
 import { Props as CalendarListItemProps } from '../CalendarListItem/CalendarListItem'
@@ -29,4 +30,4 @@ const CalendarEventItem: React.FC<Props> = (props) => {
   )
 }
 
-export default CalendarEventItem
+export default React.memo(CalendarEventItem)

@@ -21,10 +21,10 @@ const NavItems: React.FC<Props> = (props) => {
       <>
         <NavSearchBar slide toggleModal={props.toggleModal} />
         <NavItem location="/shop/orders">
-          <ProfileIcon size={2} />
+          <ProfileIcon size={2.2} />
         </NavItem>
         <NavItem location="/shop/cart">
-          <NavCartIcon />
+          <NavCartIcon size={2} />
         </NavItem>
       </>
     )
@@ -68,10 +68,10 @@ const NavItems: React.FC<Props> = (props) => {
         {props.icons && (
           <>
             <NavItem location="/shop/cart">
-              <NavCartIcon />
+              <NavCartIcon size={2} />
             </NavItem>
             <NavItem location="/shop/orders">
-              <ProfileIcon size={2} />
+              <ProfileIcon size={2.2} />
             </NavItem>
           </>
         )}

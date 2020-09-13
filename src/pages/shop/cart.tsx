@@ -65,7 +65,7 @@ const Cart: React.FC = () => {
         }}
       >
         <Loader />
-        <TextBody styles={{ fontSize: '1.8rem', marginTop: '5rem' }}>
+        <TextBody large styles={{ marginTop: '5rem' }}>
           Hold tight while we grab your cart!
         </TextBody>
       </div>
@@ -129,7 +129,7 @@ const Cart: React.FC = () => {
         </div>
       )
     } else {
-      cartItems = <TextBody styles={{ fontSize: '1.8rem' }}>No items in your cart</TextBody>
+      cartItems = <TextBody large>No items in your cart</TextBody>
     }
   }
 
@@ -159,7 +159,13 @@ const Cart: React.FC = () => {
             show
             onClick={toggleAuthForm}
             styles={{ backgroundColor: 'rgba(0, 0, 0, .15)' }}
-            modalStyles={{ padding: '2rem 1rem', width: '95%', maxWidth: '50rem' }}
+            modalStyles={{
+              padding: '2rem 1rem',
+              width: '95%',
+              maxWidth: '50rem',
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+            }}
           >
             {loading ? (
               <div
@@ -173,15 +179,11 @@ const Cart: React.FC = () => {
                 <Loader />
               </div>
             ) : (
-              <>
-                <button className={classes.Exit} onClick={() => setShowForm(false)}>
-                  X
-                </button>
-                <AuthForm
-                  onSubmit={onAuthSubmitHandler}
-                  styles={{ boxShadow: 'none', width: '100%' }}
-                />
-              </>
+              <AuthForm
+                onSubmit={onAuthSubmitHandler}
+                styles={{ boxShadow: 'none', width: '100%' }}
+                noShadow
+              />
             )}
           </Modal>
         )}

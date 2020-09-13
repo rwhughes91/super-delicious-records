@@ -17,6 +17,14 @@ $width: 100%;
   margin: 0 auto;
 }
 
+.Filter {
+  position: relative;
+  top: 1rem;
+  text-transform: uppercase;
+  color: var(--light-purple-color);
+  font-size: 1.6rem;
+}
+
 @media (max-width: 56.25em) {
   .Shop {
     grid-template-columns: auto auto;
@@ -60,10 +68,19 @@ $width: 100%;
       border-top: none;
     }
   }
+  .Filter {
+    font-size: 1.4rem;
+  }
 }
 
 @media (min-width: 37em) {
   .Filters {
     border-bottom: 1px solid var(--light-gray-color);
+  }
+}
+
+@media (min-width: 112.5em) {
+  .Filter {
+    font-size: 1.2rem;
   }
 }

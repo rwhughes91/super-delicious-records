@@ -169,7 +169,7 @@ const AboutUs: React.FC = () => {
                     tabIndex={0}
                   >
                     <Triangle
-                      size="small"
+                      size="medium"
                       direction="right"
                       styles={{
                         borderLeftColor: 'var(--bright-blue-color)',
@@ -188,7 +188,9 @@ const AboutUs: React.FC = () => {
                     ' '
                   )}
                 >
-                  <TextBody center>{listItem.body}</TextBody>
+                  <TextBody center fullWidthOnPhone>
+                    {listItem.body}
+                  </TextBody>
                 </div>
               </li>
             ))}

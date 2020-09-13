@@ -7,13 +7,13 @@ $green: rgb(89, 167, 85);
   border: none;
   margin: 1rem auto;
   border-radius: 3px;
-  height: 4rem;
   color: var(--tan-white-color);
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   cursor: pointer;
-  text-transform: uppercase;
+  text-transform: capitalize;
   position: relative;
   transition: background-color 0.2s;
+  height: 4rem;
 
   &:disabled {
     cursor: not-allowed;
@@ -82,6 +82,18 @@ $green: rgb(89, 167, 85);
   stroke-dasharray: 48;
   stroke-dashoffset: 48;
   animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@media (min-width: 56.25em) {
+  .FormButton {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 112.5em) {
+  .FormButton {
+    font-size: 1.4rem;
+  }
 }
 
 @keyframes stroke {

@@ -1,6 +1,6 @@
+import React from 'react'
 import classes from './Card.module.scss'
 import Button from '../UI/Buttons/Button/Button'
-import TertiaryHeader from '../UI/Headers/TertiaryHeader/TertiaryHeader'
 
 interface Props {
   title: string
@@ -8,32 +8,39 @@ interface Props {
   href?: string
   as?: string
   icons?: JSX.Element[]
-  date?: string | number
+  date: string
+  large?: boolean
+  styles?: React.CSSProperties
 }
 
 const Card: React.FC<Props> = (props) => {
   return (
-    <div className={classes.Card}>
-      <div className={classes.CardTitle}>
-        <TertiaryHeader>
-          {props.title} {props.date && `(${props.date})`}
-        </TertiaryHeader>
-      </div>
+    <div className={classes.Card} style={props.styles}>
       <div
         className={classes.CardImage}
         style={{
           backgroundImage: `url(${props.imageUrl})`,
+          backgroundSize: 'cover',
         }}
       />
-      {props.icons ? (
-        <div className={classes.Icons}>{props.icons}</div>
-      ) : (
-        <Button size="large" color="purple" href={props.href} as={props.as}>
-          Read More
-        </Button>
-      )}
+      <div className={classes.Date}>
+        {props.date.length > 4 ? new Date(props.date).toLocaleDateString() : props.date}
+      </div>
+      <div className={classes.Container}>
+        <div className={classes.CardTitle}>
+          <span>{props.title}</span>
+        </div>
+
+        {props.icons ? (
+          <div className={classes.Icons}>{props.icons}</div>
+        ) : (
+          <Button size="large" color="purple" href={props.href} as={props.as}>
+            Read More
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
 
-export default Card
+export default React.memo(Card)

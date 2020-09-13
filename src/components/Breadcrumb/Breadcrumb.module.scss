@@ -5,7 +5,7 @@
   margin: 0 1.5rem;
   background: none;
   color: var(--light-gray-color);
-  font-size: 1.3rem;
+  font-size: 1.6rem;
 }
 
 .BreadcrumbContainer {
@@ -40,5 +40,12 @@
 @media (max-width: 56.25em) {
   .BreadcrumbContainer {
     display: none;
+  }
+}
+
+@media (min-width: 112.5em) {
+  .Breadcrumb,
+  .BreadcrumbButton {
+    font-size: 1.4rem;
   }
 }

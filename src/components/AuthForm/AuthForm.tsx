@@ -18,6 +18,7 @@ interface FormControls {
 interface Props {
   styles?: React.CSSProperties
   onSubmit?: () => void
+  noShadow?: boolean
 }
 
 const AuthForm: React.FC<Props> = (props) => {
@@ -67,7 +68,7 @@ const AuthForm: React.FC<Props> = (props) => {
   )
 
   const authForm = (
-    <div className={classes.Profile} style={props.styles}>
+    <div className={classes.Profile} style={{ ...props.styles }}>
       <h6 className={classes.Title}>{isSignUp ? 'Sign Up' : 'Sign In'}</h6>
       {user.errorMessage && <div className={classes.AuthErrorMessage}>{user.errorMessage}</div>}
       <form
@@ -81,15 +82,14 @@ const AuthForm: React.FC<Props> = (props) => {
         />
         {!isSignUp && (
           <button
+            className={classes.Reset}
             style={{
-              color: 'var(--light-gray-color)',
-              fontSize: '1.3rem',
               outline: 'none',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
               position: 'absolute',
-              top: '30%',
+              top: '28%',
               right: '5%',
               zIndex: 10,
             }}
@@ -116,9 +116,9 @@ const AuthForm: React.FC<Props> = (props) => {
         </FormButton>
       </form>
       <button
+        className={classes.ToggleAuthForm}
         style={{
           color: 'var(--light-purple-color)',
-          fontSize: '1.4rem',
           outline: 'none',
           background: 'none',
           border: 'none',
@@ -133,7 +133,7 @@ const AuthForm: React.FC<Props> = (props) => {
   )
 
   return showResetForm ? (
-    <ResetPassword close={toggleResetPasswordHandler} email={formData.email.value.toString()} />
+    <ResetPassword close={toggleResetPasswordHandler} noShadow={props.noShadow} />
   ) : (
     authForm
   )

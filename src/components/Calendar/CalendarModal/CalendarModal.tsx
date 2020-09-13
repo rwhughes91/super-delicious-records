@@ -1,3 +1,5 @@
+import React from 'react'
+import Link from 'next/link'
 import { DateTime } from 'luxon'
 import classes from './CalendarModal.module.scss'
 import { Props as CalendarListItemProps } from '../CalendarListItem/CalendarListItem'
@@ -31,7 +33,7 @@ const CalendarModal: React.FC<Props> = (props) => {
   const event: Event = {
     description: props.description ?? '',
     location: props.location ?? '',
-    title: props.title,
+    title: props.title ?? '',
     startDatetime: startDate.toFormat('YYYYMMDDTHHmmss'),
     endDatetime: endDate.toFormat('YYYYMMDDTHHmmss'),
     duration: duration,
@@ -51,7 +53,11 @@ const CalendarModal: React.FC<Props> = (props) => {
         </button>
         <div className={classes.Title}>{props.title}</div>
         {props.description && <div className={classes.Description}>{props.description}</div>}
-        {props.url && <button className={classes.Link}>Read More</button>}
+        {props.url && (
+          <Link href="/news">
+            <button className={classes.Link}>Read More</button>
+          </Link>
+        )}
         <div className={classes.DateHeader}>
           <div className={classes.SmallHeader}>
             <CalendarIcon size={2.5} styles={{ color: 'var(--light-gray-color' }} />
@@ -86,4 +92,4 @@ const CalendarModal: React.FC<Props> = (props) => {
   )
 }
 
-export default CalendarModal
+export default React.memo(CalendarModal)

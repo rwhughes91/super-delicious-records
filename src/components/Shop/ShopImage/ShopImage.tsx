@@ -33,6 +33,7 @@ const ShopImage: React.FC<Props> = (props) => {
             ...props.styles,
             width: props.fixed ? props.size : '100%',
             maxWidth: props.size,
+            height: '100%',
           }}
           sizes={srcSetData.sizes}
           onError={addDefaultSrc}

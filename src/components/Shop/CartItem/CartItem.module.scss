@@ -8,14 +8,15 @@
 
 .Image {
   width: 90%;
-  max-width: 12rem;
+  max-width: 20rem;
   overflow: hidden;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .Title {
-  font-size: 2.6rem;
+  font-size: 3rem;
   color: var(--dark-purple-color);
+  margin-bottom: 1rem;
 }
 
 .TitleContainer {
@@ -107,11 +108,11 @@
 .SubTextHeader {
   text-transform: capitalize;
   color: var(--light-purple-color);
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-family: 'Open Sans Regular';
 }
 
-@media (min-width: 30em) {
+@media (min-width: 40em) {
   .Title {
     display: none;
   }
@@ -151,5 +152,12 @@
 @media (min-width: 50em) {
   .CartItem {
     padding: 1rem 0;
+  }
+}
+
+@media (min-width: 112.5em) {
+  .SubText,
+  .SubTextHeader {
+    font-size: 1.6rem;
   }
 }

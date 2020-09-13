@@ -1,6 +1,3 @@
-.FooterContainer {
-}
-
 .Footer {
   background-color: var(--dark-purple-color);
   display: flex;
@@ -82,7 +79,7 @@
   }
 
   .FooterFormTitle {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     margin-bottom: 0;
   }
 
@@ -99,5 +96,11 @@
 
   .FooterNavigation {
     display: none;
+  }
+}
+
+@media (min-width: 56.25em) {
+  .FooterFormTitle {
+    font-size: 1.6rem;
   }
 }

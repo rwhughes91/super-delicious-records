@@ -21,11 +21,9 @@ const ContactForm: React.FC = () => {
   const [formData, dispatch] = useForm(initialState)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
 
   const onSubmitHandler = useCallback(
     (e: React.SyntheticEvent) => {
-      setLoading(true)
       setSuccess(false)
       setError(false)
       e.preventDefault()
@@ -38,11 +36,9 @@ const ContactForm: React.FC = () => {
         })
         .then(() => {
           dispatch({ type: 'reset', value: '', key: '' })
-          setLoading(false)
           setSuccess(true)
         })
         .catch(() => {
-          setLoading(false)
           setError(true)
         })
     },

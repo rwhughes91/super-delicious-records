@@ -10,7 +10,7 @@ import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Inpu
 import { cloneDeep } from 'lodash'
 import { getDataArray } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
-import Text from '@components/UI/Text/Text'
+import TextBody from '@components/UI/TextBody/TextBody'
 
 interface FormControls {
   category: InputProps
@@ -69,17 +69,7 @@ const Shop: React.FC<Props> = (props) => {
               maxWidth: '25rem',
             }}
           >
-            <span
-              style={{
-                position: 'relative',
-                top: '1rem',
-                textTransform: 'uppercase',
-                color: 'var(--light-purple-color)',
-                fontSize: '1.2rem',
-              }}
-            >
-              Filter
-            </span>
+            <span className={classes.Filter}>Filter</span>
             <Dropdown
               {...inputControls.category}
               onChange={onCategoryChangeHandler}
@@ -95,17 +85,7 @@ const Shop: React.FC<Props> = (props) => {
               alignItems: 'flex-end',
             }}
           >
-            <span
-              style={{
-                position: 'relative',
-                top: '1rem',
-                textTransform: 'uppercase',
-                color: 'var(--light-purple-color)',
-                fontSize: '1.2rem',
-              }}
-            >
-              Sort
-            </span>
+            <span className={classes.Filter}>Sort</span>
             <Dropdown
               {...inputControls.sort}
               onChange={onSortChangeHandler}
@@ -117,9 +97,9 @@ const Shop: React.FC<Props> = (props) => {
           <div className={classes.Shop}>{items}</div>
         ) : (
           <div style={{ textAlign: 'center', margin: '3rem auto' }}>
-            <Text styles={{ fontSize: '2rem', color: 'var(--light-gray-color)' }}>
+            <TextBody large styles={{ color: 'var(--light-gray-color)', marginTop: '6rem' }}>
               More items coming soon!
-            </Text>
+            </TextBody>
           </div>
         )}
       </Layout>

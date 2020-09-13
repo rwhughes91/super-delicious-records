@@ -75,6 +75,12 @@ $green: rgb(89, 167, 85);
   }
 }
 
+@media (min-width: 112.5em) {
+  .FlashMessage {
+    font-size: 1.4rem;
+  }
+}
+
 @keyframes stroke {
   100% {
     stroke-dashoffset: 0;

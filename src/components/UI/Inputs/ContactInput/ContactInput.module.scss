@@ -1,4 +1,5 @@
 $input-color: var(--dark-purple-color);
+$font-size: 1.6rem;
 
 .InputContainer {
   width: 100%;
@@ -17,10 +18,11 @@ $input-color: var(--dark-purple-color);
   margin: 1rem auto;
   margin-top: 0;
   border-radius: 3px;
-  padding: 1.4rem 0.5rem;
+  padding: 0 0.5rem;
   color: $input-color;
   border: 1px solid var(--light-gray-color);
-  font-size: 1.4rem;
+  font-size: $font-size;
+  height: 4rem;
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
@@ -32,38 +34,43 @@ $input-color: var(--dark-purple-color);
   }
   &:-webkit-autofill::first-line {
     font-family: 'Open Sans SemiBold';
-    font-size: 1.4rem;
+    font-size: $font-size;
   }
 
   &::placeholder {
     color: var(--light-gray-color);
     text-transform: uppercase;
-    font-size: 1.4rem;
+    font-size: $font-size;
   }
 }
 
 textarea.ContactInput {
-  height: 8rem;
+  height: 10rem;
 }
 
 .ErrorMessage {
   color: var(--bright-red-color);
-  font-size: 1.6rem;
+  font-size: $font-size;
   position: absolute;
   top: 100%;
   left: 5%;
   transform: translateY(-100%);
 }
 
-@media (max-width: 56.25em) {
+@media (min-width: 56.25em) {
   .ContactInput {
-    font-size: 1.6rem;
+    &::placeholder {
+      font-size: 1.4rem;
+    }
+  }
+  .ErrorMessage {
+    font-size: 1.4rem;
   }
 }
 
-@media (min-width: 56.25em) {
+@media (min-width: 112.5em) {
   .ContactInput {
-    height: 4rem;
+    font-size: 1.2rem;
     &::placeholder {
       font-size: 1.2rem;
     }
