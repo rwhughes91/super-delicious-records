@@ -1,14 +1,15 @@
 import * as admin from 'firebase-admin'
-import firebaseServiceAccount from '../../../serviceAccount.json'
 import { shaveObject } from '@utils/helpers'
 import { Order as OrderType } from '@resolvers/shop/order'
 import { ShopItem as ShopItemType } from '@resolvers/shop/shop'
 
-const serviceAccount = firebaseServiceAccount as admin.ServiceAccount
-
 try {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
     databaseURL: process.env.FIREBASE_DATABASE_URL,
   })
 } catch (error) {
@@ -46,7 +47,7 @@ export async function createDataItem<T>(location: string, data: T): Promise<stri
   return newPid || ''
 }
 
-export async function createDataItemWithPid<T extends { pid: string }>(
+export async function createDataItemWithPid<T extends { pid?: string }>(
   location: string,
   data: T
 ): Promise<true | string> {
