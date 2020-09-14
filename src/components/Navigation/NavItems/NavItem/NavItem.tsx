@@ -2,9 +2,6 @@ import { useRouter } from 'next/router'
 import classes from './NavItem.module.scss'
 import Link from 'next/link'
 
-interface Styles {
-  width: string
-}
 interface Props {
   location: string
   children: JSX.Element | string
