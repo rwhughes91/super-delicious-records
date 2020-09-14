@@ -8,6 +8,7 @@ interface Props extends Pick<typeDefs.ShopItem, 'pid' | 'name' | 'price'> {
   image: typeDefs.ShopImage
   size?: string
   fixed?: boolean
+  related?: boolean
 }
 
 const ShopItem: React.FC<Props> = (props) => {

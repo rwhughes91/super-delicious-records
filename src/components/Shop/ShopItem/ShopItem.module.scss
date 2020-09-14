@@ -17,22 +17,23 @@
   text-align: center;
   width: 100%;
   margin: 1rem 0;
-  height: 5rem;
+  height: 6rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .Title {
   color: var(--dark-purple-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
   text-transform: uppercase;
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .Price {
   color: var(--dark-purple-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
 
   &::before {
     content: '$';

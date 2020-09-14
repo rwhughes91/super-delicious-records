@@ -13,7 +13,7 @@ $green: rgb(89, 167, 85);
   text-transform: capitalize;
   position: relative;
   transition: background-color 0.2s;
-  height: 4rem;
+  height: 5rem;
 
   &:disabled {
     cursor: not-allowed;
@@ -87,12 +87,14 @@ $green: rgb(89, 167, 85);
 @media (min-width: 56.25em) {
   .FormButton {
     font-size: 1.5rem;
+    height: 4.5rem;
   }
 }
 
 @media (min-width: 112.5em) {
   .FormButton {
     font-size: 1.4rem;
+    height: 4rem;
   }
 }
 

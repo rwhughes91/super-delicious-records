@@ -190,6 +190,7 @@ const ShopItemDetail: React.FC<Props> = (props) => {
                 image={relatedImage.images[0]}
                 size="200px"
                 fixed
+                related
               />
             )
           })}

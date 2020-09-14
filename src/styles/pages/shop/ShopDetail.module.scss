@@ -45,7 +45,7 @@ $width: 100%;
 
 .Status {
   align-self: center;
-  font-size: 1.6rem;
+  font-size: 2rem;
 
   &.Available {
     color: #59a755;
@@ -149,13 +149,6 @@ $width: 100%;
   }
   .ShopItemDescription {
     width: 85%;
-
-    & select {
-      height: 4rem;
-    }
-  }
-  .Status {
-    font-size: 1.6rem;
   }
   .Title {
     display: none;

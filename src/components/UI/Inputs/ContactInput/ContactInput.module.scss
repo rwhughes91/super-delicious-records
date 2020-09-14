@@ -22,7 +22,7 @@ $font-size: 1.6rem;
   color: $input-color;
   border: 1px solid var(--light-gray-color);
   font-size: $font-size;
-  height: 4rem;
+  height: 5rem;
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
@@ -46,6 +46,7 @@ $font-size: 1.6rem;
 
 textarea.ContactInput {
   height: 10rem;
+  padding-top: 1.2rem;
 }
 
 .ErrorMessage {
@@ -59,6 +60,7 @@ textarea.ContactInput {
 
 @media (min-width: 56.25em) {
   .ContactInput {
+    height: 4.5rem;
     &::placeholder {
       font-size: 1.4rem;
     }
@@ -71,6 +73,7 @@ textarea.ContactInput {
 @media (min-width: 112.5em) {
   .ContactInput {
     font-size: 1.2rem;
+    height: 4rem;
     &::placeholder {
       font-size: 1.2rem;
     }
