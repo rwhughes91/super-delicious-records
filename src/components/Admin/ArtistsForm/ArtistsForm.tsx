@@ -514,6 +514,7 @@ const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
     touched: false,
     errorMessage: '',
     label: albumHeaders.YEAR,
+    warning: 'Field required if adding album',
     elementConfig: {
       placeholder: 'Year',
       type: 'number',
@@ -526,6 +527,7 @@ const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
     touched: false,
     errorMessage: '',
     label: albumHeaders.IMAGE,
+    warning: 'Field required if adding album',
     elementConfig: {
       placeholder: 'Image',
       type: 'text',
