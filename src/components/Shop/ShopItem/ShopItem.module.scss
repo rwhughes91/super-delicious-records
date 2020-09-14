@@ -6,6 +6,7 @@
   align-items: center;
   cursor: pointer;
   transition: transform 0.2s;
+  background: none;
 
   &:hover .Title,
   &:focus .Title {
@@ -37,6 +38,17 @@
 
   &::before {
     content: '$';
+  }
+}
+
+.ShopItemLink {
+  text-decoration: none;
+  display: 'block';
+  border-right: 1px solid var(--light-gray-color);
+  padding: 1.6rem;
+
+  &:last-child {
+    border-right: none;
   }
 }
 

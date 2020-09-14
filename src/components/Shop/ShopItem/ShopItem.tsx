@@ -13,22 +13,29 @@ interface Props extends Pick<typeDefs.ShopItem, 'pid' | 'name' | 'price'> {
 
 const ShopItem: React.FC<Props> = (props) => {
   const size = props.size ?? '300px'
-  return (
-    <Link href="/shop/[pid]" as={`/shop/${props.pid}`}>
-      <div className={classes.ShopItem}>
-        <ShopImage
-          imageUrl={props.image.imageUrl}
-          imageSetUrl={props.image.imageSetUrl}
-          size={size}
-          alt={props.image.alt}
-          fixed={props.fixed}
-        />
-        <div className={classes.DetailsContainer}>
-          <div className={classes.Title}>{props.name}</div>
-          <div className={classes.Price}>{props.price}</div>
-        </div>
+  const output = (
+    <div className={classes.ShopItem}>
+      <ShopImage
+        imageUrl={props.image.imageUrl}
+        imageSetUrl={props.image.imageSetUrl}
+        size={size}
+        alt={props.image.alt}
+        fixed={props.fixed}
+      />
+      <div className={classes.DetailsContainer}>
+        <div className={classes.Title}>{props.name}</div>
+        <div className={classes.Price}>{props.price}</div>
       </div>
+    </div>
+  )
+  return !props.related ? (
+    <Link href="/shop/[pid]" as={`/shop/${props.pid}`}>
+      {output}
     </Link>
+  ) : (
+    <a className={classes.ShopItemLink} href={`/shop/${props.pid}`}>
+      {output}
+    </a>
   )
 }
 
