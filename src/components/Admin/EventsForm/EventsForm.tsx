@@ -36,7 +36,7 @@ const EventsForm: React.FC<Props> = (props) => {
       date: formState.date.value as string,
       title: formState.title.value as string,
       description: formState.description.value as string,
-      url: formState.description.value as string,
+      url: formState.url.value as string,
       endDate: formState.endDate.value as string,
       location: formState.location.value as string,
     }

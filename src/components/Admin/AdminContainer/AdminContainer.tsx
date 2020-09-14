@@ -17,6 +17,7 @@ interface Props {
   eventsData?: typeDefs.Event[]
   shopData?: typeDefs.ShopItem[]
   mutate: () => void
+  isValidating: boolean
 }
 
 const AdminContainer: React.FC<Props> = (props) => {
@@ -137,6 +138,7 @@ const AdminContainer: React.FC<Props> = (props) => {
             </FormButton>
           </div>
         </div>
+        {props.isValidating && <FlashMessage warning>Re-fetching data</FlashMessage>}
         {success && <FlashMessage success>Saved</FlashMessage>}
         {showForm && (
           <div className={classes.UploadContainer}>

@@ -12,7 +12,10 @@ import * as typeDefs from '@generated/graphql'
 import { extractFields } from '@utils/helpers'
 
 interface Props {
-  artists: Pick<typeDefs.Artist, 'pid' | 'name' | 'website' | 'imageUrl' | 'labelSide'>[]
+  artists: Pick<
+    typeDefs.Artist,
+    'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'
+  >[]
 }
 
 const Artists: React.FC<Props> = (props) => {
@@ -32,6 +35,7 @@ const Artists: React.FC<Props> = (props) => {
                     height="300px"
                     width="500px"
                     src={artist.imageUrl}
+                    srcSet={artist.imageSetUrl}
                     alt={`${artist.name}'s' image`}
                     styles={{ margin: '1rem' }}
                     label={artist.name}
@@ -61,7 +65,10 @@ export const getStaticProps: GetStaticProps = async () => {
   const artists = await getDataArray<typeDefs.Artist>('/artists')
   return {
     props: {
-      artists: extractFields(['pid', 'name', 'website', 'imageUrl', 'labelSide'], artists),
+      artists: extractFields(
+        ['pid', 'name', 'website', 'imageUrl', 'imageSetUrl', 'labelSide'],
+        artists
+      ),
     },
     revalidate: 1,
   }

@@ -7,6 +7,7 @@ export const GET_NEWS_ITEM = gql`
       title
       shortTitle
       imageUrl
+      imageSetUrl
       description
       date
       videos {
@@ -29,6 +30,7 @@ export const GET_NEWS = gql`
       title
       shortTitle
       imageUrl
+      imageSetUrl
       description
       date
       videos {

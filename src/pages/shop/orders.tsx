@@ -27,7 +27,7 @@ const OrdersList: React.FC = () => {
     GET_ORDERS,
     user.idToken,
     user.user,
-    { revalidateOnFocus: false, revalidateOnReconnect: false, revalidateOnMount: true }
+    { revalidateOnFocus: false, revalidateOnReconnect: false }
   )
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const OrdersList: React.FC = () => {
                         style = { borderBottom: 'none' }
                       }
                       return (
-                        <CartItem key={i} {...item} styles={{ ...style, paddingTop: 0 }} order />
+                        <CartItem key={i} {...item} styles={{ ...style, paddingTop: 2 }} order />
                       )
                     })}
                   </ToggleListItem>

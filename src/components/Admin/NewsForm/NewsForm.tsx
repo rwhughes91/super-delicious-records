@@ -38,9 +38,9 @@ enum linkHeaders {
   BTNTEXT = 'Button Text',
 }
 
-type SingleInputs = 'title' | 'shortTitle' | 'imageUrl' | 'date'
+type SingleInputs = 'title' | 'shortTitle' | 'imageUrl' | 'date' | 'imageSetUrl'
 
-const singleInputKeys: SingleInputs[] = ['title', 'shortTitle', 'imageUrl', 'date']
+const singleInputKeys: SingleInputs[] = ['title', 'shortTitle', 'imageUrl', 'imageSetUrl', 'date']
 
 const NewsForm: React.FC<Props> = (props) => {
   const singleInputState = cloneDeep(mainInputsConfig)
@@ -91,6 +91,7 @@ const NewsForm: React.FC<Props> = (props) => {
   }
 
   const { inputs: singleInputs, formState: singleInputsState } = useForm(singleInputState)
+
   const {
     inputs: descriptionInputs,
     dispatch: descriptionDispatch,
@@ -155,6 +156,7 @@ const NewsForm: React.FC<Props> = (props) => {
       title: singleInputsState.title.value as string,
       shortTitle: singleInputsState.shortTitle.value as string,
       imageUrl: singleInputsState.imageUrl.value as string,
+      imageSetUrl: singleInputsState.imageSetUrl.value as string,
       date: singleInputsState.date.value as string,
       description: descriptions,
       videos,
@@ -341,6 +343,19 @@ const mainInputsConfig: State<Pick<typeDefs.NewsItem, SingleInputs>> = {
     required: true,
     elementConfig: {
       placeholder: 'Image URL',
+      type: 'text',
+    },
+  },
+  imageSetUrl: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Image Set URL',
+    required: true,
+    elementConfig: {
+      placeholder: 'Image Set URL',
       type: 'text',
     },
   },

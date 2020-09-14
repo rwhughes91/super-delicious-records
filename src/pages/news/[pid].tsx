@@ -9,6 +9,7 @@ import Video from '@components/UI/Video/Video'
 import { getDataItem, getDataArray } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import { convertFieldsToParams } from '@utils/helpers'
+import ShopImage from '@components/Shop/ShopImage/ShopImage'
 
 type Props = typeDefs.NewsItem
 
@@ -22,10 +23,14 @@ const NewsItemDetail: React.FC<Props> = (props) => {
         <div className={classes.NewsItemDetail}>
           <div className={classes.Date}>{new Date(props.date).toLocaleDateString()}</div>
           <div className={classes.ContentContainer}>
-            <div
-              className={classes.ImageContainer}
-              style={{ backgroundImage: `url(${props.imageUrl})` }}
-            ></div>
+            <div className={classes.ImageContainer} style={{ width: '45rem' }}>
+              <ShopImage
+                size="45rem"
+                imageUrl={props.imageUrl}
+                imageSetUrl={props.imageSetUrl}
+                alt={props.shortTitle}
+              />
+            </div>
             <div className={classes.TextContainer}>
               <h1 className={classes.Header}>{props.title}</h1>
               {props.description.map((text, i) => {
@@ -35,9 +40,9 @@ const NewsItemDetail: React.FC<Props> = (props) => {
                 props.links.map((link, i) => {
                   return (
                     <div key={i} className={classes.ButtonContainer}>
-                      <Text styles={{ marginBottom: '2rem', fontFamily: 'Open Sans SemiBold' }}>
+                      <SecondaryHeader styles={{ marginBottom: '2rem', width: '100%' }}>
                         {link.header}
-                      </Text>
+                      </SecondaryHeader>
                       <Button color="purple" size="large" href={link.src}>
                         {link.buttonText}
                       </Button>

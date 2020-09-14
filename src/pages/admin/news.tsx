@@ -12,15 +12,12 @@ import TextBody from '@components/UI/TextBody/TextBody'
 
 const NewsAdminDetail: React.FC = () => {
   const { user } = useContext(UserContext)
-  const [{ data, error, mutate }] = useCancellableSWR<{ getNews: typeDefs.NewsItem[] }>(
-    GET_NEWS,
-    user.idToken,
-    user.user,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  )
+  const [{ data, error, mutate, isValidating }] = useCancellableSWR<{
+    getNews: typeDefs.NewsItem[]
+  }>(GET_NEWS, user.idToken, user.user, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  })
 
   let output = (
     <div
@@ -36,7 +33,14 @@ const NewsAdminDetail: React.FC = () => {
   )
 
   if (data) {
-    output = <AdminContainer type="news" newsData={data.getNews} mutate={mutate} />
+    output = (
+      <AdminContainer
+        type="news"
+        newsData={data.getNews}
+        mutate={mutate}
+        isValidating={isValidating}
+      />
+    )
   }
 
   if (error) {

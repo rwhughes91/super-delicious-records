@@ -45,6 +45,9 @@ class NewsItem {
   @Field()
   imageUrl!: string
 
+  @Field()
+  imageSetUrl!: string
+
   @Field(() => [String])
   description!: string[]
 
@@ -81,6 +84,9 @@ export class NewsInput implements Partial<NewsItem> {
 
   @Field()
   imageUrl!: string
+
+  @Field()
+  imageSetUrl!: string
 
   @Field(() => [String])
   description!: string[]

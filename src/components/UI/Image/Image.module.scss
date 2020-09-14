@@ -26,11 +26,6 @@ $purple-gradient: rgba(123, 105, 145, 0.3);
     );
   }
 
-  &:hover .Image {
-    // filter: blur(2px) brightness(0.7);
-    // transform: scale(1.1);
-  }
-
   &:hover .Label,
   &:focus .Label {
     color: var(--bright-red-color);

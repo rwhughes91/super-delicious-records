@@ -1,9 +1,11 @@
 import classes from './Image.module.scss'
 import * as typeDefs from '@generated/graphql'
+import ShopImage from '@components/Shop/ShopImage/ShopImage'
 
 interface Props {
   src: string
   alt: string
+  srcSet: string
   height?: string
   width?: string
   label?: string | JSX.Element[]
@@ -22,7 +24,9 @@ const Image: React.FC<Props> = (props) => {
       <span style={{ ...props.labelStyles, justifyContent: position }} className={classes.Label}>
         {props.label}
       </span>
-      <img src={props.src} alt={props.alt} className={classes.Image} />
+      <div className={classes.Image}>
+        <ShopImage size="100%" imageUrl={props.src} imageSetUrl={props.srcSet} alt={props.alt} />
+      </div>
     </div>
   )
 }

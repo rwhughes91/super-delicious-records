@@ -3,6 +3,7 @@ import classes from './FlashMessage.module.scss'
 interface Props {
   error?: boolean
   success?: boolean
+  warning?: boolean
   styles?: React.CSSProperties
 }
 
@@ -13,6 +14,9 @@ const FlashMessage: React.FC<Props> = (props) => {
   }
   if (props.success) {
     className.push(classes.Success)
+  }
+  if (props.warning) {
+    className.push(classes.Warning)
   }
   return (
     <div className={className.join(' ')} style={props.styles}>

@@ -23,9 +23,9 @@ interface Props {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type SingleInputs = 'name' | 'website' | 'imageUrl' | 'labelSide'
+type SingleInputs = 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'
 
-const singleInputKeys: SingleInputs[] = ['name', 'website', 'imageUrl', 'labelSide']
+const singleInputKeys: SingleInputs[] = ['name', 'website', 'imageUrl', 'imageSetUrl', 'labelSide']
 
 enum sectionHeaders {
   MEMBER = 'Band Member',
@@ -42,6 +42,7 @@ enum introHeaders {
 enum bandMemberHeaders {
   NAME = 'Name',
   IMAGE = 'Image',
+  IMAGESET = 'Image Set Url',
   INSTRUMENT = 'Instrument',
 }
 
@@ -54,6 +55,7 @@ enum albumHeaders {
   NAME = 'Name',
   YEAR = 'Year',
   IMAGE = 'Image',
+  IMAGESET = 'Image Set Url',
 }
 
 enum albumLinksHeaders {
@@ -187,6 +189,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
   }
 
   const { inputs: singleInputs, formState: singleInputsState } = useForm(singleInputState)
+
   const {
     inputs: bandMemberInputs,
     dispatch: bandMemberDispatch,
@@ -228,20 +231,25 @@ const ArtistsForm: React.FC<Props> = (props) => {
       const imageUrl = (bandMemberContainer.value as Field[]).find(
         (item) => item.label === bandMemberHeaders.IMAGE
       )
+      const imageSetUrl = (bandMemberContainer.value as Field[]).find(
+        (item) => item.label === bandMemberHeaders.IMAGESET
+      )
       const instrument = (bandMemberContainer.value as Field[]).find(
         (item) => item.label === bandMemberHeaders.INSTRUMENT
       )
-      if (name && imageUrl && instrument) {
-        if (name.value || imageUrl.value || instrument?.value) {
+      if (name && imageUrl && imageSetUrl && instrument) {
+        if (name.value || imageUrl.value || imageSetUrl.value || instrument?.value) {
           const bandMemberInput = new BandMemberInput(
             name.value as string,
             imageUrl.value as string,
+            imageSetUrl.value as string,
             instrument?.value as string
           )
           bandMemberInput.authenticate()
           bandMembers.push({
             name: bandMemberInput.name,
             imageUrl: bandMemberInput.imageUrl,
+            imageSetUrl: bandMemberInput.imageSetUrl,
             instrument: bandMemberInput.instrument,
           })
         }
@@ -258,6 +266,9 @@ const ArtistsForm: React.FC<Props> = (props) => {
       )
       const imageUrl = (albumContainer.value as Field[]).find(
         (item) => item.label === albumHeaders.IMAGE
+      )
+      const imageSetUrl = (albumContainer.value as Field[]).find(
+        (item) => item.label === albumHeaders.IMAGESET
       )
       const albumLinks = (albumContainer.value as Field[]).find(
         (item) => item.sectionHeader === 'Album Links'
@@ -290,13 +301,14 @@ const ArtistsForm: React.FC<Props> = (props) => {
           )
         }
       }
-      if (name && year && imageUrl && albumLinkInput) {
+      if (name && year && imageUrl && imageSetUrl && albumLinkInput) {
         if (name.value || year.value || imageUrl.value || albumLinksPayload.filledValues) {
           albumLinkInput?.authenticate()
           const albumInput = new AlbumInput(
             name.value as string,
             parseFloat(year.value as string),
             imageUrl.value as string,
+            imageSetUrl.value as string,
             albumLinkInput
           )
           albumInput.authenticate()
@@ -304,6 +316,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
             name: albumInput.name,
             year: albumInput.year,
             imageUrl: albumInput.imageUrl,
+            imageSetUrl: albumInput.imageSetUrl,
             links: {
               website: albumInput.links.website,
               spotify: albumInput.links.spotify,
@@ -334,6 +347,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
       name: singleInputsState.name.value as string,
       website: singleInputsState.website.value as string,
       imageUrl: singleInputsState.imageUrl.value as string,
+      imageSetUrl: singleInputsState.imageSetUrl.value as string,
       labelSide: singleInputsState.labelSide.value as typeDefs.LabelSide,
       introduction,
       bandMembers: bandMembers,
@@ -533,6 +547,19 @@ const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
       type: 'text',
     },
   },
+  imageSetUrl: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: albumHeaders.IMAGESET,
+    warning: 'Field required if adding album',
+    elementConfig: {
+      placeholder: 'Image Set Url',
+      type: 'text',
+    },
+  },
 }
 
 const videoConfig: State<typeDefs.VideoInput> = {
@@ -620,6 +647,19 @@ const bandMemberConfig: State<Required<typeDefs.BandMemberInput>> = {
       type: 'text',
     },
   },
+  imageSetUrl: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    warning: 'Field required if adding band member',
+    label: bandMemberHeaders.IMAGESET,
+    elementConfig: {
+      placeholder: 'Image Set Url',
+      type: 'text',
+    },
+  },
   instrument: {
     value: '',
     type: types.INPUT,
@@ -674,6 +714,19 @@ const mainInputsConfig = {
       type: 'text',
     },
   },
+  imageSetUrl: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Image Set Url',
+    required: true,
+    elementConfig: {
+      placeholder: 'Image Set Url',
+      type: 'text',
+    },
+  },
   labelSide: {
     value: '',
     type: types.SELECT,
@@ -695,19 +748,25 @@ const mainInputsConfig = {
 
 class BandMemberInput extends Authenticator implements typeDefs.BandMemberInput {
   NAME = 'Band Member'
-  requiredKeys = ['name', 'imageUrl']
-  constructor(public name: string, public imageUrl: string, public instrument?: string) {
+  requiredKeys = ['name', 'imageUrl', 'imageSetUrl']
+  constructor(
+    public name: string,
+    public imageUrl: string,
+    public imageSetUrl: string,
+    public instrument?: string
+  ) {
     super()
   }
 }
 
 class AlbumInput extends Authenticator implements typeDefs.AlbumInput {
   NAME = 'Album'
-  requiredKeys = ['name', 'year', 'imageUrl', 'links']
+  requiredKeys = ['name', 'year', 'imageUrl', 'imageSetUrl', 'links']
   constructor(
     public name: string,
     public year: number,
     public imageUrl: string,
+    public imageSetUrl: string,
     public links: typeDefs.AlbumLink
   ) {
     super()

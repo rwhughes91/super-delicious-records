@@ -43,6 +43,13 @@
   }
 }
 
+@media (min-width: 56.25em) {
+  .BreadcrumbButton,
+  .Breadcrumb {
+    font-size: 1.5rem;
+  }
+}
+
 @media (min-width: 112.5em) {
   .Breadcrumb,
   .BreadcrumbButton {

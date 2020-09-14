@@ -55,6 +55,7 @@ export type NewsItem = {
   title: Scalars['String']
   shortTitle: Scalars['String']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   description: Array<Scalars['String']>
   date: Scalars['String']
   videos?: Maybe<Array<Video>>
@@ -80,6 +81,7 @@ export type Artist = {
   name: Scalars['String']
   website: Scalars['String']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   introduction: Intro
   labelSide?: Maybe<LabelSide>
   bandMembers?: Maybe<Array<BandMember>>
@@ -102,6 +104,7 @@ export type BandMember = {
   __typename?: 'BandMember'
   name: Scalars['String']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   instrument?: Maybe<Scalars['String']>
 }
 
@@ -110,6 +113,7 @@ export type Album = {
   name: Scalars['String']
   year: Scalars['Int']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   links: AlbumLink
 }
 
@@ -225,6 +229,7 @@ export type Mutation = {
   addToCart: Scalars['String']
   setCart: Scalars['String']
   removeFromCart: Scalars['String']
+  stripeCreateOrder: StripeId
 }
 
 export type MutationCreateNewsItemArgs = {
@@ -279,10 +284,15 @@ export type MutationRemoveFromCartArgs = {
   pid: Scalars['String']
 }
 
+export type MutationStripeCreateOrderArgs = {
+  data: Array<CartItemInput>
+}
+
 export type NewsInput = {
   title: Scalars['String']
   shortTitle: Scalars['String']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   description: Array<Scalars['String']>
   date: Scalars['String']
   videos?: Maybe<Array<VideoInput>>
@@ -304,6 +314,7 @@ export type ArtistInput = {
   name: Scalars['String']
   website: Scalars['String']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   introduction: IntroInput
   labelSide?: Maybe<LabelSide>
   bandMembers?: Maybe<Array<BandMemberInput>>
@@ -319,6 +330,7 @@ export type IntroInput = {
 export type BandMemberInput = {
   name: Scalars['String']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   instrument?: Maybe<Scalars['String']>
 }
 
@@ -326,6 +338,7 @@ export type AlbumInput = {
   name: Scalars['String']
   year: Scalars['Int']
   imageUrl: Scalars['String']
+  imageSetUrl: Scalars['String']
   links: AlbumLinkInput
 }
 
@@ -396,6 +409,11 @@ export type CartItemInput = {
   shopItem: ShopItemTrimmedInput
 }
 
+export type StripeId = {
+  __typename?: 'StripeId'
+  id?: Maybe<Scalars['String']>
+}
+
 export type GetArtistQueryVariables = Exact<{
   pid: Scalars['String']
 }>
@@ -403,15 +421,20 @@ export type GetArtistQueryVariables = Exact<{
 export type GetArtistQuery = { __typename?: 'Query' } & {
   getArtist: { __typename?: 'Artist' } & Pick<
     Artist,
-    'pid' | 'name' | 'website' | 'imageUrl' | 'labelSide'
+    'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'
   > & {
       introduction: { __typename?: 'Intro' } & Pick<Intro, 'header' | 'body'>
       bandMembers?: Maybe<
-        Array<{ __typename?: 'BandMember' } & Pick<BandMember, 'name' | 'imageUrl' | 'instrument'>>
+        Array<
+          { __typename?: 'BandMember' } & Pick<
+            BandMember,
+            'name' | 'imageUrl' | 'imageSetUrl' | 'instrument'
+          >
+        >
       >
       albums?: Maybe<
         Array<
-          { __typename?: 'Album' } & Pick<Album, 'name' | 'year' | 'imageUrl'> & {
+          { __typename?: 'Album' } & Pick<Album, 'name' | 'year' | 'imageUrl' | 'imageSetUrl'> & {
               links: { __typename?: 'AlbumLink' } & Pick<
                 AlbumLink,
                 'website' | 'youtube' | 'spotify' | 'soundCloud' | 'appleMusic'
@@ -435,17 +458,20 @@ export type GetArtistsQuery = { __typename?: 'Query' } & {
   getArtists: Array<
     { __typename?: 'Artist' } & Pick<
       Artist,
-      'pid' | 'name' | 'website' | 'imageUrl' | 'labelSide'
+      'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'
     > & {
         introduction: { __typename?: 'Intro' } & Pick<Intro, 'header' | 'body'>
         bandMembers?: Maybe<
           Array<
-            { __typename?: 'BandMember' } & Pick<BandMember, 'name' | 'imageUrl' | 'instrument'>
+            { __typename?: 'BandMember' } & Pick<
+              BandMember,
+              'name' | 'imageUrl' | 'imageSetUrl' | 'instrument'
+            >
           >
         >
         albums?: Maybe<
           Array<
-            { __typename?: 'Album' } & Pick<Album, 'name' | 'year' | 'imageUrl'> & {
+            { __typename?: 'Album' } & Pick<Album, 'name' | 'year' | 'imageUrl' | 'imageSetUrl'> & {
                 links: { __typename?: 'AlbumLink' } & Pick<
                   AlbumLink,
                   'website' | 'youtube' | 'spotify' | 'soundCloud' | 'appleMusic'
@@ -513,7 +539,7 @@ export type GetNewsItemQueryVariables = Exact<{
 export type GetNewsItemQuery = { __typename?: 'Query' } & {
   getNewsItem: { __typename?: 'NewsItem' } & Pick<
     NewsItem,
-    'pid' | 'title' | 'shortTitle' | 'imageUrl' | 'description' | 'date'
+    'pid' | 'title' | 'shortTitle' | 'imageUrl' | 'imageSetUrl' | 'description' | 'date'
   > & {
       videos?: Maybe<Array<{ __typename?: 'Video' } & Pick<Video, 'src' | 'title'>>>
       links?: Maybe<Array<{ __typename?: 'Link' } & Pick<Link, 'header' | 'src' | 'buttonText'>>>
@@ -526,7 +552,7 @@ export type GetNewsQuery = { __typename?: 'Query' } & {
   getNews: Array<
     { __typename?: 'NewsItem' } & Pick<
       NewsItem,
-      'pid' | 'title' | 'shortTitle' | 'imageUrl' | 'description' | 'date'
+      'pid' | 'title' | 'shortTitle' | 'imageUrl' | 'imageSetUrl' | 'description' | 'date'
     > & {
         videos?: Maybe<Array<{ __typename?: 'Video' } & Pick<Video, 'src' | 'title'>>>
         links?: Maybe<Array<{ __typename?: 'Link' } & Pick<Link, 'header' | 'src' | 'buttonText'>>>
@@ -673,6 +699,14 @@ export type MutateShopItemMutationVariables = Exact<{
 }>
 
 export type MutateShopItemMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'mutateShopItem'>
+
+export type StripeCreateOrderMutationVariables = Exact<{
+  data: Array<CartItemInput>
+}>
+
+export type StripeCreateOrderMutation = { __typename?: 'Mutation' } & {
+  stripeCreateOrder: { __typename?: 'StripeId' } & Pick<StripeId, 'id'>
+}
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never }>
 

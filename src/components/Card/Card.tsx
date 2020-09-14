@@ -1,10 +1,12 @@
 import React from 'react'
 import classes from './Card.module.scss'
 import Button from '../UI/Buttons/Button/Button'
+import ShopImage from '@components/Shop/ShopImage/ShopImage'
 
 interface Props {
   title: string
   imageUrl: string
+  imageSetUrl: string
   href?: string
   as?: string
   icons?: JSX.Element[]
@@ -16,13 +18,23 @@ interface Props {
 const Card: React.FC<Props> = (props) => {
   return (
     <div className={classes.Card} style={props.styles}>
-      <div
+      {/* <div
         className={classes.CardImage}
         style={{
           backgroundImage: `url(${props.imageUrl})`,
           backgroundSize: 'cover',
         }}
-      />
+      /> */}
+      <div className={classes.CardImage}>
+        <div style={{ width: '100%', height: '400px' }}>
+          <ShopImage
+            size="400px"
+            imageUrl={props.imageUrl}
+            imageSetUrl={props.imageSetUrl}
+            alt={props.title}
+          />
+        </div>
+      </div>
       <div className={classes.Date}>
         {props.date.length > 4 ? new Date(props.date).toLocaleDateString() : props.date}
       </div>

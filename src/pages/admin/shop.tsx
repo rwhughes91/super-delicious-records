@@ -12,15 +12,12 @@ import TextBody from '@components/UI/TextBody/TextBody'
 
 const EventsAdminDetail: React.FC = () => {
   const { user } = useContext(UserContext)
-  const [{ data, error, mutate }] = useCancellableSWR<{ getShop: typeDefs.ShopItem[] }>(
-    GET_SHOP,
-    user.idToken,
-    user.user,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  )
+  const [{ data, error, mutate, isValidating }] = useCancellableSWR<{
+    getShop: typeDefs.ShopItem[]
+  }>(GET_SHOP, user.idToken, user.user, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  })
 
   let output = (
     <div
@@ -36,7 +33,14 @@ const EventsAdminDetail: React.FC = () => {
   )
 
   if (data) {
-    output = <AdminContainer type="shop" shopData={data.getShop} mutate={mutate} />
+    output = (
+      <AdminContainer
+        type="shop"
+        shopData={data.getShop}
+        mutate={mutate}
+        isValidating={isValidating}
+      />
+    )
   }
 
   if (error) {
