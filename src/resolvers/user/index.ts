@@ -13,7 +13,7 @@ class User {
   @Field()
   username!: string
 
-  @Field((type) => [String])
+  @Field(() => [String])
   roles!: string[]
 }
 
