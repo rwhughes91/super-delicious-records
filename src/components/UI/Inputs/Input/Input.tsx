@@ -1,6 +1,6 @@
 import { memo, ChangeEvent } from 'react'
-import classes from './input.module.scss'
-import { Rules } from '../../../../utils/formValidation'
+import classes from './Input.module.scss'
+import { Rules } from '@utils/formValidation'
 
 export interface ElemConfig {
   placeholder: string
