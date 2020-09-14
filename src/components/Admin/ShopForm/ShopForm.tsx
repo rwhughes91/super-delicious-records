@@ -16,6 +16,8 @@ import { CREATE_SHOP_ITEM, MUTATE_SHOP_ITEM } from '@queries/index'
 
 interface Props {
   data?: typeDefs.ShopItem
+  closeFormOnSubmit: () => void
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 enum sectionHeaders {
@@ -154,6 +156,8 @@ const ShopForm: React.FC<Props> = (props) => {
       onSubmit={onSubmitHandler}
       query={props.data ? MUTATE_SHOP_ITEM : CREATE_SHOP_ITEM}
       pid={props.data && props.data.pid}
+      setSuccess={props.setSuccess}
+      closeFormOnSubmit={props.closeFormOnSubmit}
     >
       <>
         <AdminFieldSet inputs={singleInputs} />

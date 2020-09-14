@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import classes from './AdminContainer.module.scss'
 import NewsForm from '../NewsForm/NewsForm'
 import ArtistsForm from '../ArtistsForm/ArtistsForm'
@@ -8,6 +8,7 @@ import AdminListItem from '../AdminListItem/AdminListItem'
 import FormButton from '../../UI/Buttons/FormButton/FormButton'
 import * as typeDefs from '@generated/graphql'
 import ImageUpload from '@components/ImageUpload/ImageUpload'
+import FlashMessage from '@components/FlashMessage/FlashMessage'
 
 interface Props {
   type: 'news' | 'artists' | 'events' | 'shop'
@@ -15,16 +16,40 @@ interface Props {
   artistsData?: typeDefs.Artist[]
   eventsData?: typeDefs.Event[]
   shopData?: typeDefs.ShopItem[]
+  mutate: () => void
 }
 
 const AdminContainer: React.FC<Props> = (props) => {
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState(undefined)
+  const [success, setSuccess] = useState(false)
 
-  const onShowFormHandler = useCallback(() => {
-    setFormData(undefined)
-    setShowForm((prevState) => !prevState)
-  }, [])
+  useEffect(() => {
+    let timer: NodeJS.Timeout
+    if (success) {
+      timer = setTimeout(() => {
+        setSuccess(false)
+      }, 3000)
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer)
+      }
+    }
+  }, [success])
+
+  const { mutate } = props
+
+  const onShowFormHandler = useCallback(
+    (callMutate = true) => {
+      setFormData(undefined)
+      setShowForm((prevState) => !prevState)
+      if (callMutate) {
+        mutate()
+      }
+    },
+    [mutate]
+  )
 
   const setFormDataHandler = useCallback((data) => {
     setFormData(data)
@@ -34,7 +59,9 @@ const AdminContainer: React.FC<Props> = (props) => {
   let adminForm
   let formItems
   if (props.type === 'news') {
-    adminForm = <NewsForm data={formData} />
+    adminForm = (
+      <NewsForm data={formData} closeFormOnSubmit={onShowFormHandler} setSuccess={setSuccess} />
+    )
     if (props.newsData) {
       formItems = props.newsData.map((newsItem, i) => {
         return (
@@ -49,7 +76,9 @@ const AdminContainer: React.FC<Props> = (props) => {
     }
   }
   if (props.type === 'artists') {
-    adminForm = <ArtistsForm data={formData} />
+    adminForm = (
+      <ArtistsForm data={formData} closeFormOnSubmit={onShowFormHandler} setSuccess={setSuccess} />
+    )
     if (props.artistsData) {
       formItems = props.artistsData.map((artistsItem, i) => {
         return (
@@ -64,7 +93,9 @@ const AdminContainer: React.FC<Props> = (props) => {
     }
   }
   if (props.type === 'events') {
-    adminForm = <EventsForm data={formData} />
+    adminForm = (
+      <EventsForm data={formData} closeFormOnSubmit={onShowFormHandler} setSuccess={setSuccess} />
+    )
     if (props.eventsData) {
       formItems = props.eventsData.map((eventsItem, i) => {
         return (
@@ -79,7 +110,9 @@ const AdminContainer: React.FC<Props> = (props) => {
     }
   }
   if (props.type === 'shop') {
-    adminForm = <ShopForm data={formData} />
+    adminForm = (
+      <ShopForm data={formData} closeFormOnSubmit={onShowFormHandler} setSuccess={setSuccess} />
+    )
     if (props.shopData) {
       formItems = props.shopData.map((shopItem, i) => {
         return (
@@ -96,20 +129,21 @@ const AdminContainer: React.FC<Props> = (props) => {
 
   return (
     <>
-      {showForm && (
-        <div className={classes.UploadContainer}>
-          <p className={classes.UploadTitle}>Upload your images</p>
-          <ImageUpload />
-        </div>
-      )}
       <div className={classes.AdminContainer}>
         <div className={classes.HeaderContainer}>
           <div className={classes.ButtonContainer}>
-            <FormButton styles={{ width: '10rem' }} onClick={onShowFormHandler}>
+            <FormButton styles={{ width: '10rem' }} onClick={() => onShowFormHandler(false)}>
               {showForm ? 'Close Form' : 'Add Item'}
             </FormButton>
           </div>
         </div>
+        {success && <FlashMessage success>Saved</FlashMessage>}
+        {showForm && (
+          <div className={classes.UploadContainer}>
+            <p className={classes.UploadTitle}>Upload Your Images</p>
+            <ImageUpload />
+          </div>
+        )}
         <div className={classes.FormContainer}>
           {!showForm && <div style={{ marginTop: '1.5rem' }}>{formItems}</div>}
           {showForm && adminForm}

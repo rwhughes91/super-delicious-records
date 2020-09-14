@@ -18,6 +18,8 @@ import { CREATE_NEWS_ITEM, MUTATE_NEWS_ITEM } from '@queries/index'
 
 interface Props {
   data?: typeDefs.NewsItem
+  closeFormOnSubmit: () => void
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 enum sectionHeaders {
@@ -110,7 +112,6 @@ const NewsForm: React.FC<Props> = (props) => {
         descriptions.push(description.value as string)
       }
     }
-
     const videos = []
     for (const videoContainer of videosState.videos.value as Field[]) {
       const src = (videoContainer.value as Field[]).find((item) => item.label === videoHeaders.SRC)
@@ -125,7 +126,6 @@ const NewsForm: React.FC<Props> = (props) => {
         }
       }
     }
-
     const links = []
     for (const linkContainer of linksState.links.value as Field[]) {
       const source = (linkContainer.value as Field[]).find((item) => item.label === linkHeaders.SRC)
@@ -195,6 +195,8 @@ const NewsForm: React.FC<Props> = (props) => {
     <AdminForm
       title="News Form"
       onSubmit={onSubmitHandler}
+      setSuccess={props.setSuccess}
+      closeFormOnSubmit={props.closeFormOnSubmit}
       query={props.data ? MUTATE_NEWS_ITEM : CREATE_NEWS_ITEM}
       pid={props.data && props.data.pid}
     >

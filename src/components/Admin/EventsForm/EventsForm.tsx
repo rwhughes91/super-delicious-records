@@ -10,6 +10,8 @@ import { CREATE_EVENT, MUTATE_EVENT } from '@queries/index'
 
 interface Props {
   data?: typeDefs.Event
+  closeFormOnSubmit: () => void
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const EventsForm: React.FC<Props> = (props) => {
@@ -47,6 +49,8 @@ const EventsForm: React.FC<Props> = (props) => {
       onSubmit={onSubmitHandler}
       query={props.data ? MUTATE_EVENT : CREATE_EVENT}
       pid={props.data && props.data.pid}
+      setSuccess={props.setSuccess}
+      closeFormOnSubmit={props.closeFormOnSubmit}
     >
       <AdminFieldSet inputs={inputs} />
     </AdminForm>

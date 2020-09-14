@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef, FormEvent } from 'react'
+import React, { useState, useContext, useRef, FormEvent } from 'react'
 import classes from './AdminForm.module.scss'
 import FormButton from '@components/UI/Buttons/FormButton/FormButton'
 import Loader from '@components/UI/Loader/Loader'
@@ -14,6 +14,8 @@ interface Props {
   query: string
   pid?: string
   upload?: boolean
+  closeFormOnSubmit: () => void
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
   onSubmit: () =>
     | typeDefs.NewsInput
     | typeDefs.ArtistInput
@@ -23,27 +25,15 @@ interface Props {
 
 const AdminForm: React.FC<Props> = (props) => {
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const { user } = useContext(UserContext)
   const lastRequestCancelFn = useRef<CancelTokenSource | null>()
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout
-    if (success) {
-      timer = setTimeout(() => {
-        setSuccess(false)
-      }, 3000)
-    }
-    return () => {
-      if (timer) {
-        clearTimeout(timer)
-      }
-    }
-  })
+  const { setSuccess } = props
 
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    props.onSubmit()
     setError('')
     setLoading(true)
     try {
@@ -63,6 +53,7 @@ const AdminForm: React.FC<Props> = (props) => {
           .then(() => {
             setLoading(false)
             setSuccess(true)
+            props.closeFormOnSubmit()
           })
           .catch((error) => {
             setLoading(false)
@@ -80,7 +71,6 @@ const AdminForm: React.FC<Props> = (props) => {
     <div className={classes.AdminFormContainer}>
       <h1 className={classes.AdminFormTitle}>{props.title}</h1>
       {error && <FlashMessage error>{error}</FlashMessage>}
-      {success && <FlashMessage success>Saved</FlashMessage>}
       {loading ? (
         <div className={classes.LoaderContainer}>
           <Loader />

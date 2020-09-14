@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Layout from './Layout'
 import FourOFour from '@pages/404'
 import { UserContext } from '@context/UserProvider'
@@ -12,6 +13,18 @@ interface Props {
 
 const AdminLayout: React.FC<Props> = (props) => {
   const { user } = useContext(UserContext)
+  const router = useRouter()
+
+  useEffect(() => {
+    router.prefetch('/')
+  }, [router])
+
+  useEffect(() => {
+    if (user.user && !user.admin) {
+      router.push('/')
+    }
+  }, [user.user, user.admin, router])
+
   let output = <FourOFour />
   if (user.user && user.admin) {
     output = (

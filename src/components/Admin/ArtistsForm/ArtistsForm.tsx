@@ -19,6 +19,8 @@ import { CREATE_ARTIST, MUTATE_ARTIST } from '@queries/index'
 
 interface Props {
   data?: typeDefs.Artist
+  closeFormOnSubmit: () => void
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type SingleInputs = 'name' | 'website' | 'imageUrl' | 'labelSide'
@@ -396,6 +398,8 @@ const ArtistsForm: React.FC<Props> = (props) => {
       onSubmit={onSubmitHandler}
       query={props.data ? MUTATE_ARTIST : CREATE_ARTIST}
       pid={props.data && props.data.pid}
+      setSuccess={props.setSuccess}
+      closeFormOnSubmit={props.closeFormOnSubmit}
     >
       <AdminFieldSet inputs={singleInputs} />
       <AdminFieldSet title="Introduction" inputs={introInputs} />

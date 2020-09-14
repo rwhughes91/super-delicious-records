@@ -1,16 +1,47 @@
+import { useContext } from 'react'
 import Head from 'next/head'
-import { GetStaticProps } from 'next'
 import AdminLayout from '@components/Layout/AdminLayout'
 import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import AdminContainer from '@components/Admin/AdminContainer/AdminContainer'
 import * as typeDefs from '@generated/graphql'
-import { getDataArray } from '@services/firebase/admin'
+import { GET_NEWS } from '@queries/index'
+import useCancellableSWR from '@hooks/useCancellableSWR'
+import { UserContext } from '@context/UserProvider'
+import Loader from '@components/UI/Loader/Loader'
+import TextBody from '@components/UI/TextBody/TextBody'
 
-interface Props {
-  newsData: typeDefs.NewsItem[]
-}
+const NewsAdminDetail: React.FC = () => {
+  const { user } = useContext(UserContext)
+  const [{ data, error, mutate }] = useCancellableSWR<{ getNews: typeDefs.NewsItem[] }>(
+    GET_NEWS,
+    user.idToken,
+    user.user,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  )
 
-const NewsAdminDetail: React.FC<Props> = (props) => {
+  let output = (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '12rem',
+      }}
+    >
+      <Loader />
+    </div>
+  )
+
+  if (data) {
+    output = <AdminContainer type="news" newsData={data.getNews} mutate={mutate} />
+  }
+
+  if (error) {
+    output = <TextBody styles={{ color: 'var(--bright-red-color)' }}>{error}</TextBody>
+  }
   return (
     <>
       <Head>
@@ -18,19 +49,10 @@ const NewsAdminDetail: React.FC<Props> = (props) => {
       </Head>
       <AdminLayout currentPage="News">
         <PrimaryHeader>News</PrimaryHeader>
-        <AdminContainer type="news" newsData={props.newsData} />
+        {output}
       </AdminLayout>
     </>
   )
 }
 
 export default NewsAdminDetail
-
-export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: {
-      newsData: await getDataArray('/news'),
-    },
-    revalidate: 1,
-  }
-}
