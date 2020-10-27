@@ -18,15 +18,16 @@ interface Props {
 const Card: React.FC<Props> = (props) => {
   return (
     <div className={classes.Card} style={props.styles}>
-      {/* <div
-        className={classes.CardImage}
-        style={{
-          backgroundImage: `url(${props.imageUrl})`,
-          backgroundSize: 'cover',
-        }}
-      /> */}
       <div className={classes.CardImage}>
-        <div style={{ width: '100%', height: '400px' }}>
+        <div
+          style={{
+            width: '100%',
+            height: '400px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           <ShopImage
             size="400px"
             imageUrl={props.imageUrl}

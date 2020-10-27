@@ -11,7 +11,7 @@ import YoutubeIcon from '@components/UI/Icons/YoutubeIcon/YoutubeIcon'
 import AppleIcon from '@components/UI/Icons/AppleIcon/AppleIcon'
 import Video from '@components/UI/Video/Video'
 
-import { getDataItem, getDataArray } from '@services/firebase/admin'
+import { FirebaseAdmin } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import { convertFieldsToParams } from '@utils/helpers'
 
@@ -126,7 +126,9 @@ export default ArtistDetail
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const pid = context.params?.pid as string
-  const artist = await getDataItem<typeDefs.Artist>(`/artists/${pid}`)
+  const fb = new FirebaseAdmin('artistsListsProps')
+  const artist = await fb.getDataItem<typeDefs.Artist>(`/artists/${pid}`)
+  await fb.delete()
   return {
     props: {
       ...artist,
@@ -136,7 +138,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const artists = await getDataArray<typeDefs.Artist>('/artists')
+  const fb = new FirebaseAdmin('artistsListsPaths')
+  const artists = await fb.getDataArray<typeDefs.Artist>('/artists')
+  await fb.delete()
   return {
     paths: convertFieldsToParams(['pid'], artists),
     fallback: false,

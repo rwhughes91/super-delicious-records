@@ -19,6 +19,7 @@ interface Props {
   styles?: React.CSSProperties
   onSubmit?: () => void
   noShadow?: boolean
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const AuthForm: React.FC<Props> = (props) => {
@@ -42,6 +43,7 @@ const AuthForm: React.FC<Props> = (props) => {
   const onSubmitHandler = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
+      setError('')
       onSubmit && onSubmit()
       if (isSignUp) {
         signUp(formData.email.value.toString(), formData.password.value.toString()).catch(
@@ -82,17 +84,7 @@ const AuthForm: React.FC<Props> = (props) => {
         />
         {!isSignUp && (
           <button
-            className={classes.Reset}
-            style={{
-              outline: 'none',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              position: 'absolute',
-              top: '28%',
-              right: '5%',
-              zIndex: 10,
-            }}
+            className={[classes.Reset, classes.ForgotPassword].join(' ')}
             type="button"
             onClick={toggleResetPasswordHandler}
           >

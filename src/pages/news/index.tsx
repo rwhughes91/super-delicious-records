@@ -4,7 +4,7 @@ import classes from '@styles/pages/news/News.module.scss'
 import Layout from '@components/Layout/Layout'
 import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import Card from '@components/Card/Card'
-import { getDataArray } from '@services/firebase/admin'
+import { FirebaseAdmin } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import { extractFields } from '@utils/helpers'
 
@@ -41,7 +41,9 @@ const News: React.FC<Props> = (props) => {
 export default News
 
 export const getStaticProps: GetStaticProps = async () => {
-  const news = await getDataArray<typeDefs.NewsItem>('/news')
+  const fb = new FirebaseAdmin('news')
+  const news = await fb.getDataArray<typeDefs.NewsItem>('/news')
+  await fb.delete()
   return {
     props: {
       cards: extractFields(['pid', 'title', 'imageUrl', 'date', 'imageSetUrl'], news),

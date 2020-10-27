@@ -27,6 +27,7 @@ $container-border-width: 22rem;
   animation: slideIn 0.25s ease-in;
 
   &:before {
+    align-self: center;
     content: '';
     position: absolute;
     top: 0;

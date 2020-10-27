@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next'
 import Layout from '@components/Layout/Layout'
 import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import Calendar from '@components/Calendar/Calendar'
-import { getDataArray } from '@services/firebase/admin'
+import { FirebaseAdmin } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 
 export interface Event extends Omit<typeDefs.Event, 'date' | 'endDate'> {
@@ -39,7 +39,9 @@ const Events: React.FC<Props> = (props) => {
 export default Events
 
 export const getStaticProps: GetStaticProps = async () => {
-  const events = await getDataArray<typeDefs.Event>('/events')
+  const fb = new FirebaseAdmin('events')
+  const events = await fb.getDataArray<typeDefs.Event>('/events')
+  await fb.delete()
   return {
     props: {
       events,

@@ -12,7 +12,7 @@ import ProductDescription from '@components/Shop/ProductDescription/ProductDescr
 import Dropdown from '@components/UI/Inputs/Dropdown/Dropdown'
 import FormButton from '@components/UI/Buttons/FormButton/FormButton'
 import { Props as InputProps, inputTypes } from '@components/UI/Inputs/Input/Input'
-import { getDataItem, getDataArray, getChildrenEqualTo } from '@services/firebase/admin'
+import { FirebaseAdmin } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import { convertFieldsToParams } from '@utils/helpers'
 import { CartContext } from '@context/CartProvider'
@@ -270,9 +270,15 @@ function generateQtyOptions() {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  const fb = new FirebaseAdmin('shopProps')
   const pid = context.params?.pid
-  const shopItem = await getDataItem<typeDefs.ShopItem>(`/shop/${pid}`)
-  const relatedProducts = await getChildrenEqualTo<typeDefs.ShopItem>('/shop', 'tag', shopItem.tag)
+  const shopItem = await fb.getDataItem<typeDefs.ShopItem>(`/shop/${pid}`)
+  const relatedProducts = await fb.getChildrenEqualTo<typeDefs.ShopItem>(
+    '/shop',
+    'tag',
+    shopItem.tag
+  )
+  await fb.delete()
   const relatedProductsTrimmed = []
   for (const relatedProduct of relatedProducts) {
     if (relatedProduct.pid !== shopItem.pid) {
@@ -294,7 +300,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const shop = await getDataArray<typeDefs.ShopItem>('/shop')
+  const fb = new FirebaseAdmin('shopPaths')
+  const shop = await fb.getDataArray<typeDefs.ShopItem>('/shop')
+  await fb.delete()
   return {
     paths: convertFieldsToParams(['pid'], shop),
     fallback: false,

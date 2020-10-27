@@ -25,20 +25,40 @@ const ShopImage: React.FC<Props> = (props) => {
       placeholder={props.imageSetUrl.split(' ')[0]}
     >
       {(src: string, _: boolean, srcSetData: { srcSet: string; sizes: string }) => (
-        <img
-          src={src}
-          srcSet={srcSetData.srcSet}
-          alt={props.alt}
-          style={{
-            ...props.styles,
-            width: props.fixed ? props.size : '100%',
-            maxWidth: props.size,
-            height: '100%',
-          }}
-          sizes={srcSetData.sizes}
-          onError={addDefaultSrc}
-          draggable="false"
-        />
+        <div
+          style={{ width: props.fixed ? props.size : '100%', maxWidth: props.size, height: '100%' }}
+        >
+          <img
+            src={src}
+            srcSet={srcSetData.srcSet}
+            alt={props.alt}
+            style={{
+              ...props.styles,
+              width: props.fixed ? props.size : '100%',
+              maxWidth: props.size,
+              height: '100%',
+            }}
+            sizes={srcSetData.sizes}
+            onError={addDefaultSrc}
+            draggable="false"
+          />
+          <noscript>
+            <img
+              src={src}
+              srcSet={srcSetData.srcSet}
+              alt={props.alt}
+              style={{
+                ...props.styles,
+                width: props.fixed ? props.size : '100%',
+                maxWidth: props.size,
+                height: '100%',
+              }}
+              sizes={srcSetData.sizes}
+              onError={addDefaultSrc}
+              draggable="false"
+            />
+          </noscript>
+        </div>
       )}
     </ProgressiveImage>
   )

@@ -11,5 +11,4 @@ export default async function (request: NextApiRequest, response: NextApiRespons
   } catch (error) {
     return response.status(500).json({ message: 'Could not send email' })
   }
-  response.status(200).json({ message: 'done' })
 }

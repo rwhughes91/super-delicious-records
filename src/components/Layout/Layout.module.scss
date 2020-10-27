@@ -7,7 +7,7 @@
 
 .Content {
   flex: 1;
-  padding-bottom: 10rem;
+  padding-bottom: 150px;
 }
 
 .Footer {
@@ -17,6 +17,6 @@
 @media (min-width: 56.25em) {
   .Main {
     margin-top: 110px;
-    min-height: calc(100vh - 10rem);
+    min-height: calc(100vh - 110px);
   }
 }

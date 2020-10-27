@@ -7,7 +7,7 @@ import Image from '@components/UI/Image/Image'
 import Button from '@components/UI/Buttons/Button/Button'
 import TertiaryHeader from '@components/UI/Headers/TertiaryHeader/TertiaryHeader'
 import Link from 'next/link'
-import { getDataArray } from '@services/firebase/admin'
+import { FirebaseAdmin } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import { extractFields } from '@utils/helpers'
 
@@ -62,7 +62,9 @@ const Artists: React.FC<Props> = (props) => {
 export default Artists
 
 export const getStaticProps: GetStaticProps = async () => {
-  const artists = await getDataArray<typeDefs.Artist>('/artists')
+  const fb = new FirebaseAdmin('artists')
+  const artists = await fb.getDataArray<typeDefs.Artist>('/artists')
+  await fb.delete()
   return {
     props: {
       artists: extractFields(

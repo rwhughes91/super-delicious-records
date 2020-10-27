@@ -8,7 +8,7 @@ import ShopItem from '../../components/Shop/ShopItem/ShopItem'
 import Dropdown from '../../components/UI/Inputs/Dropdown/Dropdown'
 import { Props as InputProps, inputTypes } from '../../components/UI/Inputs/Input/Input'
 import { cloneDeep } from 'lodash'
-import { getDataArray } from '@services/firebase/admin'
+import { FirebaseAdmin } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import TextBody from '@components/UI/TextBody/TextBody'
 
@@ -145,12 +145,14 @@ const formControls: FormControls = {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const artists = await getDataArray<typeDefs.Artist>('/artists')
+  const fb = new FirebaseAdmin('shop')
+  const artists = await fb.getDataArray<typeDefs.Artist>('/artists')
   const uniqueArtists: string[] = []
   for (const artist of artists) {
     uniqueArtists.push(artist.name)
   }
-  const shop = await getDataArray<typeDefs.ShopItem>('/shop')
+  const shop = await fb.getDataArray<typeDefs.ShopItem>('/shop')
+  await fb.delete()
   const shopItems = []
   for (const shopItem of shop) {
     shopItems.push({

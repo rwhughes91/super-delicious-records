@@ -6,7 +6,7 @@ import Text from '@components/UI/Text/Text'
 import SecondaryHeader from '@components/UI/Headers/SecondaryHeader/SecondaryHeader'
 import Button from '@components/UI/Buttons/Button/Button'
 import Video from '@components/UI/Video/Video'
-import { getDataItem, getDataArray } from '@services/firebase/admin'
+import { FirebaseAdmin } from '@services/firebase/admin'
 import * as typeDefs from '@generated/graphql'
 import { convertFieldsToParams } from '@utils/helpers'
 import ShopImage from '@components/Shop/ShopImage/ShopImage'
@@ -69,8 +69,10 @@ const NewsItemDetail: React.FC<Props> = (props) => {
 export default NewsItemDetail
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  const fb = new FirebaseAdmin('newsProps')
   const pid = context.params?.pid as string
-  const newsItem = await getDataItem<typeDefs.NewsItem>(`/news/${pid}`)
+  const newsItem = await fb.getDataItem<typeDefs.NewsItem>(`/news/${pid}`)
+  await fb.delete()
   return {
     props: {
       ...newsItem,
@@ -80,7 +82,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const news = await getDataArray<typeDefs.NewsItem>('/news')
+  const fb = new FirebaseAdmin('newsPaths')
+  const news = await fb.getDataArray<typeDefs.NewsItem>('/news')
+  await fb.delete()
   return {
     paths: convertFieldsToParams(['pid'], news),
     fallback: false,
