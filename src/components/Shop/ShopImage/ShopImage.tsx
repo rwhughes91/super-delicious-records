@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import ProgressiveImage from 'react-progressive-image'
+import React, { useCallback, useState, useRef, useEffect } from 'react'
+import classes from './ShopImage.module.scss'
 
 export interface Props {
   size: string
@@ -11,60 +11,61 @@ export interface Props {
 }
 
 const ShopImage: React.FC<Props> = (props) => {
+  const [loaded, setLoaded] = useState(false)
+  const imgRef = useRef<HTMLImageElement | null>(null)
+
   const addDefaultSrc = useCallback((event) => {
     event.target.src = '/images/sdr-logo-primary.png'
   }, [])
 
+  const onLoadHandler = useCallback(() => {
+    setLoaded(true)
+  }, [])
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      if (!loaded) {
+        setLoaded(true)
+      }
+    }
+  }, [loaded])
+
   return (
-    <ProgressiveImage
-      src={props.imageUrl}
-      srcSetData={{
-        srcSet: props.imageSetUrl,
-        sizes: props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`,
-      }}
-      placeholder={props.imageSetUrl.split(' ')[0]}
-    >
-      {(src: string, loading: boolean, srcSetData: { srcSet: string; sizes: string }) => (
-        <div
-          style={{
-            width: props.fixed ? props.size : '100%',
-            maxWidth: props.size,
-            height: loading ? props.size : '100%',
-          }}
-        >
-          <img
-            src={src}
-            srcSet={srcSetData.srcSet}
-            alt={props.alt}
-            style={{
-              ...props.styles,
-              width: props.fixed ? props.size : '100%',
-              maxWidth: props.size,
-              height: '100%',
-            }}
-            sizes={srcSetData.sizes}
-            onError={addDefaultSrc}
-            draggable="false"
-          />
-          <noscript>
-            <img
-              src={src}
-              srcSet={srcSetData.srcSet}
-              alt={props.alt}
-              style={{
-                ...props.styles,
-                width: props.fixed ? props.size : '100%',
-                maxWidth: props.size,
-                height: '100%',
-              }}
-              sizes={srcSetData.sizes}
-              onError={addDefaultSrc}
-              draggable="false"
-            />
-          </noscript>
-        </div>
-      )}
-    </ProgressiveImage>
+    <div className={classes.ImageContainer}>
+      <img
+        className={classes.Image}
+        onLoad={onLoadHandler}
+        onError={addDefaultSrc}
+        src={props.imageUrl}
+        srcSet={props.imageSetUrl}
+        alt={props.alt}
+        sizes={props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`}
+        draggable="false"
+        style={{
+          ...props.styles,
+          width: props.fixed ? props.size : '100%',
+          maxWidth: props.size,
+          height: '100%',
+          opacity: loaded ? 1 : 0,
+        }}
+        ref={imgRef}
+      />
+      <img
+        className={[classes.BlurredImage].join(' ')}
+        src={props.imageSetUrl.split(', ')[0].split(' ')[0]}
+        alt={`Blurred ${props.alt}`}
+        sizes={props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`}
+        onError={addDefaultSrc}
+        draggable="false"
+        style={{
+          ...props.styles,
+          width: props.fixed ? props.size : '100%',
+          maxWidth: props.size,
+          height: '100%',
+          opacity: loaded ? 0 : 1,
+        }}
+      />
+    </div>
   )
 }
 

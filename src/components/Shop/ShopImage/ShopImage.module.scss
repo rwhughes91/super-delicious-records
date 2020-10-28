@@ -1,28 +1,10 @@
-// $base: var(--tan-white-color);
-// $shim: rgba(123, 105, 145, 0.15);
+.ImageContainer {
+  position: relative;
+}
 
-// .Shine {
-//   background: $base;
-//   border-radius: 10px;
-//   background-image: linear-gradient(to right, $base 0%, $shim 20%, $base 40%, $base 100%);
-//   background-repeat: no-repeat;
-//   background-size: 300% 100%;
-//   display: inline-block;
-//   position: relative;
-//   animation: placeholderShimmer 1s linear infinite forwards;
-// }
-
-// .Shine {
-//   border-radius: 5px;
-//   background-color: var(--light-gray-color);
-// }
-
-// @keyframes placeholderShimmer {
-//   0% {
-//     background-position: -450px 0;
-//   }
-
-//   100% {
-//     background-position: 450px 0;
-//   }
-// }
+.BlurredImage {
+  filter: blur(5px);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
