@@ -24,9 +24,13 @@ const ShopImage: React.FC<Props> = (props) => {
       }}
       placeholder={props.imageSetUrl.split(' ')[0]}
     >
-      {(src: string, _: boolean, srcSetData: { srcSet: string; sizes: string }) => (
+      {(src: string, loading: boolean, srcSetData: { srcSet: string; sizes: string }) => (
         <div
-          style={{ width: props.fixed ? props.size : '100%', maxWidth: props.size, height: '100%' }}
+          style={{
+            width: props.fixed ? props.size : '100%',
+            maxWidth: props.size,
+            height: loading ? props.size : '100%',
+          }}
         >
           <img
             src={src}
