@@ -53,10 +53,6 @@ const ShopImage: React.FC<Props> = (props) => {
         }}
         ref={imgRef}
       />
-      <div
-        className={[classes.ImageTrace, classes.Relative].join(' ')}
-        style={{ opacity: loaded ? 0 : 1 }}
-      />
       <img
         className={[classes.BlurredImage, classes.Relative].join(' ')}
         src={props.imageSetUrl.split(', ')[0].split(' ')[0]}

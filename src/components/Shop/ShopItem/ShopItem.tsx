@@ -13,8 +13,9 @@ interface Props extends Pick<typeDefs.ShopItem, 'pid' | 'name' | 'price'> {
 
 const ShopItem: React.FC<Props> = (props) => {
   const size = props.size ?? '300px'
+
   const output = (
-    <div className={classes.ShopItem}>
+    <div className={classes.ShopItem} style={{ minHeight: size }}>
       <ShopImage
         imageUrl={props.image.imageUrl}
         imageSetUrl={props.image.imageSetUrl}
