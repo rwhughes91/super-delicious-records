@@ -25,7 +25,13 @@ const Image: React.FC<Props> = (props) => {
         {props.label}
       </span>
       <div className={classes.Image}>
-        <ShopImage size="100%" imageUrl={props.src} imageSetUrl={props.srcSet} alt={props.alt} />
+        <ShopImage
+          size="100%"
+          imageUrl={props.src}
+          imageSetUrl={props.srcSet}
+          alt={props.alt}
+          height="100%"
+        />
       </div>
     </div>
   )

@@ -8,6 +8,7 @@ export interface Props {
   alt: string
   fixed?: boolean
   styles?: React.CSSProperties
+  height?: string
 }
 
 const ShopImage: React.FC<Props> = (props) => {
@@ -31,7 +32,10 @@ const ShopImage: React.FC<Props> = (props) => {
   }, [loaded])
 
   return (
-    <div className={classes.ImageContainer}>
+    <div
+      className={classes.ImageContainer}
+      style={{ height: props.height ? props.height : 'auto' }}
+    >
       <img
         className={classes.Image}
         onLoad={onLoadHandler}
@@ -45,13 +49,16 @@ const ShopImage: React.FC<Props> = (props) => {
           ...props.styles,
           width: props.fixed ? props.size : '100%',
           maxWidth: props.size,
-          height: '100%',
           opacity: loaded ? 1 : 0,
         }}
         ref={imgRef}
       />
+      <div
+        className={[classes.ImageTrace, classes.Relative].join(' ')}
+        style={{ opacity: loaded ? 0 : 1 }}
+      />
       <img
-        className={[classes.BlurredImage].join(' ')}
+        className={[classes.BlurredImage, classes.Relative].join(' ')}
         src={props.imageSetUrl.split(', ')[0].split(' ')[0]}
         alt={`Blurred ${props.alt}`}
         sizes={props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`}
