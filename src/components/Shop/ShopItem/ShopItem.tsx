@@ -1,6 +1,5 @@
 import React from 'react'
 import classes from './ShopItem.module.scss'
-import Link from 'next/link'
 import ShopImage from '../ShopImage/ShopImage'
 import * as typeDefs from '@generated/graphql'
 
