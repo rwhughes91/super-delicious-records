@@ -15,7 +15,7 @@ const ShopItem: React.FC<Props> = (props) => {
   const size = props.size ?? '300px'
 
   const output = (
-    <div className={classes.ShopItem} style={{ minHeight: size }}>
+    <div className={classes.ShopItem}>
       <ShopImage
         imageUrl={props.image.imageUrl}
         imageSetUrl={props.image.imageSetUrl}
