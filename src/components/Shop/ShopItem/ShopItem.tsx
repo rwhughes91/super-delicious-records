@@ -15,7 +15,7 @@ const ShopItem: React.FC<Props> = (props) => {
   const size = props.size ?? '300px'
 
   const output = (
-    <div className={classes.ShopItem}>
+    <div className={classes.ShopItem} style={{ minHeight: size }}>
       <ShopImage
         imageUrl={props.image.imageUrl}
         imageSetUrl={props.image.imageSetUrl}
@@ -30,9 +30,11 @@ const ShopItem: React.FC<Props> = (props) => {
     </div>
   )
   return !props.related ? (
-    <Link href="/shop/[pid]" as={`/shop/${props.pid}`}>
-      {output}
-    </Link>
+    <div>
+      <a className={classes.ShopItemLink} href={`/shop/${props.pid}`}>
+        {output}
+      </a>
+    </div>
   ) : (
     <a className={classes.ShopItemLink} href={`/shop/${props.pid}`}>
       {output}
