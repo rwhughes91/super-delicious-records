@@ -9,7 +9,7 @@ import * as typeDefs from '@generated/graphql'
 import { extractFields } from '@utils/helpers'
 
 interface Props {
-  cards: Pick<typeDefs.NewsItem, 'pid' | 'title' | 'imageUrl' | 'imageSetUrl' | 'date'>[]
+  cards: Pick<typeDefs.NewsItem, 'pid' | 'title' | 'imageUrl' | 'imageSetUrl' | 'date' | 'base64'>[]
 }
 
 const News: React.FC<Props> = (props) => {
@@ -27,6 +27,7 @@ const News: React.FC<Props> = (props) => {
               title={card.title}
               imageUrl={card.imageUrl}
               imageSetUrl={card.imageSetUrl}
+              base64={card.base64}
               href="/news/[pid]/"
               as={`/news/${card.pid}`}
               date={card.date}
@@ -46,7 +47,7 @@ export const getStaticProps: GetStaticProps = async () => {
   await fb.delete()
   return {
     props: {
-      cards: extractFields(['pid', 'title', 'imageUrl', 'date', 'imageSetUrl'], news),
+      cards: extractFields(['pid', 'title', 'imageUrl', 'date', 'imageSetUrl', 'base64'], news),
     },
     revalidate: 1,
   }

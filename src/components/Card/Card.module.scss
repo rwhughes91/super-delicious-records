@@ -11,7 +11,7 @@ $card-height: 40rem;
   width: $card-width;
   height: $card-height;
   margin: 1rem;
-  transition: transform 0.2s;
+  transition: box-shadow 0.2s;
   position: relative;
 }
 
@@ -68,11 +68,17 @@ $card-height: 40rem;
   border-radius: 1px;
 }
 
+.noFlicker {
+  transform: scale(1) translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 @media (min-width: 56.26em) {
   .Card {
     &:hover,
     &:focus {
-      transform: translateY(-0.2rem);
+      box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
     }
   }
 }

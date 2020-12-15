@@ -29,6 +29,7 @@ const NewsItemDetail: React.FC<Props> = (props) => {
                 imageUrl={props.imageUrl}
                 imageSetUrl={props.imageSetUrl}
                 alt={props.shortTitle}
+                base64={props.base64}
               />
             </div>
             <div className={classes.TextContainer}>

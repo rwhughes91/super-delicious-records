@@ -7,6 +7,7 @@ interface Props {
   title: string
   imageUrl: string
   imageSetUrl: string
+  base64?: string
   href?: string
   as?: string
   icons?: JSX.Element[]
@@ -32,14 +33,15 @@ const Card: React.FC<Props> = (props) => {
             size="400px"
             imageUrl={props.imageUrl}
             imageSetUrl={props.imageSetUrl}
+            base64={props.base64}
             alt={props.title}
           />
         </div>
       </div>
-      <div className={classes.Date}>
+      <div className={[classes.Date].join(' ')}>
         {props.date.length > 4 ? new Date(props.date).toLocaleDateString() : props.date}
       </div>
-      <div className={classes.Container}>
+      <div className={[classes.Container, classes.noFlicker].join(' ')}>
         <div className={classes.CardTitle}>
           <span>{props.title}</span>
         </div>
