@@ -78,7 +78,7 @@ $card-height: 40rem;
   .Card {
     &:hover,
     &:focus {
-      box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+      box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.35);
     }
   }
 }
