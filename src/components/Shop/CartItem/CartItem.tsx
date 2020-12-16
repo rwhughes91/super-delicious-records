@@ -92,6 +92,7 @@ const CartItem: React.FC<Props> = (props) => {
           size="100%"
           imageUrl={props.shopItem.images[0].imageUrl}
           imageSetUrl={props.shopItem.images[0].imageSetUrl}
+          base64={props.shopItem.images[0].base64}
           alt={props.shopItem.images[0].alt}
           styles={{ width: '100%', height: '100%' }}
         />

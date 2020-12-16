@@ -14,13 +14,14 @@ export interface Props {
 }
 
 const ShopImage: React.FC<Props> = (props) => {
+  const fallbackImageUrl = '/images/sdr-logo-primary.png'
   const addDefaultSrc = useCallback((event) => {
-    event.target.src = '/images/sdr-logo-primary.png'
+    event.target.src = fallbackImageUrl
   }, [])
 
   const placeholder = (
     <img
-      src={`data:image/png;base64, ${props.base64}`}
+      src={props.base64 ? `data:image/png;base64, ${props.base64}` : fallbackImageUrl}
       sizes={props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`}
       alt={props.alt}
       draggable={false}
@@ -37,7 +38,7 @@ const ShopImage: React.FC<Props> = (props) => {
 
   return (
     <ProgressiveImage
-      src={props.imageUrl}
+      src={props.imageUrl ? props.imageUrl : fallbackImageUrl}
       srcSetData={{
         srcSet: props.imageSetUrl,
         sizes: props.fixed ? props.size : `(max-width: ${props.size}) 100vw, ${props.size}`,
