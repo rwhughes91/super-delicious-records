@@ -51,6 +51,7 @@ export default async function (request: NextApiRequest, response: NextApiRespons
                 {
                   imageUrl: '',
                   imageSetUrl: '',
+                  base64: '',
                   alt: '',
                   color: product.metadata.color,
                 },
