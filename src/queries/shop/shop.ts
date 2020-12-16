@@ -9,6 +9,7 @@ export const GET_SHOP_ITEM = gql`
       images {
         imageUrl
         imageSetUrl
+        base64
         alt
         color
       }

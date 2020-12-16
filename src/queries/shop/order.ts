@@ -17,6 +17,7 @@ export const GET_ORDERS = gql`
           images {
             imageUrl
             imageSetUrl
+            base64
             alt
             color
           }

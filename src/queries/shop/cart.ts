@@ -14,6 +14,7 @@ export const GET_CART = gql`
         images {
           imageUrl
           imageSetUrl
+          base64
           alt
           color
         }

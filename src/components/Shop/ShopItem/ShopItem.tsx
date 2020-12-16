@@ -18,6 +18,7 @@ const ShopItem: React.FC<Props> = (props) => {
       <ShopImage
         imageUrl={props.image.imageUrl}
         imageSetUrl={props.image.imageSetUrl}
+        base64={props.image.base64}
         size={size}
         alt={props.image.alt}
         fixed={props.fixed}

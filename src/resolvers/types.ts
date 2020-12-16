@@ -37,6 +37,9 @@ export class ShopImage {
   imageSetUrl!: string
 
   @Field()
+  base64!: string
+
+  @Field()
   alt!: string
 
   @Field({ nullable: true })
@@ -50,6 +53,9 @@ export class ShopImageInput implements Partial<ShopImage> {
 
   @Field()
   imageSetUrl!: string
+
+  @Field()
+  base64!: string
 
   @Field()
   alt!: string

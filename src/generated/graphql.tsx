@@ -169,6 +169,7 @@ export type ShopImage = {
   __typename?: 'ShopImage';
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   alt: Scalars['String'];
   color?: Maybe<Scalars['String']>;
 };
@@ -399,6 +400,7 @@ export type ShopItemInput = {
 export type ShopImageInput = {
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   alt: Scalars['String'];
   color?: Maybe<Scalars['String']>;
 };
@@ -646,7 +648,7 @@ export type GetCartQuery = (
       & Pick<ShopItemTrimmed, 'name' | 'price'>
       & { images: Array<(
         { __typename?: 'ShopImage' }
-        & Pick<ShopImage, 'imageUrl' | 'imageSetUrl' | 'alt' | 'color'>
+        & Pick<ShopImage, 'imageUrl' | 'imageSetUrl' | 'base64' | 'alt' | 'color'>
       )> }
     ) }
   )> }
@@ -698,7 +700,7 @@ export type GetOrdersQuery = (
         & Pick<ShopItemTrimmed, 'name'>
         & { images: Array<(
           { __typename?: 'ShopImage' }
-          & Pick<ShopImage, 'imageUrl' | 'imageSetUrl' | 'alt' | 'color'>
+          & Pick<ShopImage, 'imageUrl' | 'imageSetUrl' | 'base64' | 'alt' | 'color'>
         )> }
       ) }
     )> }
@@ -727,7 +729,7 @@ export type GetShopItemQuery = (
     & Pick<ShopItem, 'pid' | 'name' | 'price' | 'description' | 'qtyAvailable' | 'tag' | 'moreInfo' | 'weight' | 'colors'>
     & { images: Array<(
       { __typename?: 'ShopImage' }
-      & Pick<ShopImage, 'imageUrl' | 'imageSetUrl' | 'alt' | 'color'>
+      & Pick<ShopImage, 'imageUrl' | 'imageSetUrl' | 'base64' | 'alt' | 'color'>
     )> }
   ) }
 );
