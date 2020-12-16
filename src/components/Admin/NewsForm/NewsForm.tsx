@@ -38,7 +38,7 @@ enum linkHeaders {
   BTNTEXT = 'Button Text',
 }
 
-type SingleInputs = 'title' | 'shortTitle' | 'imageUrl' | 'date' | 'imageSetUrl'
+type SingleInputs = 'title' | 'shortTitle' | 'imageUrl' | 'date' | 'imageSetUrl' | 'base64'
 
 const singleInputKeys: SingleInputs[] = ['title', 'shortTitle', 'imageUrl', 'imageSetUrl', 'date']
 
@@ -157,6 +157,7 @@ const NewsForm: React.FC<Props> = (props) => {
       shortTitle: singleInputsState.shortTitle.value as string,
       imageUrl: singleInputsState.imageUrl.value as string,
       imageSetUrl: singleInputsState.imageSetUrl.value as string,
+      base64: singleInputState.base64.value as string,
       date: singleInputsState.date.value as string,
       description: descriptions,
       videos,
@@ -356,6 +357,19 @@ const mainInputsConfig: State<Pick<typeDefs.NewsItem, SingleInputs>> = {
     required: true,
     elementConfig: {
       placeholder: 'Image Set URL',
+      type: 'text',
+    },
+  },
+  base64: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Base64',
+    required: true,
+    elementConfig: {
+      placeholder: 'base64',
       type: 'text',
     },
   },

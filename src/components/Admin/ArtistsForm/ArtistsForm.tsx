@@ -23,7 +23,7 @@ interface Props {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type SingleInputs = 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'
+type SingleInputs = 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide' | 'base64'
 
 const singleInputKeys: SingleInputs[] = ['name', 'website', 'imageUrl', 'imageSetUrl', 'labelSide']
 
@@ -44,6 +44,7 @@ enum bandMemberHeaders {
   IMAGE = 'Image',
   IMAGESET = 'Image Set Url',
   INSTRUMENT = 'Instrument',
+  BASE64 = 'Base64',
 }
 
 enum videoHeaders {
@@ -56,6 +57,7 @@ enum albumHeaders {
   YEAR = 'Year',
   IMAGE = 'Image',
   IMAGESET = 'Image Set Url',
+  BASE64 = 'Base64',
 }
 
 enum albumLinksHeaders {
@@ -74,6 +76,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
         { ...bandMemberConfig.name },
         { ...bandMemberConfig.imageUrl },
         { ...bandMemberConfig.instrument },
+        { ...bandMemberConfig.base64 },
       ],
       sectionHeader: sectionHeaders.MEMBER,
     },
@@ -237,13 +240,17 @@ const ArtistsForm: React.FC<Props> = (props) => {
       const instrument = (bandMemberContainer.value as Field[]).find(
         (item) => item.label === bandMemberHeaders.INSTRUMENT
       )
-      if (name && imageUrl && imageSetUrl && instrument) {
+      const base64 = (bandMemberContainer.value as Field[]).find(
+        (item) => item.label === bandMemberHeaders.BASE64
+      )
+      if (name && imageUrl && imageSetUrl && instrument && base64) {
         if (name.value || imageUrl.value || imageSetUrl.value || instrument?.value) {
           const bandMemberInput = new BandMemberInput(
             name.value as string,
             imageUrl.value as string,
             imageSetUrl.value as string,
-            instrument?.value as string
+            instrument?.value as string,
+            base64.value as string
           )
           bandMemberInput.authenticate()
           bandMembers.push({
@@ -251,6 +258,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
             imageUrl: bandMemberInput.imageUrl,
             imageSetUrl: bandMemberInput.imageSetUrl,
             instrument: bandMemberInput.instrument,
+            base64: bandMemberInput.base64,
           })
         }
       }
@@ -269,6 +277,9 @@ const ArtistsForm: React.FC<Props> = (props) => {
       )
       const imageSetUrl = (albumContainer.value as Field[]).find(
         (item) => item.label === albumHeaders.IMAGESET
+      )
+      const base64 = (albumContainer.value as Field[]).find(
+        (item) => item.label === albumHeaders.BASE64
       )
       const albumLinks = (albumContainer.value as Field[]).find(
         (item) => item.sectionHeader === 'Album Links'
@@ -301,7 +312,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
           )
         }
       }
-      if (name && year && imageUrl && imageSetUrl && albumLinkInput) {
+      if (name && year && imageUrl && imageSetUrl && albumLinkInput && base64) {
         if (name.value || year.value || imageUrl.value || albumLinksPayload.filledValues) {
           albumLinkInput?.authenticate()
           const albumInput = new AlbumInput(
@@ -309,6 +320,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
             parseFloat(year.value as string),
             imageUrl.value as string,
             imageSetUrl.value as string,
+            base64.value as string,
             albumLinkInput
           )
           albumInput.authenticate()
@@ -317,6 +329,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
             year: albumInput.year,
             imageUrl: albumInput.imageUrl,
             imageSetUrl: albumInput.imageSetUrl,
+            base64: albumInput.base64,
             links: {
               website: albumInput.links.website,
               spotify: albumInput.links.spotify,
@@ -348,6 +361,7 @@ const ArtistsForm: React.FC<Props> = (props) => {
       website: singleInputsState.website.value as string,
       imageUrl: singleInputsState.imageUrl.value as string,
       imageSetUrl: singleInputsState.imageSetUrl.value as string,
+      base64: singleInputState.base64.value as string,
       labelSide: singleInputsState.labelSide.value as typeDefs.LabelSide,
       introduction,
       bandMembers: bandMembers,
@@ -560,6 +574,19 @@ const albumConfig: State<Omit<typeDefs.AlbumInput, 'links'>> = {
       type: 'text',
     },
   },
+  base64: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Base64',
+    required: true,
+    elementConfig: {
+      placeholder: 'base64',
+      type: 'text',
+    },
+  },
 }
 
 const videoConfig: State<typeDefs.VideoInput> = {
@@ -660,6 +687,19 @@ const bandMemberConfig: State<Required<typeDefs.BandMemberInput>> = {
       type: 'text',
     },
   },
+  base64: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Base64',
+    required: true,
+    elementConfig: {
+      placeholder: 'base64',
+      type: 'text',
+    },
+  },
   instrument: {
     value: '',
     type: types.INPUT,
@@ -727,6 +767,19 @@ const mainInputsConfig = {
       type: 'text',
     },
   },
+  base64: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: 'Base64',
+    required: true,
+    elementConfig: {
+      placeholder: 'base64',
+      type: 'text',
+    },
+  },
   labelSide: {
     value: '',
     type: types.SELECT,
@@ -753,6 +806,7 @@ class BandMemberInput extends Authenticator implements typeDefs.BandMemberInput 
     public name: string,
     public imageUrl: string,
     public imageSetUrl: string,
+    public base64: string,
     public instrument?: string
   ) {
     super()
@@ -767,6 +821,7 @@ class AlbumInput extends Authenticator implements typeDefs.AlbumInput {
     public year: number,
     public imageUrl: string,
     public imageSetUrl: string,
+    public base64: string,
     public links: typeDefs.AlbumLink
   ) {
     super()

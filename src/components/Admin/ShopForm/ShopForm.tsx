@@ -46,6 +46,7 @@ const singleInputKeys: SingleInputs[] = [
 enum shopImageInputHeaders {
   IMAGE = 'Image URL',
   IMAGESET = 'Image Set URL',
+  BASE64 = 'Base 64',
   ALT = 'Alt',
   COLOR = 'Color',
 }
@@ -57,6 +58,7 @@ const ShopForm: React.FC<Props> = (props) => {
       value: [
         { ...imageConfig.imageUrl },
         { ...imageConfig.imageSetUrl },
+        { ...imageConfig.base64 },
         { ...imageConfig.alt },
         { ...imageConfig.color },
       ],
@@ -93,13 +95,16 @@ const ShopForm: React.FC<Props> = (props) => {
       const imageSetUrl = (imageContainer.value as Field[]).find(
         (item) => item.label === shopImageInputHeaders.IMAGESET
       )
+      const base64 = (imageContainer.value as Field[]).find(
+        (item) => item.label === shopImageInputHeaders.BASE64
+      )
       const alt = (imageContainer.value as Field[]).find(
         (item) => item.label === shopImageInputHeaders.ALT
       )
       const color = (imageContainer.value as Field[]).find(
         (item) => item.label === shopImageInputHeaders.COLOR
       )
-      if (imageUrl && imageSetUrl && alt && color) {
+      if (imageUrl && imageSetUrl && alt && color && base64) {
         if (color.value) {
           colors.push(color.value as string)
         }
@@ -107,6 +112,7 @@ const ShopForm: React.FC<Props> = (props) => {
           const shopImageInput = new ShopImageInput(
             imageUrl.value as string,
             imageSetUrl.value as string,
+            base64.value as string,
             alt.value as string,
             color?.value as string
           )
@@ -114,6 +120,7 @@ const ShopForm: React.FC<Props> = (props) => {
           images.push({
             imageUrl: shopImageInput.imageUrl,
             imageSetUrl: shopImageInput.imageSetUrl,
+            base64: shopImageInput.base64,
             alt: shopImageInput.alt,
             color: shopImageInput.color,
           })
@@ -142,6 +149,7 @@ const ShopForm: React.FC<Props> = (props) => {
         value: [
           { ...imageConfig.imageUrl },
           { ...imageConfig.imageSetUrl },
+          { ...imageConfig.base64 },
           { ...imageConfig.alt },
           { ...imageConfig.color },
         ],
@@ -193,6 +201,19 @@ const imageConfig: State<Required<typeDefs.ShopImageInput>> = {
     warning: 'true',
     elementConfig: {
       placeholder: 'Src',
+      type: 'text',
+    },
+  },
+  base64: {
+    value: '',
+    type: types.INPUT,
+    invalid: false,
+    touched: false,
+    errorMessage: '',
+    label: shopImageInputHeaders.BASE64,
+    warning: 'true',
+    elementConfig: {
+      placeholder: 'base64',
       type: 'text',
     },
   },
@@ -326,6 +347,7 @@ export class ShopImageInput extends Authenticator implements typeDefs.ShopImageI
   constructor(
     public imageUrl: string,
     public imageSetUrl: string,
+    public base64: string,
     public alt: string,
     public color?: string
   ) {
