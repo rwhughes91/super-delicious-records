@@ -12,6 +12,7 @@ interface Props {
   labelStyles?: React.CSSProperties
   labelSide?: 'left' | 'right' | typeDefs.LabelSide | null
   styles?: React.CSSProperties
+  base64?: string
 }
 
 const Image: React.FC<Props> = (props) => {
@@ -31,6 +32,7 @@ const Image: React.FC<Props> = (props) => {
           imageSetUrl={props.srcSet}
           alt={props.alt}
           height="100%"
+          base64={props.base64}
         />
       </div>
     </div>

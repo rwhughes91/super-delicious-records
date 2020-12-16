@@ -48,23 +48,21 @@ const ShopImage: React.FC<Props> = (props) => {
         return loading ? (
           placeholder
         ) : (
-          <>
-            <img
-              src={src}
-              srcSet={srcSetData.srcSet}
-              sizes={srcSetData.sizes}
-              alt={props.alt}
-              draggable={false}
-              style={{
-                ...props.styles,
-                width: props.fixed ? props.size : '100%',
-                maxWidth: props.size,
-                height: '100%',
-              }}
-              onError={addDefaultSrc}
-              className={classes.main}
-            />
-          </>
+          <img
+            src={src}
+            srcSet={srcSetData.srcSet}
+            sizes={srcSetData.sizes}
+            alt={props.alt}
+            draggable={false}
+            style={{
+              ...props.styles,
+              width: props.fixed ? props.size : '100%',
+              maxWidth: props.size,
+              height: '100%',
+            }}
+            onError={addDefaultSrc}
+            className={classes.main}
+          />
         )
       }}
     </ProgressiveImage>

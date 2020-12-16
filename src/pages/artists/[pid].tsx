@@ -36,6 +36,7 @@ const ArtistDetail: React.FC<Props> = (props) => {
               width="100%"
               src={props.imageUrl}
               srcSet={props.imageSetUrl}
+              base64={props.base64}
               alt={`${props.name}'s' image`}
               label={[
                 <div key={props.name}>
@@ -61,6 +62,7 @@ const ArtistDetail: React.FC<Props> = (props) => {
                         width="100%"
                         src={member.imageUrl}
                         srcSet={member.imageSetUrl}
+                        base64={member.base64}
                         alt={member.name}
                         label={member.name}
                         styles={{ cursor: 'auto' }}
@@ -83,6 +85,7 @@ const ArtistDetail: React.FC<Props> = (props) => {
                       title={album.name}
                       imageUrl={album.imageUrl}
                       imageSetUrl={album.imageSetUrl}
+                      base64={album.base64}
                       date={album.year.toString()}
                       styles={{ height: '35rem' }}
                       icons={[

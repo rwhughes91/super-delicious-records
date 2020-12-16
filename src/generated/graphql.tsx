@@ -87,6 +87,7 @@ export type Artist = {
   website: Scalars['String'];
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   introduction: Intro;
   labelSide?: Maybe<LabelSide>;
   bandMembers?: Maybe<Array<BandMember>>;
@@ -110,6 +111,7 @@ export type BandMember = {
   name: Scalars['String'];
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   instrument?: Maybe<Scalars['String']>;
 };
 
@@ -119,6 +121,7 @@ export type Album = {
   year: Scalars['Int'];
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   links: AlbumLink;
 };
 
@@ -334,6 +337,7 @@ export type ArtistInput = {
   website: Scalars['String'];
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   introduction: IntroInput;
   labelSide?: Maybe<LabelSide>;
   bandMembers?: Maybe<Array<BandMemberInput>>;
@@ -350,6 +354,7 @@ export type BandMemberInput = {
   name: Scalars['String'];
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   instrument?: Maybe<Scalars['String']>;
 };
 
@@ -358,6 +363,7 @@ export type AlbumInput = {
   year: Scalars['Int'];
   imageUrl: Scalars['String'];
   imageSetUrl: Scalars['String'];
+  base64: Scalars['String'];
   links: AlbumLinkInput;
 };
 
@@ -442,13 +448,13 @@ export type GetArtistQuery = (
   { __typename?: 'Query' }
   & { getArtist: (
     { __typename?: 'Artist' }
-    & Pick<Artist, 'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'>
+    & Pick<Artist, 'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'base64' | 'labelSide'>
     & { introduction: (
       { __typename?: 'Intro' }
       & Pick<Intro, 'header' | 'body'>
     ), bandMembers?: Maybe<Array<(
       { __typename?: 'BandMember' }
-      & Pick<BandMember, 'name' | 'imageUrl' | 'imageSetUrl' | 'instrument'>
+      & Pick<BandMember, 'name' | 'imageUrl' | 'imageSetUrl' | 'base64' | 'instrument'>
     )>>, albums?: Maybe<Array<(
       { __typename?: 'Album' }
       & Pick<Album, 'name' | 'year' | 'imageUrl' | 'imageSetUrl'>
@@ -481,16 +487,16 @@ export type GetArtistsQuery = (
   { __typename?: 'Query' }
   & { getArtists: Array<(
     { __typename?: 'Artist' }
-    & Pick<Artist, 'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'>
+    & Pick<Artist, 'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'base64' | 'labelSide'>
     & { introduction: (
       { __typename?: 'Intro' }
       & Pick<Intro, 'header' | 'body'>
     ), bandMembers?: Maybe<Array<(
       { __typename?: 'BandMember' }
-      & Pick<BandMember, 'name' | 'imageUrl' | 'imageSetUrl' | 'instrument'>
+      & Pick<BandMember, 'name' | 'imageUrl' | 'imageSetUrl' | 'base64' | 'instrument'>
     )>>, albums?: Maybe<Array<(
       { __typename?: 'Album' }
-      & Pick<Album, 'name' | 'year' | 'imageUrl' | 'imageSetUrl'>
+      & Pick<Album, 'name' | 'year' | 'imageUrl' | 'imageSetUrl' | 'base64'>
       & { links: (
         { __typename?: 'AlbumLink' }
         & Pick<AlbumLink, 'website' | 'youtube' | 'spotify' | 'soundCloud' | 'appleMusic'>

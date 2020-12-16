@@ -14,7 +14,7 @@ import { extractFields } from '@utils/helpers'
 interface Props {
   artists: Pick<
     typeDefs.Artist,
-    'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide'
+    'pid' | 'name' | 'website' | 'imageUrl' | 'imageSetUrl' | 'labelSide' | 'base64'
   >[]
 }
 
@@ -40,6 +40,7 @@ const Artists: React.FC<Props> = (props) => {
                     styles={{ margin: '1rem' }}
                     label={artist.name}
                     labelSide={artist.labelSide}
+                    base64={artist.base64}
                   />
                 </div>
               </Link>
@@ -68,7 +69,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       artists: extractFields(
-        ['pid', 'name', 'website', 'imageUrl', 'imageSetUrl', 'labelSide'],
+        ['pid', 'name', 'website', 'imageUrl', 'imageSetUrl', 'labelSide', 'base64'],
         artists
       ),
     },

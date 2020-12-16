@@ -48,6 +48,9 @@ class BandMember {
   @Field()
   imageSetUrl!: string
 
+  @Field()
+  base64!: string
+
   @Field({ nullable: true })
   instrument?: string
 }
@@ -84,6 +87,9 @@ class Album {
   @Field()
   imageSetUrl!: string
 
+  @Field()
+  base64!: string
+
   @Field(() => AlbumLink)
   links!: AlbumLink
 }
@@ -104,6 +110,9 @@ class Artist {
 
   @Field()
   imageSetUrl!: string
+
+  @Field()
+  base64!: string
 
   @Field(() => Intro)
   introduction!: Intro
@@ -151,6 +160,9 @@ class BandMemberInput implements Partial<BandMember> {
   @Field()
   imageSetUrl!: string
 
+  @Field()
+  base64!: string
+
   @Field({ nullable: true })
   instrument?: string
 }
@@ -187,6 +199,9 @@ class AlbumInput implements Partial<Album> {
   @Field()
   imageSetUrl!: string
 
+  @Field()
+  base64!: string
+
   @Field(() => AlbumLinkInput)
   links!: AlbumLinkInput
 }
@@ -204,6 +219,9 @@ class ArtistInput implements Partial<Artist> {
 
   @Field()
   imageSetUrl!: string
+
+  @Field()
+  base64!: string
 
   @Field(() => IntroInput)
   introduction!: IntroInput

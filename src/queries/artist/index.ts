@@ -8,6 +8,7 @@ export const GET_ARTIST = gql`
       website
       imageUrl
       imageSetUrl
+      base64
       introduction {
         header
         body
@@ -17,6 +18,7 @@ export const GET_ARTIST = gql`
         name
         imageUrl
         imageSetUrl
+        base64
         instrument
       }
       albums {
@@ -57,6 +59,7 @@ export const GET_ARTISTS = gql`
       website
       imageUrl
       imageSetUrl
+      base64
       introduction {
         header
         body
@@ -66,6 +69,7 @@ export const GET_ARTISTS = gql`
         name
         imageUrl
         imageSetUrl
+        base64
         instrument
       }
       albums {
@@ -73,6 +77,7 @@ export const GET_ARTISTS = gql`
         year
         imageUrl
         imageSetUrl
+        base64
         links {
           website
           youtube
