@@ -10,7 +10,7 @@ interface Props {
 
 const LazyLoad: React.FC<Props> = (props) => {
   const { ref, inView } = useInView({
-    threshold: 0.25, // TODO: put final threshold
+    threshold: 0.1,
     triggerOnce: true,
   })
   return (
