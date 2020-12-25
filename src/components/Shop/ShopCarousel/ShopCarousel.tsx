@@ -16,15 +16,9 @@ const ShopCarousel: React.FC<Props> = (props) => {
   const carouselRef = useRef<HTMLDivElement | null>(null)
   const images = [props.images[props.images.length - 1], ...props.images, props.images[0]]
 
-  const divWidth = carouselRef.current?.clientWidth
-  let imageWidth = props.size
-  if (divWidth) {
-    imageWidth = divWidth / images.length
-  }
-
-  const [transform, setTransform] = useState(`${imageWidth}px`)
-  const [activeButton, setActiveButton] = useState(1)
-  const [transition, setTransition] = useState('transform .5s linear')
+  const [transform, setTransform] = useState(`${0}px`)
+  const [activeButton, setActiveButton] = useState(0)
+  const [transition, setTransition] = useState('')
 
   const onClickHandler = useCallback(
     (i: number, cssTransition: boolean) => {
@@ -74,6 +68,10 @@ const ShopCarousel: React.FC<Props> = (props) => {
     },
     [moveSlide, onClickHandler]
   )
+
+  useEffect(() => {
+    onClickHandler(1, false)
+  }, [onClickHandler])
 
   useEffect(() => {
     let timer: NodeJS.Timeout

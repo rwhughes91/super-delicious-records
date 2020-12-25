@@ -16,21 +16,19 @@ interface Props {
 }
 
 const Carousel: React.FC<Props> = (props) => {
-  const { onChange, customRef, transition, activeButton } = props
-  const coords = useRef({ posX1: 0, posX2: 0, base: 0, currentTransform: 0 })
+  const { onChange, customRef, activeButton } = props
+  const coords = useRef({ posX1: 0, posX2: 0, base: 0, currentTransform: 0, size: 0 })
 
   const dragEnd = useCallback(
     (event: MouseEvent | TouchEvent) => {
       event.preventDefault()
       if (customRef.current) {
-        if (transition) {
-          customRef.current.style.transition = transition
-        }
+        customRef.current.style.transition = 'transform .5s linear'
         const upperLimit = Math.round(
-          (coords.current.base + props.size * (activeButton - 1) * -1) / 2
+          (coords.current.base + coords.current.size * (activeButton - 1)) / 2
         )
         const lowerLimit = Math.round(
-          (coords.current.base + props.size * (activeButton + 1) * -1) / 2
+          (coords.current.base + coords.current.size * (activeButton + 1)) / 2
         )
 
         if (coords.current.currentTransform >= upperLimit) {
@@ -44,7 +42,7 @@ const Carousel: React.FC<Props> = (props) => {
       document.onmouseup = null
       document.onmousemove = null
     },
-    [customRef, transition, activeButton, onChange, props.size]
+    [customRef, activeButton, onChange]
   )
 
   const dragAction = useCallback(
@@ -83,6 +81,9 @@ const Carousel: React.FC<Props> = (props) => {
         const transform = props.customRef.current.style.transform.match(/(-?\d+)/)
         const base = transform ? parseFloat(transform[0]) : 0
         coords.current.base = base
+        if (!coords.current.size) {
+          coords.current.size = base
+        }
       }
     },
     [dragEnd, dragAction, props.customRef]
