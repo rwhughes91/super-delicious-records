@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import classes from './ShopImage.module.scss'
 import ProgressiveImage from 'react-progressive-image'
+import LazyLoad from '@components/LazyLoad/LazyLoad'
 
 export interface Props {
   size: string
@@ -36,7 +37,7 @@ const ShopImage: React.FC<Props> = (props) => {
     />
   )
 
-  return (
+  const mainImage = (
     <ProgressiveImage
       src={props.imageUrl ? props.imageUrl : fallbackImageUrl}
       srcSetData={{
@@ -50,6 +51,7 @@ const ShopImage: React.FC<Props> = (props) => {
           placeholder
         ) : (
           <img
+            key={src}
             src={src}
             srcSet={srcSetData.srcSet}
             sizes={srcSetData.sizes}
@@ -68,6 +70,14 @@ const ShopImage: React.FC<Props> = (props) => {
       }}
     </ProgressiveImage>
   )
+
+  const output = (
+    <LazyLoad placeholder={placeholder} style={{ height: '100%', width: '100%' }}>
+      {mainImage}
+    </LazyLoad>
+  )
+
+  return output
 }
 
 export default React.memo(ShopImage)

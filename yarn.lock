@@ -2495,6 +2495,18 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
+"@types/lodash.throttle@^4.1.6":
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.throttle/-/lodash.throttle-4.1.6.tgz#f5ba2c22244ee42ff6c2c49e614401a870c1009c"
+  integrity sha512-/UIH96i/sIRYGC60NoY72jGkCJtFN5KVPhEMMMTjol65effe1gPn0tycJqV5tlSwMTzX8FqzB5yAj0rfGHTPNg==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.166"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.166.tgz#07e7f2699a149219dbc3c35574f126ec8737688f"
+  integrity sha512-A3YT/c1oTlyvvW/GQqG86EyqWNrT/tisOIh2mW3YCgcx71TNjiTZA3zYZWA5BCmtsOTXjhliy4c4yEkErw6njA==
+
 "@types/lodash@^4.14.159":
   version "4.14.159"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.159.tgz#61089719dc6fdd9c5cb46efc827f2571d1517065"
@@ -7697,6 +7709,11 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+
 lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.20, lodash@~4.17.15:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
@@ -9342,6 +9359,11 @@ react-icons@^3.10.0:
   integrity sha512-WsQ5n1JToG9VixWilSo1bHv842Cj5aZqTGiS3Ud47myF6aK7S/IUY2+dHcBdmkQcCFRuHsJ9OMUI0kTDfjyZXQ==
   dependencies:
     camelcase "^5.0.0"
+
+react-intersection-observer@^8.31.0:
+  version "8.31.0"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.31.0.tgz#0ed21aaf93c4c0475b22b0ccaba6169076d01605"
+  integrity sha512-XraIC/tkrD9JtrmVA7ypEN1QIpKc52mXBH1u/bz/aicRLo8QQEJQAMUTb8mz4B6dqpPwyzgjrr7Ljv/2ACDtqw==
 
 react-is@16.13.1, react-is@^16.8.1:
   version "16.13.1"

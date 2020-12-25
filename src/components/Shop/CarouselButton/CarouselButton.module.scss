@@ -1,0 +1,23 @@
+.CarouselButton {
+  background: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+  border: 1px solid var(--light-purple-color);
+  border-radius: 100%;
+  color: var(--light-purple-color);
+  z-index: 2;
+  transition: transform 0.2s;
+
+  &:hover,
+  &:focus {
+    background-color: var(--light-purple-color);
+    color: var(--tan-white-color);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}

@@ -43,9 +43,10 @@
 
 .ShopItemLink {
   text-decoration: none;
-  display: 'block';
+  display: block;
   border-right: 1px solid var(--light-gray-color);
   padding: 1.6rem;
+  text-align: center;
 
   &:last-child {
     border-right: none;

@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .ImageContainer {
@@ -10,8 +11,8 @@
 }
 
 .Carousel {
+  position: relative;
   display: flex;
-  transition: transform 0.5s linear;
   overflow-x: auto;
 }
 
@@ -36,10 +37,32 @@
   flex-wrap: wrap;
 }
 
-// @media (max-width: 21em) {
-//   .ImagePreview {
-//     overflow-x: scroll;
-//     flex-wrap: nowrap;
-//     justify-content: flex-start;
-//   }
-// }
+.Prev,
+.Next {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .Prev,
+  .Next {
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .Prev {
+    left: 0;
+  }
+
+  .Next {
+    right: 0;
+  }
+
+  .ShopCarousel:hover > .Prev,
+  .ShopCarousel:hover > .Next {
+    opacity: 1;
+  }
+}
