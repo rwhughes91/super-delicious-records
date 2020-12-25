@@ -114,7 +114,7 @@ const Carousel: React.FC<Props> = (props) => {
       () => {
         onClick(activeButton, false)
       },
-      500, // TODO: should be this throttle?
+      250,
       { leading: true, trailing: true }
     )
     return () => {
