@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 import classes from './ShopCarousel.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
+import debounce from 'lodash.debounce'
 import * as typeDefs from '@generated/graphql'
 
 interface Props {
@@ -12,23 +13,26 @@ interface Props {
   images: typeDefs.ShopImage[]
   transition?: string
   onChange: (dir: 'prev' | 'next', activeButton: number) => void
+  onClick: (i: number, cssTransition: boolean) => void
   activeButton: number
 }
 
 const Carousel: React.FC<Props> = (props) => {
-  const { onChange, customRef, activeButton } = props
-  const coords = useRef({ posX1: 0, posX2: 0, base: 0, currentTransform: 0, size: 0 })
+  const { onChange, customRef, activeButton, onClick } = props
+  const coords = useRef({ posX1: 0, posX2: 0, base: 0, currentTransform: 0 })
+  const imageRef = useRef<HTMLDivElement>(null)
 
   const dragEnd = useCallback(
     (event: MouseEvent | TouchEvent) => {
       event.preventDefault()
       if (customRef.current) {
         customRef.current.style.transition = 'transform .5s linear'
+        const imgWidth = imageRef.current?.clientWidth || 425
         const upperLimit = Math.round(
-          (coords.current.base + coords.current.size * (activeButton - 1)) / 2
+          (coords.current.base + imgWidth * (activeButton - 1) * -1) / 2
         )
         const lowerLimit = Math.round(
-          (coords.current.base + coords.current.size * (activeButton + 1)) / 2
+          (coords.current.base + imgWidth * (activeButton + 1) * -1) / 2
         )
 
         if (coords.current.currentTransform >= upperLimit) {
@@ -81,22 +85,42 @@ const Carousel: React.FC<Props> = (props) => {
         const transform = props.customRef.current.style.transform.match(/(-?\d+)/)
         const base = transform ? parseFloat(transform[0]) : 0
         coords.current.base = base
-        if (!coords.current.size) {
-          coords.current.size = base
-        }
       }
     },
     [dragEnd, dragAction, props.customRef]
   )
 
   useEffect(() => {
-    if (props.customRef.current) {
-      props.customRef.current.onmousedown = dragStart
-      props.customRef.current.ontouchstart = dragStart
-      props.customRef.current.ontouchmove = dragAction
-      props.customRef.current.ontouchend = dragEnd
+    const ref = props.customRef
+    if (ref.current) {
+      ref.current.onmousedown = dragStart
+      ref.current.ontouchstart = dragStart
+      ref.current.ontouchmove = dragAction
+      ref.current.ontouchend = dragEnd
+    }
+
+    return () => {
+      if (ref.current) {
+        ref.current.onmousedown = null
+        ref.current.ontouchstart = null
+        ref.current.ontouchmove = null
+        ref.current.ontouchend = null
+      }
     }
   }, [props.customRef, dragStart, dragAction, dragEnd])
+
+  useEffect(() => {
+    window.onresize = debounce(
+      () => {
+        onClick(activeButton, false)
+      },
+      500, // TODO: should be this throttle?
+      { leading: true, trailing: true }
+    )
+    return () => {
+      window.onresize = null
+    }
+  }, [onClick, activeButton])
 
   return (
     <div
@@ -112,6 +136,9 @@ const Carousel: React.FC<Props> = (props) => {
       tabIndex={0}
     >
       {props.images.map((image, i) => {
+        if (i === 0) {
+          return <ShopImage key={i} {...image} size={`${props.size}px`} customRef={imageRef} />
+        }
         return <ShopImage key={i} {...image} size={`${props.size}px`} />
       })}
     </div>

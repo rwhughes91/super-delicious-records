@@ -105,6 +105,7 @@ const ShopCarousel: React.FC<Props> = (props) => {
           images={images}
           transition={transition}
           onChange={dragSlide}
+          onClick={onClickHandler}
           activeButton={activeButton}
         />
       </div>

@@ -5,6 +5,7 @@ interface Props {
   placeholder: JSX.Element
   children: JSX.Element | JSX.Element[] | string | string[]
   style?: React.CSSProperties
+  customRef?: React.MutableRefObject<HTMLDivElement | null>
 }
 
 const LazyLoad: React.FC<Props> = (props) => {
@@ -14,7 +15,9 @@ const LazyLoad: React.FC<Props> = (props) => {
   })
   return (
     <div style={props.style} ref={ref}>
-      {inView ? props.children : props.placeholder}
+      <div style={{ height: '100%', width: '100%s' }} ref={props.customRef}>
+        {inView ? props.children : props.placeholder}
+      </div>
     </div>
   )
 }

@@ -12,6 +12,7 @@ export interface Props {
   fixed?: boolean
   styles?: React.CSSProperties
   height?: string
+  customRef?: React.MutableRefObject<HTMLDivElement | null>
 }
 
 const ShopImage: React.FC<Props> = (props) => {
@@ -72,7 +73,11 @@ const ShopImage: React.FC<Props> = (props) => {
   )
 
   const output = (
-    <LazyLoad placeholder={placeholder} style={{ height: '100%', width: '100%' }}>
+    <LazyLoad
+      placeholder={placeholder}
+      style={{ height: '100%', width: '100%' }}
+      customRef={props.customRef}
+    >
       {mainImage}
     </LazyLoad>
   )
