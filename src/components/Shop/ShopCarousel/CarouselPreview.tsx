@@ -3,6 +3,9 @@ import classes from './ShopCarousel.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
 import * as typeDefs from '@generated/graphql'
 
+// TODO:
+// write algorithm so it evenly distributes items to multiple rows
+
 interface Props {
   images: typeDefs.ShopImage[]
   activeButton: number

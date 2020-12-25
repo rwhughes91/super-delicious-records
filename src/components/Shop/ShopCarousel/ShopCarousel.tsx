@@ -24,7 +24,7 @@ const ShopCarousel: React.FC<Props> = (props) => {
 
   const [transform, setTransform] = useState(`${imageWidth}px`)
   const [activeButton, setActiveButton] = useState(1)
-  const [transition, setTransition] = useState('')
+  const [transition, setTransition] = useState('transform .5s linear')
 
   const onClickHandler = useCallback(
     (i: number, cssTransition: boolean) => {
@@ -33,18 +33,17 @@ const ShopCarousel: React.FC<Props> = (props) => {
       if (divWidth) {
         imageWidth = (divWidth / images.length) * i
       }
-      setTransform(`${imageWidth}px`)
-      setActiveButton(i)
       if (cssTransition !== undefined) {
-        if (transition && !cssTransition) {
+        if (cssTransition) {
+          setTransition('transform .5s linear')
+        } else {
           setTransition('')
         }
-        if (!transition && cssTransition) {
-          setTransition('transform .5s linear')
-        }
       }
+      setTransform(`${imageWidth}px`)
+      setActiveButton(i)
     },
-    [images.length, props.size, transition]
+    [images.length, props.size]
   )
 
   const onChangeHandler = useCallback(
@@ -67,6 +66,13 @@ const ShopCarousel: React.FC<Props> = (props) => {
       { leading: true, trailing: false }
     ),
     []
+  )
+
+  const dragSlide = useCallback(
+    (dir, activeButton) => {
+      moveSlide(dir, activeButton, onClickHandler)
+    },
+    [moveSlide, onClickHandler]
   )
 
   useEffect(() => {
@@ -100,6 +106,8 @@ const ShopCarousel: React.FC<Props> = (props) => {
           size={props.size}
           images={images}
           transition={transition}
+          onChange={dragSlide}
+          activeButton={activeButton}
         />
       </div>
       <CarouselPreview

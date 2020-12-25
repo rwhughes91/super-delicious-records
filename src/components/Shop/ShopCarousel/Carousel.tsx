@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useRef } from 'react'
 import classes from './ShopCarousel.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
 import * as typeDefs from '@generated/graphql'
-import { length } from 'class-validator'
 
 interface Props {
   customRef: React.MutableRefObject<HTMLDivElement | null>
@@ -12,47 +11,91 @@ interface Props {
   size: number
   images: typeDefs.ShopImage[]
   transition?: string
+  onChange: (dir: 'prev' | 'next', activeButton: number) => void
+  activeButton: number
 }
 
 const Carousel: React.FC<Props> = (props) => {
-  const coords = useRef({ posX1: 0, posX2: 0 })
+  const { onChange, customRef, transition, activeButton } = props
+  const coords = useRef({ posX1: 0, posX2: 0, base: 0, currentTransform: 0 })
 
-  const dragEnd = useCallback((event: MouseEvent) => {
-    event.preventDefault()
-    document.onmouseup = null
-    document.onmousemove = null
-  }, [])
+  const dragEnd = useCallback(
+    (event: MouseEvent | TouchEvent) => {
+      event.preventDefault()
+      if (customRef.current) {
+        if (transition) {
+          customRef.current.style.transition = transition
+        }
+        const upperLimit = Math.round(
+          (coords.current.base + props.size * (activeButton - 1) * -1) / 2
+        )
+        const lowerLimit = Math.round(
+          (coords.current.base + props.size * (activeButton + 1) * -1) / 2
+        )
+
+        if (coords.current.currentTransform >= upperLimit) {
+          onChange('prev', activeButton)
+        } else if (coords.current.currentTransform <= lowerLimit) {
+          onChange('next', activeButton)
+        } else {
+          customRef.current.style.transform = `translateX(${coords.current.base}px)`
+        }
+      }
+      document.onmouseup = null
+      document.onmousemove = null
+    },
+    [customRef, transition, activeButton, onChange, props.size]
+  )
 
   const dragAction = useCallback(
-    (event: MouseEvent) => {
+    (event: MouseEvent | TouchEvent) => {
       event.preventDefault()
-      coords.current.posX2 = coords.current.posX1 - event.clientX
-      coords.current.posX1 = event.clientX
+      if (isTouchEvent(event)) {
+        coords.current.posX2 = coords.current.posX1 - event.touches[0].clientX
+        coords.current.posX1 = event.touches[0].clientX
+      } else {
+        coords.current.posX2 = coords.current.posX1 - event.clientX
+        coords.current.posX1 = event.clientX
+      }
       if (props.customRef.current) {
         const transform = props.customRef.current.style.transform.match(/(-?\d+)/)
         const base = transform ? parseFloat(transform[0]) : 0
-        const newTransformValue = `translateX(${base - coords.current.posX2}px)`
-        props.customRef.current.style.transform = newTransformValue
+        const newTransformValue = base - coords.current.posX2
+        coords.current.currentTransform = newTransformValue
+        props.customRef.current.style.transform = `translateX(${newTransformValue}px)`
+        props.customRef.current.style.transition = ''
       }
     },
     [props.customRef]
   )
 
   const dragStart = useCallback(
-    (event: MouseEvent) => {
+    (event: MouseEvent | TouchEvent) => {
       event.preventDefault()
-      coords.current.posX1 = event.clientX
-      document.onmouseup = dragEnd
-      document.onmousemove = dragAction
+      if (isTouchEvent(event)) {
+        coords.current.posX1 = event.touches[0].clientX
+      } else {
+        coords.current.posX1 = event.clientX
+        document.onmouseup = dragEnd
+        document.onmousemove = dragAction
+      }
+      if (props.customRef.current) {
+        const transform = props.customRef.current.style.transform.match(/(-?\d+)/)
+        const base = transform ? parseFloat(transform[0]) : 0
+        coords.current.base = base
+      }
     },
-    [dragEnd, dragAction]
+    [dragEnd, dragAction, props.customRef]
   )
 
   useEffect(() => {
     if (props.customRef.current) {
       props.customRef.current.onmousedown = dragStart
+      props.customRef.current.ontouchstart = dragStart
+      props.customRef.current.ontouchmove = dragAction
+      props.customRef.current.ontouchend = dragEnd
     }
-  }, [props.customRef, dragStart])
+  }, [props.customRef, dragStart, dragAction, dragEnd])
 
   return (
     <div
@@ -75,3 +118,9 @@ const Carousel: React.FC<Props> = (props) => {
 }
 
 export default React.memo(Carousel)
+
+function isTouchEvent(e: MouseEvent | TouchEvent): e is TouchEvent {
+  if (e.type === 'touchstart') return true
+  if (e.type === 'touchmove') return true
+  return false
+}
