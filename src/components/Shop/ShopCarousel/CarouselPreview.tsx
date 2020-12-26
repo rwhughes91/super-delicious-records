@@ -3,9 +3,6 @@ import classes from './ShopCarousel.module.scss'
 import ShopImage from '../ShopImage/ShopImage'
 import * as typeDefs from '@generated/graphql'
 
-// TODO:
-// write algorithm so it evenly distributes items to multiple rows
-
 interface Props {
   images: typeDefs.ShopImage[]
   activeButton: number
@@ -23,8 +20,19 @@ const CarouselPreview: React.FC<Props> = (props) => {
     activePreviewImage = 0
   }
 
+  let columns = props.images.length
+  if (props.images.length > 5) {
+    columns = Math.ceil(props.images.length / 2)
+  }
+
   return (
-    <div className={classes.ImagePreview} style={{ width: '30rem' }}>
+    <div
+      className={classes.ImagePreview}
+      style={{
+        width: '30rem',
+        gridTemplateColumns: `repeat(${columns}, 4rem)`,
+      }}
+    >
       {props.images.map((image, i) => {
         return (
           <button

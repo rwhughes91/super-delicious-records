@@ -31,10 +31,13 @@
 }
 
 .ImagePreview {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-auto-columns: auto;
+  grid-auto-rows: auto;
+  justify-items: center;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 6px;
 }
 
 .Prev,
