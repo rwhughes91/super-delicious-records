@@ -33,6 +33,7 @@
     "graphql": "^15.3.0",
     "graphql-middleware": "^4.0.2",
     "graphql-request": "^3.0.0",
+    "intersection-observer": "^0.12.0",
     "lodash": "^4.17.20",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",

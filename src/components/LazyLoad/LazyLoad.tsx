@@ -15,7 +15,7 @@ const LazyLoad: React.FC<Props> = (props) => {
   })
   return (
     <div style={props.style} ref={ref}>
-      <div style={{ height: '100%', width: '100%s' }} ref={props.customRef}>
+      <div style={{ height: '100%', width: '100%' }} ref={props.customRef}>
         {inView ? props.children : props.placeholder}
       </div>
     </div>
