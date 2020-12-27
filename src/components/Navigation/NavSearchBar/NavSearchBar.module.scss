@@ -1,8 +1,6 @@
 $icon-size: 2rem;
 $input-container: $icon-size * 2.2;
-$y-offset: $input-container / -3.5;
 $container-width: 21.5rem;
-$container-border-width: 22rem;
 
 .Button {
   border: none;
@@ -13,51 +11,23 @@ $container-border-width: 22rem;
 }
 
 .NavSearchBar {
-  position: relative;
-  transition: transform 0.25s ease-in;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid var(--light-gray-color);
+  padding: 0 1rem;
+  border-radius: 10px;
+  background: none;
+  outline: none;
+
+  &:active,
+  &:focus {
+    box-shadow: 0px 0px 1px 1px var(--light-purple-color);
+  }
 }
 
 .InputContainer {
-  position: absolute;
-  top: $y-offset;
-  left: 2.5rem;
   height: $input-container;
   width: $container-width;
   padding-left: 0.5rem;
-  animation: slideIn 0.25s ease-in;
-
-  &:before {
-    align-self: center;
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -$input-container;
-    width: $container-border-width;
-    height: $input-container;
-    border-radius: 100px;
-    border: 1px solid var(--light-gray-color);
-    pointer-events: none;
-    animation: slideIn 0.25s linear;
-  }
-}
-
-.Slide {
-  transform: translateX(-20rem);
-}
-
-@media (min-width: 65em) {
-  .InputContainer {
-    &:before {
-      width: 25rem;
-    }
-  }
-}
-
-@keyframes slideIn {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: $container-border-width;
-  }
 }

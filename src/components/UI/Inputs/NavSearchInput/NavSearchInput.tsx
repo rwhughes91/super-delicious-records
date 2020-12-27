@@ -1,16 +1,10 @@
 import React from 'react'
 import classes from './NavSearchInput.module.scss'
 
-interface Props {
-  toggleModal?: () => void
-}
-
-const NavSearchInput: React.FC<Props> = (props) => {
+const NavSearchInput: React.FC<Props> = () => {
   return (
     <div className={classes.NavContainer}>
-      <button className={classes.NavSearchInput} onClick={props.toggleModal}>
-        search for a band
-      </button>
+      <span className={classes.NavSearchInput}>search for a band</span>
     </div>
   )
 }

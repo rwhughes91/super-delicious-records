@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import React from 'react'
 import classes from './NavSearchBar.module.scss'
 import SearchIcon from '../../UI/Icons/SearchIcon/SearchIcon'
 import NavSearchInput from '../../UI/Inputs/NavSearchInput/NavSearchInput'
@@ -9,36 +9,14 @@ interface Props {
 }
 
 const NavSearchBar: React.FC<Props> = (props) => {
-  const [showInput, setShowInput] = useState(false)
-
-  const onClickHandler = useCallback(() => {
-    setShowInput((prevState) => !prevState)
-  }, [])
-
-  const classNames = [classes.NavSearchBar]
-
-  if (props.slide && showInput) {
-    classNames.push(classes.Slide)
-  }
-
   return (
-    <div className={classNames.join(' ')}>
-      <span
-        onClick={onClickHandler}
-        onKeyPress={onClickHandler}
-        role="button"
-        tabIndex={0}
-        className={classes.Button}
-      >
-        <SearchIcon size={2} />
-      </span>
-      {showInput && (
-        <div className={classes.InputContainer}>
-          <NavSearchInput toggleModal={props.toggleModal} />
-        </div>
-      )}
-    </div>
+    <button className={[classes.NavSearchBar].join(' ')} onClick={props.toggleModal}>
+      <SearchIcon size={2} styles={{ marginRight: '10px' }} />
+      <div className={classes.InputContainer}>
+        <NavSearchInput toggleModal={props.toggleModal} />
+      </div>
+    </button>
   )
 }
 
-export default NavSearchBar
+export default React.memo(NavSearchBar)

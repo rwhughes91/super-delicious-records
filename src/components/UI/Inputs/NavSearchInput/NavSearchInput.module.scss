@@ -16,17 +16,7 @@ $font-size: 1.6rem;
   justify-content: flex-start;
   align-items: center;
   cursor: text;
-  animation: fadeIn 0.2s ease-in 0.2s backwards;
   outline: none;
   background: none;
   border: none;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
