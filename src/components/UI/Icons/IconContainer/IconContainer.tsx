@@ -10,7 +10,7 @@ interface Props {
 const IconContainer: React.FC<Props> = (props) => {
   let styles = { ...props.styles }
   if (props.size) {
-    styles = { ...props.styles, height: `${props.size}rem`, width: `${props.size}rem` }
+    styles = { ...props.styles, height: `${props.size * 10}px`, width: `${props.size * 10}px` }
   }
   return (
     <div

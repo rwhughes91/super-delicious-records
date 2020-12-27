@@ -32,10 +32,10 @@ const NavItems: React.FC<Props> = (props) => {
     navItems = (
       <div style={{ display: 'flex' }}>
         <NavItem location="/shop/orders" styles={{ marginRight: '2.5rem' }}>
-          <ProfileIcon size={3.4} />
+          <ProfileIcon size={2.6} />
         </NavItem>
         <NavItem location="/shop/cart" styles={{ width: '105%' }}>
-          <NavCartIcon size={3} />
+          <NavCartIcon size={2.2} />
         </NavItem>
       </div>
     )

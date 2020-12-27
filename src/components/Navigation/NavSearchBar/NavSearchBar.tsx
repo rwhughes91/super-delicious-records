@@ -13,7 +13,7 @@ const NavSearchBar: React.FC<Props> = (props) => {
     <button className={[classes.NavSearchBar].join(' ')} onClick={props.toggleModal}>
       <SearchIcon size={2} styles={{ marginRight: '10px' }} />
       <div className={classes.InputContainer}>
-        <NavSearchInput toggleModal={props.toggleModal} />
+        <NavSearchInput />
       </div>
     </button>
   )
