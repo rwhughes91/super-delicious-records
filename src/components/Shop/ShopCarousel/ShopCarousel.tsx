@@ -76,7 +76,7 @@ const ShopCarousel: React.FC<Props> = (props) => {
   }, [onClickHandler])
 
   useEffect(() => {
-    setShowCarousel(false)
+    setShowCarousel(true)
   }, [])
 
   useEffect(() => {
