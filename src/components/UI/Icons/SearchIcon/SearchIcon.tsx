@@ -19,7 +19,7 @@ const SearchIcon: React.FC<Props> = (props) => {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth={props.strokeWidth || '2.65'}
+          strokeWidth={props.strokeWidth || '2.75'}
           strokeLinecap="round"
           strokeLinejoin="round"
           className={iconClass}

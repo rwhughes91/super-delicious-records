@@ -21,10 +21,10 @@ const NavItems: React.FC<Props> = (props) => {
       <>
         <NavSearchBar slide toggleModal={props.toggleModal} />
         <NavItem location="/shop/orders">
-          <ProfileIcon size={2.2} />
+          <ProfileIcon size={2.4} />
         </NavItem>
         <NavItem location="/shop/cart">
-          <NavCartIcon size={2} />
+          <NavCartIcon size={2.2} />
         </NavItem>
       </>
     )

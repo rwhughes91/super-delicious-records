@@ -11,7 +11,7 @@ interface Props {
 const NavSearchBar: React.FC<Props> = (props) => {
   return (
     <button className={[classes.NavSearchBar].join(' ')} onClick={props.toggleModal}>
-      <SearchIcon size={2} styles={{ marginRight: '10px' }} />
+      <SearchIcon size={2.2} styles={{ marginRight: '10px' }} />
       <div className={classes.InputContainer}>
         <NavSearchInput />
       </div>
