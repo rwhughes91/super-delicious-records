@@ -27,17 +27,15 @@ const Carousel: React.FC<Props> = (props) => {
       event.preventDefault()
       if (customRef.current) {
         customRef.current.style.transition = 'transform .5s linear'
-        const imgWidth = imageRef.current?.clientWidth || 425
-        const upperLimit = Math.round(
-          (coords.current.base + imgWidth * (activeButton - 1) * -1) / 2
-        )
-        const lowerLimit = Math.round(
-          (coords.current.base + imgWidth * (activeButton + 1) * -1) / 2
-        )
-
-        if (coords.current.currentTransform >= upperLimit) {
+        if (
+          coords.current.currentTransform > coords.current.base &&
+          Math.abs(coords.current.currentTransform - coords.current.base) > 100
+        ) {
           onChange('prev', activeButton)
-        } else if (coords.current.currentTransform <= lowerLimit) {
+        } else if (
+          coords.current.currentTransform < coords.current.base &&
+          Math.abs(coords.current.currentTransform - coords.current.base) > 100
+        ) {
           onChange('next', activeButton)
         } else {
           customRef.current.style.transform = `translateX(${coords.current.base}px)`
@@ -161,5 +159,6 @@ export default React.memo(Carousel)
 function isTouchEvent(e: MouseEvent | TouchEvent): e is TouchEvent {
   if (e.type === 'touchstart') return true
   if (e.type === 'touchmove') return true
+  if (e.type === 'touchend') return true
   return false
 }
