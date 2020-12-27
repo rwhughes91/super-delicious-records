@@ -87,13 +87,17 @@ const ShopCarousel: React.FC<Props> = (props) => {
     return () => clearTimeout(timer)
   }, [activeButton, images.length, onClickHandler])
 
-  const carouselMaxWidth = images.length * props.size
+  const carouselMaxWidth = images.length * props.size + images.length * 10
   const width = images.length * 100
-
   return (
     <div className={classes.ShopCarousel}>
       <div
-        style={{ width: '100vw', maxWidth: props.size, height: '100vw', maxHeight: props.size }}
+        style={{
+          width: '100vw',
+          maxWidth: props.size,
+          height: '100vw',
+          maxHeight: props.size,
+        }}
         className={classes.ImageContainer}
       >
         <Carousel

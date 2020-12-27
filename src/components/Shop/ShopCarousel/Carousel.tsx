@@ -131,15 +131,26 @@ const Carousel: React.FC<Props> = (props) => {
         width: `${props.width}vw`,
         transform: `translateX(-${props.transform})`,
         transition: props.transition,
+        overflow: 'hidden',
       }}
       role="listbox"
       tabIndex={0}
     >
       {props.images.map((image, i) => {
         if (i === 0) {
-          return <ShopImage key={i} {...image} size={`${props.size}px`} customRef={imageRef} />
+          return (
+            <ShopImage
+              key={i}
+              {...image}
+              size={`${props.size}px`}
+              customRef={imageRef}
+              styles={{ marginRight: '10px' }}
+            />
+          )
         }
-        return <ShopImage key={i} {...image} size={`${props.size}px`} />
+        return (
+          <ShopImage key={i} {...image} size={`${props.size}px`} styles={{ marginRight: '10px' }} />
+        )
       })}
     </div>
   )
