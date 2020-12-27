@@ -22,7 +22,7 @@ $container-width: 20rem;
 
   &:active,
   &:focus {
-    box-shadow: 0px 0px 1px 1px var(--light-purple-color);
+    box-shadow: 0px 0px 1px 0.5px var(--light-purple-color);
   }
 }
 

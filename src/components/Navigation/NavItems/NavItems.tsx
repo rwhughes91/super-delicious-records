@@ -31,11 +31,11 @@ const NavItems: React.FC<Props> = (props) => {
   } else if (props.icons === 'cart') {
     navItems = (
       <div style={{ display: 'flex' }}>
-        <NavItem location="/shop/orders" styles={{ marginRight: '2.5rem' }}>
-          <ProfileIcon size={2.6} />
+        <NavItem location="/shop/orders" styles={{ marginRight: '30px' }}>
+          <ProfileIcon size={2.8} />
         </NavItem>
         <NavItem location="/shop/cart" styles={{ width: '105%' }}>
-          <NavCartIcon size={2.2} />
+          <NavCartIcon size={2.4} />
         </NavItem>
       </div>
     )
