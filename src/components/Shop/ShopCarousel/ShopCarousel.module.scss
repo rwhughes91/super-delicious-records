@@ -45,6 +45,13 @@
   display: none;
 }
 
+.Loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media (min-width: 900px) {
   .Prev,
   .Next {
@@ -62,6 +69,11 @@
 
   .Next {
     right: 0;
+  }
+
+  .Prev.Show,
+  .Next.Show {
+    opacity: 1;
   }
 
   .ShopCarousel:hover > .Prev,

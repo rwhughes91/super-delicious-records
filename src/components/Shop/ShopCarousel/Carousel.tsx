@@ -15,6 +15,7 @@ interface Props {
   onChange: (dir: 'prev' | 'next', activeButton: number) => void
   onClick: (i: number, cssTransition: boolean) => void
   activeButton: number
+  styles?: React.CSSProperties
 }
 
 const Carousel: React.FC<Props> = (props) => {
@@ -125,6 +126,7 @@ const Carousel: React.FC<Props> = (props) => {
       ref={props.customRef}
       className={classes.Carousel}
       style={{
+        ...props.styles,
         maxWidth: props.carouselMaxWidth,
         width: `${props.width}vw`,
         transform: `translateX(-${props.transform})`,

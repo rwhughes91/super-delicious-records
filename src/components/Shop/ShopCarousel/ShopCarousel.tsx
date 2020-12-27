@@ -3,6 +3,7 @@ import classes from './ShopCarousel.module.scss'
 import Carousel from './Carousel'
 import CarouselPreview from './CarouselPreview'
 import CarouselButton from '../CarouselButton/CarouselButton'
+import Loader from '@components/UI/Loader/Loader'
 import throttle from 'lodash.throttle'
 
 import * as typeDefs from '@generated/graphql'
@@ -19,6 +20,7 @@ const ShopCarousel: React.FC<Props> = (props) => {
   const [transform, setTransform] = useState(`${0}px`)
   const [activeButton, setActiveButton] = useState(0)
   const [transition, setTransition] = useState('')
+  const [showCarousel, setShowCarousel] = useState(false)
 
   const onClickHandler = useCallback(
     (i: number, cssTransition: boolean) => {
@@ -74,6 +76,10 @@ const ShopCarousel: React.FC<Props> = (props) => {
   }, [onClickHandler])
 
   useEffect(() => {
+    setShowCarousel(false)
+  }, [])
+
+  useEffect(() => {
     let timer: NodeJS.Timeout
     if (activeButton === 0) {
       timer = setTimeout(() => {
@@ -111,20 +117,26 @@ const ShopCarousel: React.FC<Props> = (props) => {
           onChange={dragSlide}
           onClick={onClickHandler}
           activeButton={activeButton}
+          styles={{ opacity: showCarousel ? 1 : 0, transition: 'opacity .5s linear' }}
         />
+        {!showCarousel && (
+          <div className={classes.Loader}>
+            <Loader />
+          </div>
+        )}
       </div>
       <CarouselPreview
         images={props.images}
         activeButton={activeButton}
         onClickHandler={onClickHandler}
       />
-      <div className={classes.Prev}>
+      <div className={[classes.Prev, !showCarousel && classes.Show].join(' ')}>
         <CarouselButton
           dir="left"
           onClick={() => moveSlide('prev', activeButton, onClickHandler)}
         />
       </div>
-      <div className={classes.Next}>
+      <div className={[classes.Next, !showCarousel && classes.Show].join(' ')}>
         <CarouselButton
           dir="right"
           onClick={() => moveSlide('next', activeButton, onClickHandler)}

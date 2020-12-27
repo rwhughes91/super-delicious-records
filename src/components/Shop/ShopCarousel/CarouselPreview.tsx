@@ -42,7 +42,7 @@ const CarouselPreview: React.FC<Props> = (props) => {
               cursor: 'pointer',
               width: '4.5rem',
             }}
-            onClick={() => onClickHandler(i + 1, false)}
+            onClick={() => onClickHandler(i + 1, true)}
           >
             <ShopImage {...image} size="4rem" fixed />
           </button>
