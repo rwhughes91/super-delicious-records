@@ -3,35 +3,17 @@
   font-size: 1.8rem;
   font-family: 'Open Sans Regular';
   font-weight: 400;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 70%;
   transition: opacity 0.2s;
   margin: 0.5rem auto;
-}
-
-.Wide {
-  width: 100% !important;
 }
 
 .Large {
   font-size: 2rem !important;
 }
 
-@media (max-width: 56.25em) {
-  .Text {
-    width: 80%;
-  }
-}
-
 @media (min-width: 56.25em) {
   .Text {
     font-size: 1.6rem;
-  }
-  .Wide {
-    width: 80% !important;
   }
 }
 

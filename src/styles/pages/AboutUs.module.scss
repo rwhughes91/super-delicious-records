@@ -46,6 +46,12 @@ $width: 50.7rem;
   margin-bottom: 0.25rem;
 }
 
+.Cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 @media (max-width: 56.25em) {
   .ListItem {
     width: 100%;

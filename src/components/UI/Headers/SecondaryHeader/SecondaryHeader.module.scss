@@ -1,23 +1,23 @@
 .SecondaryHeader {
-  color: var(--dark-purple-color);
-  font-size: 2rem;
+  color: var(--light-purple-color);
+  font-family: 'Open Sans Regular', sans-serif;
+  font-size: 2.2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 3rem auto;
-  width: 90%;
 }
 
 @media (min-width: 56.25em) {
   .SecondaryHeader {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 }
 
 @media (min-width: 112.5em) {
   .SecondaryHeader {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
 }

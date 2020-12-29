@@ -10,7 +10,7 @@ $font-size: 1.6rem;
   color: var(--dark-purple-color);
   height: 100%;
   width: 100%;
-  font-family: 'Open Sans Regular';
+  font-family: 'Open Sans Regular', sans-serif;
   font-weight: 400;
   display: flex;
   justify-content: flex-start;
@@ -19,4 +19,10 @@ $font-size: 1.6rem;
   outline: none;
   background: none;
   border: none;
+}
+
+@media (min-width: 112.5em) {
+  .NavSearchInput {
+    font-size: 1.5rem;
+  }
 }

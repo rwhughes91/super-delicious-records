@@ -1,0 +1,10 @@
+.Link {
+  display: none;
+}
+
+@media (min-width: 56.25em) {
+  .Link {
+    display: block;
+    margin-bottom: 3rem;
+  }
+}
