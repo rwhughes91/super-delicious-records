@@ -2,6 +2,7 @@ import { useState, useCallback, useContext, useEffect } from 'react'
 import classes from '@styles/pages/shop/Cart.module.scss'
 import Head from 'next/head'
 import Layout from '@components/Layout/Layout'
+import Body from '@components/Layout/Body'
 import PrimaryHeader from '@components/UI/Headers/PrimaryHeader/PrimaryHeader'
 import CartItem from '@components/Shop/CartItem/CartItem'
 import AuthForm from '@components/AuthForm/AuthForm'
@@ -129,7 +130,13 @@ const Cart: React.FC = () => {
         </div>
       )
     } else {
-      cartItems = <TextBody large>No items in your cart</TextBody>
+      cartItems = (
+        <Body>
+          <TextBody large center>
+            No items in your cart
+          </TextBody>
+        </Body>
+      )
     }
   }
 

@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import classes from '@styles/pages/artists/ArtistDetail.module.scss'
 import Layout from '@components/Layout/Layout'
+import Body from '@components/Layout/Body'
 import Image from '@components/UI/Image/Image'
 import TextBody from '@components/UI/TextBody/TextBody'
 import SecondaryHeader from '@components/UI/Headers/SecondaryHeader/SecondaryHeader'
@@ -48,8 +49,10 @@ const ArtistDetail: React.FC<Props> = (props) => {
               labelStyles={{ height: '8rem' }}
             />
           </a>
-          <SecondaryHeader>{props.introduction.header}</SecondaryHeader>
-          <TextBody center>{props.introduction.body}</TextBody>
+          <Body>
+            <SecondaryHeader>{props.introduction.header}</SecondaryHeader>
+            <TextBody center>{props.introduction.body}</TextBody>
+          </Body>
           {props.bandMembers && (
             <>
               <SecondaryHeader>Meet the Band</SecondaryHeader>

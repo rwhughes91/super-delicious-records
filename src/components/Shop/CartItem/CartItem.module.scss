@@ -21,6 +21,8 @@
 
 .TitleContainer {
   position: absolute;
+  overflow: visible;
+  width: 30rem;
 }
 
 .Static {
@@ -41,6 +43,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  width: 10rem;
 }
 
 .RemoveButton {

@@ -122,12 +122,14 @@ const CartItem: React.FC<Props> = (props) => {
               {props.qty}
             </span>
           ) : (
-            <DropDown
-              styles={{ width: '4.5rem', textTransform: 'capitalize' }}
-              {...qtyState.qty}
-              value={qtyState.qty.value}
-              onChange={onChangeHandler}
-            />
+            <div>
+              <DropDown
+                styles={{ width: '4.5rem', textTransform: 'capitalize' }}
+                {...qtyState.qty}
+                value={qtyState.qty.value}
+                onChange={onChangeHandler}
+              />
+            </div>
           )}
         </div>
         <div className={classes.PriceContainer}>
