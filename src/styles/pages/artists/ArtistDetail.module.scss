@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 .ImageContainer {
@@ -13,6 +13,8 @@
   margin: 0 auto;
   overflow: hidden;
   width: 100%;
+  max-width: 760px;
+  border-radius: 3px;
 }
 
 .Title {
@@ -64,12 +66,5 @@
 
   & > div {
     margin-bottom: 1rem;
-  }
-}
-
-@media (min-width: 37.5em) {
-  .ImageContainer {
-    width: 65rem;
-    border-radius: 35px;
   }
 }

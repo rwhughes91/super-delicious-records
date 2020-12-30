@@ -90,7 +90,6 @@ const listItemText = [
 const AboutUs: React.FC = () => {
   const bannerStyles = {
     backgroundColor: 'var(--dark-purple-color)',
-    transform: 'skewX(-10deg)',
     opacity: 0.75,
   }
   return (
@@ -105,7 +104,6 @@ const AboutUs: React.FC = () => {
             <SecondaryHeader
               styles={{
                 color: 'var(--tan-white-color)',
-                transform: 'skewX(10deg)',
                 padding: '3px 0',
               }}
             >

@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import classes from '@styles/pages/news/NewsItemDetail.module.scss'
 import Layout from '@components/Layout/Layout'
+import Body from '@components/Layout/Body'
 import Text from '@components/UI/Text/Text'
 import SecondaryHeader from '@components/UI/Headers/SecondaryHeader/SecondaryHeader'
 import Button from '@components/UI/Buttons/Button/Button'
@@ -20,38 +21,37 @@ const NewsItemDetail: React.FC<Props> = (props) => {
         <title>News | Super Delicious Records</title>
       </Head>
       <Layout pageType="main" currentPage={props.shortTitle}>
-        <div className={classes.NewsItemDetail}>
+        <Body>
           <div className={classes.Date}>{new Date(props.date).toLocaleDateString()}</div>
+          <SecondaryHeader>{props.title}</SecondaryHeader>
           <div className={classes.ContentContainer}>
-            <div className={classes.ImageContainer} style={{ width: '45rem' }}>
+            <div className={classes.ImageContainer}>
               <ShopImage
-                size="45rem"
+                size="25rem"
                 imageUrl={props.imageUrl}
                 imageSetUrl={props.imageSetUrl}
                 alt={props.shortTitle}
                 base64={props.base64}
+                styles={{ height: 'auto' }}
               />
             </div>
             <div className={classes.TextContainer}>
-              <h1 className={classes.Header}>{props.title}</h1>
               {props.description.map((text, i) => {
                 return <Text key={i}>{text}</Text>
               })}
-              {props.links &&
-                props.links.map((link, i) => {
-                  return (
-                    <div key={i} className={classes.ButtonContainer}>
-                      <SecondaryHeader styles={{ marginBottom: '2rem', width: '100%' }}>
-                        {link.header}
-                      </SecondaryHeader>
-                      <Button color="purple" size="large" href={link.src}>
-                        {link.buttonText}
-                      </Button>
-                    </div>
-                  )
-                })}
             </div>
           </div>
+          {props.links &&
+            props.links.map((link, i) => {
+              return (
+                <div key={i} className={classes.ButtonContainer}>
+                  <SecondaryHeader styles={{ marginBottom: '2rem' }}>{link.header}</SecondaryHeader>
+                  <Button color="purple" size="large" href={link.src}>
+                    {link.buttonText}
+                  </Button>
+                </div>
+              )
+            })}
           {props.videos &&
             props.videos.map((video, i) => {
               return (
@@ -61,7 +61,7 @@ const NewsItemDetail: React.FC<Props> = (props) => {
                 </div>
               )
             })}
-        </div>
+        </Body>
       </Layout>
     </>
   )

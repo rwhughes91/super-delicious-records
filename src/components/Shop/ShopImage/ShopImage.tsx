@@ -28,10 +28,10 @@ const ShopImage: React.FC<Props> = (props) => {
       alt={props.alt}
       draggable={false}
       style={{
-        ...props.styles,
         width: props.fixed ? props.size : '100%',
         maxWidth: props.size,
         height: props.fixed ? props.size : '100%',
+        ...props.styles,
       }}
       onError={addDefaultSrc}
       className={classes.blur}
@@ -59,10 +59,10 @@ const ShopImage: React.FC<Props> = (props) => {
             alt={props.alt}
             draggable={false}
             style={{
-              ...props.styles,
               width: props.fixed ? props.size : '100%',
               maxWidth: props.size,
               height: props.fixed ? props.size : '100%',
+              ...props.styles,
             }}
             onError={addDefaultSrc}
             className={classes.main}

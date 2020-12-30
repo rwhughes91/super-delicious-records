@@ -35,6 +35,7 @@ const Card: React.FC<Props> = (props) => {
             imageSetUrl={props.imageSetUrl}
             base64={props.base64}
             alt={props.title}
+            styles={{ height: 'auto' }}
           />
         </div>
       </div>
